@@ -1,0 +1,42 @@
+name: qwshortlink
+
+services:
+  backend:
+    image: qwshortlink-backend
+    container_name: qwshortlink-backend
+    pull_policy: never
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend:/app:z
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:18.3-trixie
+    container_name: qwshortlink-db
+    restart: always
+    shm_size: 128mb
+    env_file:
+      - ./db/.env
+    volumes:
+      - db_data:/var/lib/postgresql
+
+  redis:
+    image: redis:8.6.2-trixie
+    container_name: qwshortlink-redis
+    restart: always
+    volumes:
+      - ./redis/config:/usr/local/etc/redis:z
+    command: /bin/sh -c "redis-server /usr/local/etc/redis/redis.conf --requirepass $$REDIS_PASSWORD"
+    env_file:
+      - ./redis/.env
+
+volumes:
+  db_data:
