@@ -99,3 +99,6 @@ class LinkViewSet(ModelViewSet):
             permission_classes = [permissions.IsAuthenticated, IsOwnerOrAdmin]
 
         return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
