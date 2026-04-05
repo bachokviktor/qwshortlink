@@ -1,4 +1,6 @@
 from django.utils.translation import gettext_lazy as _
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
 from drf_spectacular.types import OpenApiTypes
@@ -83,6 +85,10 @@ class LinkViewSet(ModelViewSet):
     about the links.
     """
     queryset = models.Link.objects.all()
+
+    @method_decorator(cache_page(300))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
     def get_serializer_class(self):
         if self.action == "list":
