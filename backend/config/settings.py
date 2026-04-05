@@ -156,6 +156,10 @@ SPECTACULAR_SETTINGS = {
             "description": _("Users endpoints"),
         },
         {
+            "name": "links",
+            "description": _("Links endpoints"),
+        },
+        {
             "name": "token",
             "description": _("JWT Authentication"),
         }

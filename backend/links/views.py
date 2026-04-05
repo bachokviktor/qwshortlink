@@ -1,12 +1,82 @@
+from django.utils.translation import gettext_lazy as _
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import (
+    extend_schema_view, extend_schema, OpenApiParameter
+)
 
 from . import serializers
 from . import models
 from .permissions import IsOwnerOrAdmin
 
 
-# Create your views here.
+@extend_schema_view(
+    list=extend_schema(
+        summary=_("List all links in the system"),
+        description=_("List all links in the system"),
+        parameters=[
+            OpenApiParameter(
+                name="page",
+                description=_("A page number within the paginated result set"),
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.QUERY
+            )
+        ]
+    ),
+    create=extend_schema(
+        summary=_("Add a new link"),
+        description=_("Add a new link"),
+    ),
+    retrieve=extend_schema(
+        summary=_("Retrieve a link by id"),
+        description=_("Retrieve a link by id"),
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                description=_("An integer id identifying the link"),
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH
+            )
+        ]
+    ),
+    update=extend_schema(
+        summary=_("Update a link with specified id"),
+        description=_("Update a link with specified id"),
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                description=_("An integer id identifying the link"),
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH
+            )
+        ]
+    ),
+    partial_update=extend_schema(
+        summary=_("Partially update a link with specified id"),
+        description=_("Partially update a link with specified id"),
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                description=_("An integer id identifying the link"),
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH
+            )
+        ]
+    ),
+    destroy=extend_schema(
+        summary=_("Delete a link with specified id"),
+        description=_("Delete a link with specified id"),
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                description=_("An integer id identifying the link"),
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH
+            )
+        ]
+    ),
+)
 class LinkViewSet(ModelViewSet):
     """
     This view is used to create, retrieve, or update information
