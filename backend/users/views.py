@@ -34,8 +34,8 @@ from . import serializers
         parameters=[
             OpenApiParameter(
                 name="id",
-                description=_("A UUID string identifying this user"),
-                type=OpenApiTypes.UUID,
+                description=_("An integer id identifying this user"),
+                type=OpenApiTypes.INT,
                 location=OpenApiParameter.PATH
             )
         ]
@@ -46,8 +46,8 @@ from . import serializers
         parameters=[
             OpenApiParameter(
                 name="id",
-                description=_("A UUID string identifying this user"),
-                type=OpenApiTypes.UUID,
+                description=_("An integer id identifying this user"),
+                type=OpenApiTypes.INT,
                 location=OpenApiParameter.PATH
             )
         ]
@@ -58,8 +58,8 @@ from . import serializers
         parameters=[
             OpenApiParameter(
                 name="id",
-                description=_("A UUID string identifying this user"),
-                type=OpenApiTypes.UUID,
+                description=_("An integer id identifying this user"),
+                type=OpenApiTypes.INT,
                 location=OpenApiParameter.PATH
             )
         ]
@@ -70,8 +70,8 @@ from . import serializers
         parameters=[
             OpenApiParameter(
                 name="id",
-                description=_("A UUID string identifying this user"),
-                type=OpenApiTypes.UUID,
+                description=_("An integer id identifying this user"),
+                type=OpenApiTypes.INT,
                 location=OpenApiParameter.PATH
             )
         ]

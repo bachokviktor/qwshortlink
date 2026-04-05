@@ -1,4 +1,3 @@
-import uuid
 import pytest
 
 from users import serializers
@@ -23,7 +22,7 @@ class TestUserSerializers:
         serializer = serializers.CompactUserSerializer(django_test_user)
         data = serializer.data
 
-        assert uuid.UUID(data["id"]) == django_test_user.id
+        assert data["id"] == django_test_user.id
         assert data["username"] == django_test_user.username
 
     def test_retrieve_compact_many(self, django_user_model):
@@ -50,7 +49,7 @@ class TestUserSerializers:
         serializer = serializers.UserSerializer(django_test_user)
         data = serializer.data
 
-        assert uuid.UUID(data["id"]) == django_test_user.id
+        assert data["id"] == django_test_user.id
         assert data["username"] == django_test_user.username
 
     def test_update_user(self, django_test_user):

@@ -1,4 +1,3 @@
-import uuid
 import pytest
 
 
@@ -10,5 +9,5 @@ class TestUserModels:
             password="x5AXFqw7"
         )
 
-        assert isinstance(user.id, uuid.UUID)
+        assert user.id == 1
         assert django_user_model.objects.count() == 1
