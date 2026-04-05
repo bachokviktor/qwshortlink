@@ -1,0 +1,77 @@
+:root {
+    --color-background: hsl(0, 0%, 90%);
+    --color-foreground: hsl(0, 0%, 100%);
+    --color-action: hsl(152, 56%, 51%);
+    --color-danger: hsl(350, 73%, 44%);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 1.2rem;
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+nav {
+    margin: 0;
+    padding: 20px;
+    border-bottom: 2px solid var(--color-background);
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    margin: 0 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    transition: color 0.5s;
+}
+
+nav a.active {
+    text-decoration: none;
+    color: var(--color-action);
+}
+
+nav a:hover {
+    text-decoration: none;
+    color: var(--color-action);
+}
+
+footer {
+    background-color: var(--color-background);
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-action);
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.centered-container {
+    text-align: center;
+    margin: 0;
+    padding: 30px;
+}
