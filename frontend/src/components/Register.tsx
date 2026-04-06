@@ -20,13 +20,13 @@ function Register() {
   const handleRegister = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if ((username.trim() === "") || username.includes(" ")) {
-      setErrorMessage("Enter a valid username!")
+    if ((username.trim() === "") || username.includes(" ") || (username.length < 5)) {
+      setErrorMessage("Username must be at least 5 characters long and not contain whitespaces.")
       return
     }
 
-    if ((password1.trim() === "") || password1.includes(" ")) {
-      setErrorMessage("Enter a valid password!")
+    if ((password1.trim() === "") || password1.includes(" ") || (password1.length < 8)) {
+      setErrorMessage("Password must be at least 8 characters long, contain letters and numbers, not contain whitespaces, and not be too common.")
       return
     }
 
