@@ -20,6 +20,30 @@ class TestUserSerializers:
         assert django_user_model.objects.count() == 1
         assert serializer.instance.username == "testuser"
 
+    def test_invalid_username_user(self, django_user_model):
+        serializer = serializers.CreateUserSerializer(
+            data={"username": "test", "password": "x5AXFqw7"}
+        )
+
+        validation_status = serializer.is_valid()
+        if validation_status:
+            serializer.save()
+
+        assert not validation_status
+        assert django_user_model.objects.count() == 0
+
+    def test_invalid_password_user(self, django_user_model):
+        serializer = serializers.CreateUserSerializer(
+            data={"username": "testuser", "password": "qwer"}
+        )
+
+        validation_status = serializer.is_valid()
+        if validation_status:
+            serializer.save()
+
+        assert not validation_status
+        assert django_user_model.objects.count() == 0
+
     def test_retrieve_compact(self, django_test_user):
         serializer = serializers.CompactUserSerializer(django_test_user)
         data = serializer.data
@@ -71,6 +95,22 @@ class TestUserSerializers:
         assert validation_status
         assert new_data["username"] == django_test_user.username
         assert new_data["email"] == django_test_user.email
+
+    def test_invalid_username_update_user(self, django_test_user):
+        new_data = {
+            "username": "new",
+        }
+
+        serializer = serializers.UserSerializer(
+            instance=django_test_user, data=new_data
+        )
+
+        validation_status = serializer.is_valid()
+        if validation_status:
+            serializer.save()
+
+        assert not validation_status
+        assert new_data["username"] != django_test_user.username
 
 
 @pytest.mark.django_db
