@@ -1,6 +1,14 @@
+import {useContext} from "react"
 import {Outlet, NavLink} from "react-router"
+import AuthContext from "../AuthContext"
 
 function Layout() {
+  const {isLoading} = useContext(AuthContext)
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+
   return (
     <>
       <nav>
