@@ -17,9 +17,14 @@ function Layout() {
 	    <NavLink to="/">Home</NavLink>
 	  </li>
 	  { user ? (
-	    <li>
-	      <NavLink to="/logout">Logout</NavLink>
-	    </li>
+	    <>
+	      <li>
+		<NavLink to="/profile">Profile</NavLink>
+	      </li>
+	      <li>
+		<NavLink to="/logout">Logout</NavLink>
+	      </li>
+	    </>
 	  ) : (
 	    <>
               <li>
