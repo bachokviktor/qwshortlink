@@ -1,6 +1,72 @@
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router"
+
 function Login() {
+  const [username, setUsername] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const [errorMessage, setErrorMessage] = useState<string>("")
+
+  useEffect(() => {
+    setErrorMessage("")
+  }, [username, password])
+
+  const handleLogin = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if ((username.trim() === "") || username.includes(" ")) {
+      setErrorMessage("Enter a valid username!")
+      return
+    }
+
+    if ((password.trim() === "") || password.includes(" ")) {
+      setErrorMessage("Enter a valid password!")
+      return
+    }
+
+    console.log("login")
+  }
+
   return (
-    <h2>This is a login page</h2>
+    <div className="centered-wrapper">
+      <div className="auth-container">
+	<div className="centered-wrapper">
+          <h2>Login</h2>
+
+          <form onSubmit={handleLogin}>
+            <label htmlFor="userName">Username</label><br/>
+            <input
+	      name="userName"
+	      id="userName"
+	      type="text"
+	      placeholder="username..."
+	      required
+	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setUsername(e.target.value) }}
+	      value={username}
+	    /><br/>
+
+            <label htmlFor="userPassword">Password</label><br/>
+            <input
+	      name="userPassword"
+	      id="userPassword"
+	      type="password"
+	      placeholder="password..."
+	      required
+	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
+	      value={password}
+	    /><br/>
+
+	    <div className="centered-wrapper">
+	      {errorMessage && <p className="error-message">{errorMessage}</p>}
+              <button type="submit">Login</button>
+	    </div>
+          </form>
+
+          <p>
+               Don't have an account? <Link to="/register">Register</Link>
+          </p>
+	</div>
+      </div>
+    </div>
   )
 }
 
