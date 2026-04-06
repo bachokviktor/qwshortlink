@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react"
-import { Link } from "react-router"
+import React, { useContext, useEffect, useState } from "react"
+import { Link, Navigate, useNavigate } from "react-router"
+import AuthContext from "../AuthContext"
+import api from "../api"
 
 function Register() {
+  const auth = useContext(AuthContext)
+
+  const navigate = useNavigate()
+
   const [username, setUsername] = useState<string>("")
   const [password1, setPassword1] = useState<string>("")
   const [password2, setPassword2] = useState<string>("")
@@ -11,7 +17,7 @@ function Register() {
     setErrorMessage("")
   }, [username, password1, password2])
 
-  const handleRegister = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if ((username.trim() === "") || username.includes(" ")) {
@@ -29,7 +35,17 @@ function Register() {
       return
     }
 
-    console.log("reg")
+    try {
+      await api.post("users/", {username: username, password: password1})
+
+      navigate("/login")
+    } catch (error) {
+      setErrorMessage("Something went wrong.")
+    }
+  }
+
+  if (auth.user) {
+    return <Navigate to="/" />
   }
 
   return (
