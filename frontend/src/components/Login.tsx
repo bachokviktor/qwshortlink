@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react"
-import { Link } from "react-router"
+import React, { useContext, useEffect, useState } from "react"
+import { Link, Navigate, useNavigate } from "react-router"
+import AuthContext from "../AuthContext"
+import api from "../api"
 
 function Login() {
+  const auth = useContext(AuthContext)
+
+  const navigate = useNavigate()
+
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string>("")
@@ -10,7 +16,7 @@ function Login() {
     setErrorMessage("")
   }, [username, password])
 
-  const handleLogin = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if ((username.trim() === "") || username.includes(" ")) {
@@ -23,7 +29,17 @@ function Login() {
       return
     }
 
-    console.log("login")
+    try {
+      await auth.login({username, password})
+
+      navigate("/")
+    } catch (error) {
+      setErrorMessage("Something went wrong.")
+    }
+  }
+
+  if (auth.user) {
+    return <Navigate to="/" />
   }
 
   return (
