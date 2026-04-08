@@ -2,11 +2,15 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import action
+from rest_framework import status
+from rest_framework.response import Response
 from drf_spectacular.utils import (
     extend_schema_view, extend_schema, OpenApiParameter
 )
 from drf_spectacular.types import OpenApiTypes
 
+from links.serializers import LinkSerializer
 from .permissions import IsCurrentUserOrAdmin
 from . import serializers
 
@@ -76,6 +80,18 @@ from . import serializers
             )
         ]
     ),
+    links=extend_schema(
+        summary=_("Fetch all the links of specified user"),
+        description=_("Fetch all the links of specified user"),
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                description=_("An integer id identifying this user"),
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH
+            )
+        ]
+    ),
 )
 class UserViewSet(ModelViewSet):
     """
@@ -98,7 +114,24 @@ class UserViewSet(ModelViewSet):
             serializer_class = serializers.CreateUserSerializer
         elif self.action == "list":
             serializer_class = serializers.CompactUserSerializer
+        elif self.action == "links":
+            serializer_class = LinkSerializer
         else:
             serializer_class = serializers.UserSerializer
 
         return serializer_class
+
+    @action(detail=True)
+    def links(self, request, pk=None):
+        user = self.get_object()
+        user_links = user.urls.all().order_by("-created_at")
+
+        page = self.paginate_queryset(user_links)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(user_links, many=True)
+
+        return Response(serializer.data)

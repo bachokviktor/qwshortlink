@@ -99,6 +99,26 @@ class TestUserViews:
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert django_user_model.objects.count() == 0
 
+    def test_fetch_user_links(self, django_test_user, api_client):
+        Link.objects.create(
+            url="https://example.com/",
+            owner=django_test_user
+        )
+        Link.objects.create(
+            url="https://another.example.com/",
+            owner=django_test_user
+        )
+
+        api_client.force_authenticate(django_test_user)
+
+        response = api_client.get(
+            reverse("users:user-links", kwargs={"pk": django_test_user.id}),
+            format="json"
+        )
+
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.data["results"]) == 2
+
     def test_anonymous_user_list(self, api_client):
         response = api_client.get(reverse("users:user-list"), format="json")
 
