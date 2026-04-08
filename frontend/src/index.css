@@ -4,6 +4,7 @@
     --color-action: hsl(152, 56%, 51%);
     --color-action-darker: hsl(152, 56%, 41%);
     --color-danger: hsl(350, 73%, 44%);
+    --color-danger-darker: hsl(350, 73%, 34%);
     --color-disabled: hsl(240, 5%, 70%)
 }
 
@@ -128,11 +129,45 @@ button {
     transition: background-color 0.2s;
 }
 
-button:active:not(:disabled) {
+button:active:not(:disabled):not(.btn-danger) {
     background-color: var(--color-action-darker);
 }
 
 button:disabled {
     background-color: var(--color-disabled);
     cursor: not-allowed;
+}
+
+.btn-danger {
+    background-color: var(--color-danger);
+}
+
+.btn-danger:active {
+    background-color: var(--color-danger-darker);
+}
+
+.container {
+    padding: 25px;
+}
+
+.user-container {
+    margin: 20px 0;
+}
+
+.user-container button {
+    margin-right: 25px;
+}
+
+.links-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.link-card {
+    background-color: var(--color-background);
+    border-radius: 15px;
+    margin: 20px;
+    padding: 10px 25px;
+    width: 90%;
 }
