@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router"
 import AuthContext from "../AuthContext"
-import api from "../api"
 
 function Login() {
   const auth = useContext(AuthContext)

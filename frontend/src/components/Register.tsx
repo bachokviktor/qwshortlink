@@ -36,7 +36,7 @@ function Register() {
     }
 
     try {
-      await api.post("users/", {username: username, password: password1})
+      await api.post("users/register/", {username: username, password: password1})
 
       navigate("/login")
     } catch (error) {

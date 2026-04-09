@@ -7,7 +7,7 @@ function Profile() {
   return (
     <div className="container">
       <div className="user-container">
-	<h2>{auth.user?.username} {auth.user?.is_staff && "(staff)"}</h2>
+	<h2>{auth.user?.username}</h2>
 	<p>First name: </p>
 	<p>Last name: </p>
 	<p>Email: </p>
