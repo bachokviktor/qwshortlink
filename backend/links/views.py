@@ -84,11 +84,15 @@ class LinkViewSet(ModelViewSet):
     This view is used to create, retrieve, or update information
     about the links.
     """
-    queryset = models.Link.objects.all()
-
     @method_decorator(cache_page(300))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        if self.action == "list":
+            return models.Link.objects.all().order_by("-created_at")
+
+        return models.Link.objects.all()
 
     def get_serializer_class(self):
         if self.action == "list":
