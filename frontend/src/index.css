@@ -183,6 +183,10 @@ Profile
     padding: 25px;
 }
 
+.profile-container button {
+    margin: 0 10px;
+}
+
 .links-container {
     border: 2px solid var(--secondary-light);
     border-radius: 10px;

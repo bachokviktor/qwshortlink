@@ -73,6 +73,18 @@ function Profile() {
     }
   }
 
+  const updateUser = async () => {}
+
+  const deleteUser = async () => {
+    try {
+      await api.delete("users/user/")
+
+      auth.logout()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   if (addingLink) {
     return (
       <div className="centered-wrapper">
@@ -140,6 +152,10 @@ function Profile() {
 	{ (auth.user?.first_name || auth.user?.last_name) &&
 	  <p>{auth.user?.first_name} {auth.user?.last_name}</p> }
 	<p>Email: {auth.user?.email ? auth.user.email : "Not specified"}</p>
+	<div>
+	  <button className="btn-primary">Edit</button>
+	  <button className="btn-danger" onClick={deleteUser}>Delete</button>
+	</div>
       </div>
       <div className="links-container">
 	<div className="container-heading">
