@@ -19,6 +19,7 @@ interface AuthContextInterface {
   isLoading: boolean;
   login: (credentials: CredentialsInterface) => void;
   logout: () => void;
+  fetchUser: () => void;
 }
 
 interface PropsInterface {
@@ -29,7 +30,8 @@ const AuthContext = createContext<AuthContextInterface>({
   user: {id: 0, username: "", email: "", first_name: "", last_name: "", },
   isLoading: true,
   login: () => {},
-  logout: () => {}
+  logout: () => {},
+  fetchUser: () => {}
 })
 
 export function AuthProvider({children}: PropsInterface) {
@@ -77,7 +79,7 @@ export function AuthProvider({children}: PropsInterface) {
   }
 
   return (
-    <AuthContext.Provider value={{user, isLoading, login, logout}}>
+    <AuthContext.Provider value={{user, isLoading, login, logout, fetchUser}}>
       {children}
     </AuthContext.Provider>
   )

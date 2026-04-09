@@ -16,7 +16,12 @@ function Profile() {
   const [editingLink, setEditingLink] = useState<boolean>(false)
   const [newLink, setNewLink] = useState<string>("")
   const [editID, setEditID] = useState<number | null>(null)
-  const [errorMessage, setErrorMessage] = useState<string>("")
+  const [editingUser, setEditingUser] = useState<boolean>(false)
+  const [newUsername, setNewUsername] = useState<string | undefined>(auth.user?.username)
+  const [newEmail, setNewEmail] = useState<string | undefined>(auth.user?.email)
+  const [newFirstName, setNewFirstName] = useState<string | undefined>(auth.user?.first_name)
+  const [newLastName, setNewLastName] = useState<string | undefined>(auth.user?.last_name)
+  const [errorMessage, setErrorMessage] = useState<string | undefined>("")
 
   useEffect(() => {
     fetchLinks()
@@ -73,7 +78,24 @@ function Profile() {
     }
   }
 
-  const updateUser = async () => {}
+  const updateUser = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    try {
+      await api.put("users/user/", {
+	username: newUsername,
+	email: newEmail ? newEmail : "",
+	first_name: newFirstName ? newFirstName : "",
+	last_name: newLastName ? newLastName : ""
+      })
+
+      setEditingUser(false)
+      setErrorMessage("")
+      auth.fetchUser()
+    } catch (error) {
+      setErrorMessage("Something went wrong.")
+    }
+  }
 
   const deleteUser = async () => {
     try {
@@ -145,6 +167,66 @@ function Profile() {
     )
   }
 
+  if (editingUser) {
+    return (
+      <div className="centered-wrapper">
+	<div className="auth-container">
+	  <div className="centered-wrapper">
+            <h2>Edit User</h2>
+
+            <form onSubmit={updateUser}>
+              <label htmlFor="newUsername">Username</label><br/>
+              <input
+		name="newUsername"
+		id="newUsername"
+		type="text"
+		placeholder="Username..."
+		required
+		onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setNewUsername(e.target.value) }}
+		value={newUsername}
+	      /><br/>
+
+	      <label htmlFor="newEmail">Email</label><br/>
+              <input
+		name="newEmail"
+		id="newEmail"
+		type="email"
+		placeholder="Email..."
+		onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setNewEmail(e.target.value) }}
+		value={newEmail}
+	      /><br/>
+
+	      <label htmlFor="newLastName">Last Name</label><br/>
+              <input
+		name="newLastName"
+		id="newLastName"
+		type="text"
+		placeholder="Last name..."
+		onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setNewLastName(e.target.value) }}
+		value={newLastName}
+	      /><br/>
+
+	      <label htmlFor="newFirstName">First Name</label><br/>
+              <input
+		name="newFirstName"
+		id="newFirstName"
+		type="text"
+		placeholder="First name..."
+		onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setNewFirstName(e.target.value) }}
+		value={newFirstName}
+	      /><br/>
+
+	      <div className="centered-wrapper">
+		{errorMessage && <p className="error-message">{errorMessage}</p>}
+		<button className="btn-primary" type="submit">Save</button>
+	      </div>
+            </form>
+	  </div>
+	</div>
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className="profile-container">
@@ -153,7 +235,7 @@ function Profile() {
 	  <p>{auth.user?.first_name} {auth.user?.last_name}</p> }
 	<p>Email: {auth.user?.email ? auth.user.email : "Not specified"}</p>
 	<div>
-	  <button className="btn-primary">Edit</button>
+	  <button className="btn-primary" onClick={() => setEditingUser(true)}>Edit</button>
 	  <button className="btn-danger" onClick={deleteUser}>Delete</button>
 	</div>
       </div>
@@ -162,7 +244,7 @@ function Profile() {
 	  <p>Links</p>
 	  <button className="btn-primary" onClick={() => setAddingLink(true)}>New link</button>
 	</div>
-	{links.map((link, index) => (
+	{links.length > 0 ? links.map((link, index) => (
 	  <div className="container-item" key={index}>
 	    <p><strong>{link.short_url}:</strong> {link.url}</p>
 	    <div>
@@ -170,7 +252,11 @@ function Profile() {
 	      <button className="btn-danger" onClick={() => deleteLink(link.id)}>Delete</button>
 	    </div>
 	  </div>
-	) )}
+	)) : (
+	  <div className="container-item">
+	    <p>No links yet.</p>
+	  </div>
+	)}
       </div>
     </div>
   )
