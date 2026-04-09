@@ -5,21 +5,11 @@ function Profile() {
   const auth = useContext(AuthContext)
 
   return (
-    <div className="container">
-      <div className="user-container">
-	<h2>{auth.user?.username}</h2>
-	<p>First name: </p>
-	<p>Last name: </p>
-	<p>Email: </p>
-	<button>Edit profile</button>
-	<button className="btn-danger">Delete user</button>
-      </div>
-      <div className="links-container">
-	<button>Add link</button>
-	<div className="link-card">
-	  <p>https://djangoproject.com/</p>
-	</div>
-      </div>
+    <div className="centered-container">
+      <h2>{auth.user?.username}</h2>
+      { (auth.user?.first_name || auth.user?.last_name) && 
+	<p>{auth.user?.first_name} {auth.user?.last_name}</p> }
+      <p>Email: {auth.user?.email ? auth.user.email : "Not specified"}</p>
     </div>
   )
 }

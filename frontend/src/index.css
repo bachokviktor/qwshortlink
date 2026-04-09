@@ -1,11 +1,10 @@
 :root {
-    --color-background: hsl(0, 0%, 90%);
-    --color-foreground: hsl(0, 0%, 100%);
-    --color-action: hsl(152, 56%, 51%);
-    --color-action-darker: hsl(152, 56%, 41%);
-    --color-danger: hsl(350, 73%, 44%);
-    --color-danger-darker: hsl(350, 73%, 34%);
-    --color-disabled: hsl(240, 5%, 70%)
+    --primary-light: hsl(0, 0%, 100%);
+    --primary-dark: hsl(0, 0%, 10%);
+    --secondary-light: hsl(0, 0%, 90%);
+    --secondary-dark: hsl(240, 5%, 20%);
+    --action: hsl(152, 56%, 51%);
+    --danger: hsl(350, 73%, 44%);
 }
 
 body {
@@ -21,10 +20,57 @@ body {
     min-height: 100vh;
 }
 
+/*
+
+Buttons
+
+*/
+
+.btn-primary {
+    background-color: var(--action);
+    font-size: 1.2rem;
+    padding: 7px 12px;
+    color: var(--primary-light);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:active {
+    filter: brightness(85%);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    font-size: 1.2rem;
+    padding: 7px 12px;
+    color: var(--primary-light);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-danger:active {
+    filter: brightness(85%);
+}
+
+button:disabled {
+    background-color: var(--secondary-light);
+    cursor: not-allowed;
+}
+
+/*
+
+Navigation menu
+
+*/
+
 nav {
     margin: 0;
     padding: 20px;
-    border-bottom: 2px solid var(--color-background);
+    border-bottom: 2px solid var(--secondary-light);
 }
 
 nav ul {
@@ -41,23 +87,29 @@ nav li {
 
 nav a {
     text-decoration: none;
-    color: black;
+    color: var(--primary-dark);
     cursor: pointer;
     transition: color 0.5s;
 }
 
 nav a.active {
     text-decoration: none;
-    color: var(--color-action);
+    color: var(--action);
 }
 
 nav a:hover {
     text-decoration: none;
-    color: var(--color-action);
+    color: var(--action);
 }
 
+/*
+
+Footer
+
+*/
+
 footer {
-    background-color: var(--color-background);
+    background-color: var(--secondary-light);
     margin: 0;
     padding: 10px;
     text-align: center;
@@ -65,7 +117,7 @@ footer {
 
 a {
     text-decoration: none;
-    color: var(--color-action);
+    color: var(--action);
     cursor: pointer;
 }
 
@@ -87,7 +139,7 @@ a:hover {
 }
 
 .auth-container {
-    border: 2px solid var(--color-background);
+    border: 2px solid var(--secondary-light);
     border-radius: 10px;
     margin: 25px 0;
     padding: 40px 50px;
@@ -104,7 +156,7 @@ a:hover {
 
 .auth-container input {
     font-size: 1.2rem;
-    background-color: var(--color-background);
+    background-color: var(--secondary-light);
     padding: 7px 12px;
     margin-bottom: 20px;
     margin-top: 5px;
@@ -115,59 +167,6 @@ a:hover {
 }
 
 .error-message {
-    color: var(--color-danger);
+    color: var(--danger);
 }
 
-button {
-    background-color: var(--color-action);
-    font-size: 1.2rem;
-    padding: 7px 12px;
-    color: var(--color-foreground);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-button:active:not(:disabled):not(.btn-danger) {
-    background-color: var(--color-action-darker);
-}
-
-button:disabled {
-    background-color: var(--color-disabled);
-    cursor: not-allowed;
-}
-
-.btn-danger {
-    background-color: var(--color-danger);
-}
-
-.btn-danger:active {
-    background-color: var(--color-danger-darker);
-}
-
-.container {
-    padding: 25px;
-}
-
-.user-container {
-    margin: 20px 0;
-}
-
-.user-container button {
-    margin-right: 25px;
-}
-
-.links-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.link-card {
-    background-color: var(--color-background);
-    border-radius: 15px;
-    margin: 20px;
-    padding: 10px 25px;
-    width: 90%;
-}
