@@ -72,7 +72,7 @@ function Login() {
 
 	    <div className="centered-wrapper">
 	      {errorMessage && <p className="error-message">{errorMessage}</p>}
-              <button type="submit">Login</button>
+              <button className="btn-primary" type="submit">Login</button>
 	    </div>
           </form>
 

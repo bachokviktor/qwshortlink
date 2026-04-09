@@ -90,7 +90,7 @@ function Register() {
 
 	    <div className="centered-wrapper">
 	      {errorMessage && <p className="error-message">{errorMessage}</p>}
-              <button type="submit">Register</button>
+              <button className="btn-primary" type="submit">Register</button>
 	    </div>
           </form>
 
