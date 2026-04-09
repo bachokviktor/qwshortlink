@@ -11,7 +11,6 @@ class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ["id", "username", "password"]
-        read_only_fields = ["id"]
         extra_kwargs = {
             "password": {
                 "write_only": True,
@@ -52,10 +51,7 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "first_name",
             "last_name",
-            "is_staff",
-            "date_joined",
         ]
-        read_only_fields = ["id", "is_staff", "date_joined"]
 
     def validate_username(self, value):
         if len(value) < 5:
@@ -64,14 +60,3 @@ class UserSerializer(serializers.ModelSerializer):
             )
 
         return value
-
-
-class CompactUserSerializer(serializers.ModelSerializer):
-    """
-    This serializer is read-only, and used to retrieve
-    compact user data.
-    """
-    class Meta:
-        model = get_user_model()
-        fields = ["id", "username"]
-        read_only_fields = ["id", "username"]
