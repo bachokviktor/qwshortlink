@@ -213,3 +213,7 @@ Profile
 .container-item button {
     margin: 0 10px;
 }
+
+.centered-container button {
+    margin: 0 20px;
+}

@@ -7,6 +7,7 @@ import Login from "./components/Login"
 import Register from "./components/Register"
 import Logout from "./components/Logout"
 import Profile from "./components/Profile"
+import Redirect from "./components/Redirect"
 import NotFound from "./components/NotFound"
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
 	      <Route element={<ProtectedRoute />}>
 		<Route path="/profile" element={<Profile />} />
 	      </Route>
+
+	      <Route path="/l/:shortCode" element={<Redirect />} />
 
 	      <Route path="*" element={<NotFound />} />
 	    </Route>
