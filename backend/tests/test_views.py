@@ -144,6 +144,25 @@ class TestLinkViews:
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data["results"]) == 2
 
+    def test_filter_links(self, django_test_user, api_client):
+        link = Link.objects.create(
+            url="https://example.com/",
+            owner=django_test_user
+        )
+        Link.objects.create(
+            url="https://another.example.com/",
+            owner=django_test_user
+        )
+
+        response = api_client.get(
+            reverse("links:link-list", query={"short_url": link.short_url}),
+            format="json"
+        )
+
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.data["results"]) == 1
+        assert response.data["results"][0]["id"] == link.id
+
     def test_retrieve_link(self, django_test_user, api_client):
         link = Link.objects.create(
             url="https://example.com/",
