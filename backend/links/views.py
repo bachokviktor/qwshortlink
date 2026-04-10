@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
+from django_filters import rest_framework as filters
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     extend_schema_view, extend_schema, OpenApiParameter
@@ -10,6 +11,7 @@ from drf_spectacular.utils import (
 
 from . import serializers
 from . import models
+from . import filtersets
 from .permissions import IsOwnerOrAdmin
 
 
@@ -84,6 +86,9 @@ class LinkViewSet(ModelViewSet):
     This view is used to create, retrieve, or update information
     about the links.
     """
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = filtersets.LinkFilter
+
     @method_decorator(cache_page(300))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)

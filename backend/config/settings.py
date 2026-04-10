@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_spectacular",
-    "django_filter",
+    "django_filters",
     "corsheaders",
     "users",
     "links"
