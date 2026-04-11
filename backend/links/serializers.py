@@ -9,16 +9,16 @@ class LinkSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = models.Link
-        fields = ["id", "url", "short_url", "created_at", "owner"]
-        read_only_fields = ["short_url", "created_at", "owner"]
+        fields = ["id", "url", "short_code", "created_at", "owner"]
+        read_only_fields = ["short_code", "created_at", "owner"]
 
 
 class CompactLinkSerializer(serializers.ModelSerializer):
     """
     This is a read-only serializer, used to
-    retrieve a url and its short version.
+    retrieve a url and its short code.
     """
     class Meta:
         model = models.Link
-        fields = ["id", "url", "short_url"]
-        read_only_fields = ["url", "short_url"]
+        fields = ["id", "url", "short_code"]
+        read_only_fields = ["url", "short_code"]

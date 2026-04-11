@@ -52,11 +52,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt",
-    "drf_spectacular",
     "django_filters",
     "corsheaders",
+    "drf_spectacular",
     "users",
-    "links"
+    "links",
 ]
 
 MIDDLEWARE = [

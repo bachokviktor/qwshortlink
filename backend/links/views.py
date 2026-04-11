@@ -9,10 +9,7 @@ from drf_spectacular.utils import (
     extend_schema_view, extend_schema, OpenApiParameter
 )
 
-from . import serializers
-from . import models
-from . import filtersets
-from .permissions import IsOwnerOrAdmin
+from . import serializers, models, filtersets
 
 
 @extend_schema_view(
@@ -108,10 +105,8 @@ class LinkViewSet(ModelViewSet):
     def get_permissions(self):
         if self.action == "list":
             permission_classes = [permissions.AllowAny]
-        elif self.action == "create":
-            permission_classes = [permissions.IsAuthenticated]
         else:
-            permission_classes = [permissions.IsAuthenticated, IsOwnerOrAdmin]
+            permission_classes = [permissions.IsAuthenticated]
 
         return [permission() for permission in permission_classes]
 

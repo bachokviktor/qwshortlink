@@ -6,4 +6,4 @@ from . import models
 class LinkFilter(filters.FilterSet):
     class Meta:
         model = models.Link
-        fields = ["short_url"]
+        fields = ["short_code"]
