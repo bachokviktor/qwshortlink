@@ -5,7 +5,7 @@ import api from "../api"
 interface LinkInterface {
   id: number;
   url: string;
-  short_url: string;
+  short_code: string;
 }
 
 function Profile() {
@@ -246,7 +246,7 @@ function Profile() {
 	</div>
 	{links.length > 0 ? links.map((link, index) => (
 	  <div className="container-item" key={index}>
-	    <p><strong>{link.short_url}:</strong> {link.url}</p>
+	    <p><strong>{link.short_code}:</strong> {link.url}</p>
 	    <div>
 	      <button className="btn-primary" onClick={() => {setEditID(link.id); setNewLink(link.url); setEditingLink(true)}}>Edit</button>
 	      <button className="btn-danger" onClick={() => deleteLink(link.id)}>Delete</button>

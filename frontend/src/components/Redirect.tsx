@@ -5,6 +5,7 @@ import api from "../api"
 
 function Redirect() {
   const navigate = useNavigate()
+
   const {shortCode} = useParams()
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -16,7 +17,7 @@ function Redirect() {
 
   const lookUpLink = async () => {
     try {
-      const response = await api.get(`links/?short_url=${shortCode}`)
+      const response = await api.get(`links/?short_code=${shortCode}`)
 
       setRedirectUrl(response.data.results[0].url)
     } catch (error) {
