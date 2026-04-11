@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 
@@ -20,7 +21,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     def validate_username(self, value):
         if len(value) < 5:
             raise serializers.ValidationError(
-                "Username must be at least 5 characters long."
+                _("Username must be at least 5 characters long.")
             )
 
         return value
@@ -62,12 +63,12 @@ class PasswordResetSerializer(serializers.ModelSerializer):
 
         if not instance:
             raise serializers.ValidationError(
-                "You must provide an instance to this serializer."
+                _("You must provide an instance to this serializer.")
             )
 
         if not instance.check_password(value):
             raise serializers.ValidationError(
-                "Wrong password."
+                _("Wrong password.")
             )
 
         return value
@@ -75,7 +76,7 @@ class PasswordResetSerializer(serializers.ModelSerializer):
     def validate_new_password(self, value):
         if value == self.initial_data["password"]:
             raise serializers.ValidationError(
-                "New password must be different from the previous one."
+                _("New password must be different from the previous one.")
             )
 
         try:
@@ -109,7 +110,7 @@ class UserSerializer(serializers.ModelSerializer):
     def validate_username(self, value):
         if len(value) < 5:
             raise serializers.ValidationError(
-                "Username must be at least 5 characters long."
+                _("Username must be at least 5 characters long.")
             )
 
         return value
