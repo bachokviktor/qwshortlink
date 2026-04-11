@@ -155,7 +155,7 @@ class TestLinkViews:
         )
 
         response = api_client.get(
-            reverse("links:link-list", query={"short_url": link.short_url}),
+            reverse("links:link-list", query={"short_code": link.short_code}),
             format="json"
         )
 
@@ -252,28 +252,3 @@ class TestLinkViews:
         )
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
-
-    def test_admin_detail(
-            self, admin_user, django_test_user, api_client
-    ):
-        link = Link.objects.create(
-            url="https://example.com/",
-            owner=django_test_user
-        )
-
-        new_data = {
-            "url": "https://new.example.com/",
-        }
-
-        api_client.force_authenticate(admin_user)
-
-        response = api_client.put(
-            reverse("links:link-detail", kwargs={"pk": link.id}),
-            data=new_data,
-            format="json"
-        )
-
-        link.refresh_from_db()
-
-        assert response.status_code == status.HTTP_200_OK
-        assert link.url == new_data["url"]

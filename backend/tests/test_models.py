@@ -25,4 +25,4 @@ class TestLinkModels:
 
         assert link.id == 1
         assert Link.objects.count() == 1
-        assert link in django_test_user.urls.all()
+        assert link in django_test_user.links.all()

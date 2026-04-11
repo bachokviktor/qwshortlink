@@ -77,4 +77,4 @@ class UserLinksView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return self.request.user.urls.all().order_by("-created_at")
+        return self.request.user.links.all().order_by("-created_at")

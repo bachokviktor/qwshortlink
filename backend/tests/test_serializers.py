@@ -99,7 +99,7 @@ class TestLinkSerializers:
 
         assert validation_status
         assert Link.objects.count() == 1
-        assert serializer.instance in django_test_user.urls.all()
+        assert serializer.instance in django_test_user.links.all()
 
     def test_retrieve_compact(self, django_test_user):
         link = Link.objects.create(
