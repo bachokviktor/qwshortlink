@@ -5,6 +5,7 @@ import api from "../api"
 import LinkCreate from "./LinkCreate"
 import LinkEdit from "./LinkEdit"
 import UserEdit from "./UserEdit"
+import PasswordReset from "./PasswordReset"
 
 interface LinkInterface {
   id: number;
@@ -24,6 +25,8 @@ function Profile() {
   const [editLinkUrl, setEditLinkUrl] = useState<string>("")
 
   const [isEditingUser, setIsEditingUser] = useState<boolean>(false)
+
+  const [isResettingPassword, setIsResettingPassword] = useState<boolean>(false)
 
   const [errorMessage, setErrorMessage] = useState<string | undefined>("")
 
@@ -79,6 +82,10 @@ function Profile() {
     return <UserEdit setIsEditingUser={setIsEditingUser} />
   }
 
+  if (isResettingPassword) {
+    return <PasswordReset setIsResettingPassword={setIsResettingPassword} />
+  }
+
   return (
     <div>
       {errorMessage && (
@@ -93,6 +100,7 @@ function Profile() {
 	<p>Email: {auth.user?.email ? auth.user.email : "Not specified"}</p>
 	<div>
 	  <button className="btn-primary" onClick={() => setIsEditingUser(true)}>Edit</button>
+	  <button className="btn-primary" onClick={() => setIsResettingPassword(true)}>Reset password</button>
 	  <button className="btn-danger" onClick={deleteUser}>Delete</button>
 	</div>
       </div>
