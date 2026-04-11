@@ -1,0 +1,69 @@
+import React, { useState } from "react"
+import api from "../api"
+
+interface PropsInterface {
+  editLinkId: number | null;
+  setEditLinkId: (value: number | null) => void;
+  editLinkUrl: string;
+  setEditLinkUrl: (value: string) => void;
+  setIsEditingLink: (value: boolean) => void;
+  fetchLinks: () => void;
+}
+
+function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIsEditingLink, fetchLinks}: PropsInterface) {
+  const [errorMessage, setErrorMessage] = useState<string>("")
+
+  const editLink = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if ((editLinkUrl.trim() === "") || editLinkUrl.includes(" ")) {
+      setErrorMessage("Enter a valid URL!")
+      return
+    }
+
+    try {
+      await api.patch(`links/${editLinkId}/`, {url: editLinkUrl})
+
+      setEditLinkId(null)
+      setEditLinkUrl("")
+
+      setIsEditingLink(false)
+      fetchLinks()
+    } catch (error) {
+      setErrorMessage("Something went wrong.")
+    }
+  }
+
+  return (
+    <div className="centered-wrapper">
+      <div className="auth-container">
+	<div className="centered-wrapper">
+          <h2>Edit Link</h2>
+
+          <form onSubmit={editLink}>
+            <label htmlFor="editLinkUrl">URL</label><br/>
+            <input
+	      name="editLinkUrl"
+	      id="editLinkUrl"
+	      type="url"
+	      placeholder="URL..."
+	      required
+	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditLinkUrl(e.target.value) }}
+	      value={editLinkUrl}
+	    /><br/>
+
+	    <div className="centered-wrapper">
+	      {errorMessage && <p className="error-message">{errorMessage}</p>}
+	      <div>
+		<button className="btn-primary" type="submit">Save</button>
+		<button className="btn-primary" onClick={() => {setEditLinkId(null); setEditLinkUrl(""); setIsEditingLink(false)}}>Cancel</button>
+	      </div>
+	    </div>
+          </form>
+	</div>
+      </div>
+    </div>
+  )
+}
+
+export default LinkEdit
