@@ -2,13 +2,18 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from drf_spectacular.utils import (
     extend_schema_view, extend_schema, OpenApiParameter
 )
 from drf_spectacular.types import OpenApiTypes
 
 from links.serializers import LinkSerializer
-from .serializers import CreateUserSerializer, UserSerializer
+from .serializers import (
+    CreateUserSerializer, PasswordResetSerializer, UserSerializer
+)
 
 
 @extend_schema_view(
@@ -24,6 +29,34 @@ class UserRegisterView(generics.CreateAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = CreateUserSerializer
     permission_classes = [AllowAny]
+
+
+@extend_schema_view(
+    put=extend_schema(
+        summary=_("Reset user password"),
+        description=_("Reset user password"),
+    ),
+)
+class UserPasswordResetView(APIView):
+    """
+    This view handles user password reset.
+    """
+    serializer_class = PasswordResetSerializer
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        serializer = self.serializer_class(
+            instance=self.request.user, data=request.data
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(status=status.HTTP_200_OK)
+
+        return Response(
+            data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 @extend_schema_view(
