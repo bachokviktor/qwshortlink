@@ -102,6 +102,25 @@ class TestUserViews:
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data["results"]) == 2
 
+    def test_reset_user_password(self, django_test_user, api_client):
+        payload = {
+            "password": "x5AXFqw7",
+            "new_password": "PNaHseW3",
+        }
+
+        api_client.force_authenticate(django_test_user)
+
+        response = api_client.put(
+            reverse("users:user-password"),
+            data=payload,
+            format="json"
+        )
+
+        django_test_user.refresh_from_db()
+
+        assert response.status_code == status.HTTP_200_OK
+        assert django_test_user.check_password(payload["new_password"])
+
     def test_anonymous_user_detail(self, api_client):
         response = api_client.get(reverse("users:user-detail"), format="json")
 
@@ -109,6 +128,20 @@ class TestUserViews:
 
     def test_anonymous_user_links(self, api_client):
         response = api_client.get(reverse("users:user-links"), format="json")
+
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_anonymous_reset_password(self, api_client):
+        payload = {
+            "password": "x5AXFqw7",
+            "new_password": "PNaHseW3",
+        }
+
+        response = api_client.put(
+            reverse("users:user-password"),
+            data=payload,
+            format="json"
+        )
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
