@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import api from "../api"
 
 interface PropsInterface {
@@ -9,6 +9,10 @@ function PasswordReset({setIsResettingPassword}: PropsInterface) {
   const [password, setPassword] = useState<string>("")
   const [newPassword, setNewPassword] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string>("")
+
+  useEffect(() => {
+    setErrorMessage("")
+  }, [password, newPassword])
 
   const resetPassword = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import api from "../api"
 
 interface PropsInterface {
@@ -9,6 +9,10 @@ interface PropsInterface {
 function LinkCreate({setIsCreatingLink, fetchLinks}: PropsInterface) {
   const [linkUrl, setLinkUrl] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string>("")
+
+  useEffect(() => {
+    setErrorMessage("")
+  }, [linkUrl])
 
   const createLink = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()

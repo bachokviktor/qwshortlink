@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import api from "../api"
 
 interface PropsInterface {
@@ -12,6 +12,10 @@ interface PropsInterface {
 
 function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIsEditingLink, fetchLinks}: PropsInterface) {
   const [errorMessage, setErrorMessage] = useState<string>("")
+
+  useEffect(() => {
+    setErrorMessage("")
+  }, [editLinkUrl])
 
   const editLink = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()

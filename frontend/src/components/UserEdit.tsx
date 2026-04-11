@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import AuthContext from "../AuthContext"
 import api from "../api"
 
@@ -23,6 +23,10 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
   )
 
   const [errorMessage, setErrorMessage] = useState<string>("")
+
+  useEffect(() => {
+    setErrorMessage("")
+  }, [editUsername, editEmail, editFirstName, editLastName])
 
   const editUser = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
