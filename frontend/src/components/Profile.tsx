@@ -17,6 +17,9 @@ function Profile() {
   const auth = useContext(AuthContext)
 
   const [links, setLinks] = useState<LinkInterface[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [nextPage, setNextPage] = useState<number | null>(null)
+  const [previousPage, setPreviousPage] = useState<number | null>(null)
 
   const [isCreatingLink, setIsCreatingLink] = useState<boolean>(false)
 
@@ -34,11 +37,17 @@ function Profile() {
     fetchLinks()
   }, [])
 
+  useEffect(() => {
+    fetchLinks()
+  }, [currentPage])
+
   const fetchLinks = async () => {
     try {
-      const response = await api.get("users/user/links/")
+      const response = await api.get(`users/user/links/?page=${currentPage}`)
 
       setLinks(response.data.results)
+      setNextPage(response.data.next)
+      setPreviousPage(response.data.previous)
     } catch (error) {
       setErrorMessage("Failed to fetch links.")
     }
@@ -48,7 +57,11 @@ function Profile() {
     try {
       await api.delete(`links/${id}/`)
 
-      fetchLinks()
+      if (links.length === 1 && previousPage) {
+	setCurrentPage(previousPage)
+      } else {
+	fetchLinks()
+      }
     } catch (error) {
       setErrorMessage("Failed to delete link.")
     }
@@ -122,6 +135,10 @@ function Profile() {
 	    <p>No links yet.</p>
 	  </div>
 	)}
+	<div>
+	  {previousPage && <button className="btn-primary" onClick={() => setCurrentPage(previousPage)}>Previous</button>}
+	  {nextPage && <button className="btn-primary" onClick={() => setCurrentPage(nextPage)}>Next</button>}
+	</div>
       </div>
     </div>
   )
