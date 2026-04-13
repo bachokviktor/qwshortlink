@@ -12,7 +12,7 @@ from drf_spectacular.types import OpenApiTypes
 
 from links.serializers import LinkSerializer
 from .serializers import (
-    CreateUserSerializer, PasswordResetSerializer, UserSerializer
+    CreateUserSerializer, ChangePasswordSerializer, UserSerializer
 )
 
 
@@ -33,15 +33,15 @@ class UserRegisterView(generics.CreateAPIView):
 
 @extend_schema_view(
     put=extend_schema(
-        summary=_("Reset user password"),
-        description=_("Reset user password"),
+        summary=_("Change user password"),
+        description=_("Change user password"),
     ),
 )
-class UserPasswordResetView(APIView):
+class UserChangePasswordView(APIView):
     """
-    This view handles user password reset.
+    This view handles user password change.
     """
-    serializer_class = PasswordResetSerializer
+    serializer_class = ChangePasswordSerializer
     permission_classes = [IsAuthenticated]
 
     def put(self, request):

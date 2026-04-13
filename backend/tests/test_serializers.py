@@ -85,13 +85,13 @@ class TestUserSerializers:
         assert not validation_status
         assert new_data["username"] != django_test_user.username
 
-    def test_password_reset(self, django_test_user):
+    def test_change_password(self, django_test_user):
         data = {
             "password": "x5AXFqw7",
             "new_password": "PNaHseW3",
         }
 
-        serializer = serializers.PasswordResetSerializer(
+        serializer = serializers.ChangePasswordSerializer(
             instance=django_test_user,
             data=data
         )
@@ -103,13 +103,13 @@ class TestUserSerializers:
         assert validation_status
         assert django_test_user.check_password(data["new_password"])
 
-    def test_same_password_reset(self, django_test_user):
+    def test_same_password_change(self, django_test_user):
         data = {
             "password": "x5AXFqw7",
             "new_password": "x5AXFqw7",
         }
 
-        serializer = serializers.PasswordResetSerializer(
+        serializer = serializers.ChangePasswordSerializer(
             instance=django_test_user,
             data=data
         )

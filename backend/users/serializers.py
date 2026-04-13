@@ -40,9 +40,9 @@ class CreateUserSerializer(serializers.ModelSerializer):
         return user
 
 
-class PasswordResetSerializer(serializers.ModelSerializer):
+class ChangePasswordSerializer(serializers.ModelSerializer):
     """
-    This serializer is used to reset user password.
+    This serializer is used to change user password.
     """
     new_password = serializers.CharField(
         max_length=128, write_only=True, required=True

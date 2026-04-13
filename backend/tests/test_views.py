@@ -102,7 +102,7 @@ class TestUserViews:
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data["results"]) == 2
 
-    def test_reset_user_password(self, django_test_user, api_client):
+    def test_change_user_password(self, django_test_user, api_client):
         payload = {
             "password": "x5AXFqw7",
             "new_password": "PNaHseW3",
@@ -131,7 +131,7 @@ class TestUserViews:
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    def test_anonymous_reset_password(self, api_client):
+    def test_anonymous_change_password(self, api_client):
         payload = {
             "password": "x5AXFqw7",
             "new_password": "PNaHseW3",

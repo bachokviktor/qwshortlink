@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react"
 import api from "../api"
 
 interface PropsInterface {
-  setIsResettingPassword: (value: boolean) => void;
+  setIsChangingPassword: (value: boolean) => void;
 }
 
-function PasswordReset({setIsResettingPassword}: PropsInterface) {
+function PasswordChange({setIsChangingPassword}: PropsInterface) {
   const [password, setPassword] = useState<string>("")
   const [newPassword, setNewPassword] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string>("")
@@ -14,7 +14,7 @@ function PasswordReset({setIsResettingPassword}: PropsInterface) {
     setErrorMessage("")
   }, [password, newPassword])
 
-  const resetPassword = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const changePassword = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if ((newPassword.trim() === "") || newPassword.includes(" ") || (newPassword.length < 8)) {
@@ -33,9 +33,9 @@ function PasswordReset({setIsResettingPassword}: PropsInterface) {
 	new_password: newPassword
       })
 
-      setIsResettingPassword(false)
+      setIsChangingPassword(false)
     } catch (error) {
-      setErrorMessage("Failed to reset password.")
+      setErrorMessage("Failed to change password.")
     }
   }
 
@@ -43,9 +43,9 @@ function PasswordReset({setIsResettingPassword}: PropsInterface) {
     <div className="centered-wrapper">
       <div className="auth-container">
 	<div className="centered-wrapper">
-          <h2>Reset Password</h2>
+          <h2>Change Password</h2>
 
-          <form onSubmit={resetPassword}>
+          <form onSubmit={changePassword}>
 	    <label htmlFor="oldPassword">Old password</label><br/>
             <input
 	      name="oldPassword"
@@ -71,8 +71,8 @@ function PasswordReset({setIsResettingPassword}: PropsInterface) {
 	    <div className="centered-wrapper">
 	      {errorMessage && <p className="error-message">{errorMessage}</p>}
 	      <div>
-		<button className="btn-primary" type="submit">Reset</button>
-		<button className="btn-primary" onClick={() => {setIsResettingPassword(false)}}>Cancel</button>
+		<button className="btn-primary" type="submit">Change</button>
+		<button className="btn-primary" onClick={() => {setIsChangingPassword(false)}}>Cancel</button>
 	      </div>
 	    </div>
           </form>
@@ -82,4 +82,4 @@ function PasswordReset({setIsResettingPassword}: PropsInterface) {
   )
 }
 
-export default PasswordReset
+export default PasswordChange
