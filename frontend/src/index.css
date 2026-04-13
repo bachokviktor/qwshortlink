@@ -7,17 +7,25 @@
     --danger: hsl(350, 73%, 44%);
 }
 
-body {
-    font-family: Arial, sans-serif;
-    font-size: 1.2rem;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 1.1rem;
 }
 
 #root {
     display: grid;
     grid-template-rows: auto 1fr auto;
     min-height: 100vh;
+}
+
+input, select, textarea, button {
+    font:inherit;
 }
 
 /*
@@ -28,9 +36,8 @@ Buttons
 
 .btn-primary {
     background-color: var(--action);
-    font-size: 1.2rem;
-    padding: 7px 12px;
     color: var(--primary-light);
+    padding: 0.5rem 1rem;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -43,7 +50,7 @@ Buttons
 
 .btn-danger {
     background-color: var(--danger);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     padding: 7px 12px;
     color: var(--primary-light);
     border: none;
@@ -67,25 +74,37 @@ Navigation menu
 
 */
 
+header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-light);
+    border-bottom: 1px solid var(--secondary-light);
+}
+
+header strong {
+    display: flex;
+    padding: 1rem 2rem;
+}
+
 nav {
-    margin: 0;
-    padding: 20px;
-    border-bottom: 2px solid var(--secondary-light);
+    background-color: var(--primary-light);
 }
 
 nav ul {
+    list-style: none;
     display: flex;
-    justify-content: center;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
 }
 
 nav li {
-    margin: 0 20px;
+    display: flex;
 }
 
 nav a {
+    display: flex;
+    padding: 1rem 2rem;
     text-decoration: none;
     color: var(--primary-dark);
     cursor: pointer;
@@ -100,6 +119,58 @@ nav a.active {
 nav a:hover {
     text-decoration: none;
     color: var(--action);
+}
+
+.nav-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    padding: 1rem 2rem;
+}
+
+.nav-overlay {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    inset: 0;
+    z-index: 9;
+}
+
+@media (max-width: 900px) {
+    .nav-hamburger {
+	display: flex;
+    }
+
+    nav {
+	position: fixed;
+	top: 0;
+	right: 0;
+	display: none;
+	height: 100vh;
+	width: min(20rem, 100%);
+	z-index: 10;
+    }
+
+    nav.show {
+	display: block;
+    }
+
+    nav.show ~ .nav-overlay {
+	display: block;
+    }
+
+    nav ul {
+	width: 100%;
+	flex-direction: column;
+    }
+
+    nav a {
+	width: 100%;
+    }
+
+    nav button {
+	width: 100%;
+    }
 }
 
 /*
