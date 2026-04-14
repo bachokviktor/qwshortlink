@@ -34,12 +34,12 @@ function LinkCreate({setIsCreatingLink, fetchLinks}: PropsInterface) {
 
   return (
     <div className="centered-wrapper">
-      <div className="auth-container">
-	<div className="centered-wrapper">
-          <h2>New Link</h2>
+      <div className="card fl-col fl-gap">
+        <h2>New Link</h2>
 
-          <form onSubmit={createLink}>
-            <label htmlFor="newLink">URL</label><br/>
+        <form onSubmit={createLink}>
+	  <div className="fl-col">
+            <label htmlFor="newLink">URL</label>
             <input
 	      name="linkUrl"
 	      id="linkUrl"
@@ -48,17 +48,14 @@ function LinkCreate({setIsCreatingLink, fetchLinks}: PropsInterface) {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setLinkUrl(e.target.value) }}
 	      value={linkUrl}
-	    /><br/>
+	    />
+	  </div>
 
-	    <div className="centered-wrapper">
-	      {errorMessage && <p className="error-message">{errorMessage}</p>}
-	      <div>
-		<button className="btn-primary" type="submit">Create</button>
-		<button className="btn-primary" onClick={() => {setIsCreatingLink(false)}}>Cancel</button>
-	      </div>
-	    </div>
-          </form>
-	</div>
+	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+	    
+	  <button className="btn btn-primary" type="submit">Create</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsCreatingLink(false)}}>Cancel</button>
+        </form>
       </div>
     </div>
   )

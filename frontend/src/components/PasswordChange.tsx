@@ -41,12 +41,12 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 
   return (
     <div className="centered-wrapper">
-      <div className="auth-container">
-	<div className="centered-wrapper">
-          <h2>Change Password</h2>
+      <div className="card fl-col fl-gap">
+        <h2>Change Password</h2>
 
-          <form onSubmit={changePassword}>
-	    <label htmlFor="oldPassword">Old password</label><br/>
+        <form onSubmit={changePassword}>
+	  <div className="fl-col">
+	    <label htmlFor="oldPassword">Old password</label>
             <input
 	      name="oldPassword"
 	      id="oldPassword"
@@ -55,9 +55,11 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
 	      value={password}
-	    /><br/>
+	    />
+	  </div>
 
-            <label htmlFor="newPassword">New password</label><br/>
+	  <div className="fl-col">
+            <label htmlFor="newPassword">New password</label>
             <input
 	      name="newPassword"
 	      id="newPassword"
@@ -66,17 +68,14 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setNewPassword(e.target.value) }}
 	      value={newPassword}
-	    /><br/>
+	    />
+	  </div>
 
-	    <div className="centered-wrapper">
-	      {errorMessage && <p className="error-message">{errorMessage}</p>}
-	      <div>
-		<button className="btn-primary" type="submit">Change</button>
-		<button className="btn-primary" onClick={() => {setIsChangingPassword(false)}}>Cancel</button>
-	      </div>
-	    </div>
-          </form>
-	</div>
+	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+	  <button className="btn btn-primary" type="submit">Change</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsChangingPassword(false)}}>Cancel</button>
+        </form>
       </div>
     </div>
   )

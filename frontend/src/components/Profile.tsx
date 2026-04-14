@@ -112,22 +112,22 @@ function Profile() {
 	  <p>{auth.user?.first_name} {auth.user?.last_name}</p> }
 	<p>Email: {auth.user?.email ? auth.user.email : "Not specified"}</p>
 	<div>
-	  <button className="btn-primary" onClick={() => setIsEditingUser(true)}>Edit</button>
-	  <button className="btn-primary" onClick={() => setIsChangingPassword(true)}>Change password</button>
-	  <button className="btn-danger" onClick={deleteUser}>Delete</button>
+	  <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>Edit</button>
+	  <button className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>Change password</button>
+	  <button className="btn btn-danger" onClick={deleteUser}>Delete</button>
 	</div>
       </div>
       <div className="links-container">
 	<div className="container-heading">
 	  <p>Links</p>
-	  <button className="btn-primary" onClick={() => setIsCreatingLink(true)}>New link</button>
+	  <button className="btn btn-primary" onClick={() => setIsCreatingLink(true)}>New link</button>
 	</div>
 	{links.length > 0 ? links.map((link, index) => (
 	  <div className="container-item" key={index}>
 	    <p><strong>{link.short_code}:</strong> {link.url}</p>
 	    <div>
-	      <button className="btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>Edit</button>
-	      <button className="btn-danger" onClick={() => deleteLink(link.id)}>Delete</button>
+	      <button className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>Edit</button>
+	      <button className="btn btn-danger" onClick={() => deleteLink(link.id)}>Delete</button>
 	    </div>
 	  </div>
 	)) : (
@@ -136,8 +136,8 @@ function Profile() {
 	  </div>
 	)}
 	<div>
-	  {previousPage && <button className="btn-primary" onClick={() => setCurrentPage(previousPage)}>Previous</button>}
-	  {nextPage && <button className="btn-primary" onClick={() => setCurrentPage(nextPage)}>Next</button>}
+	  {previousPage && <button className="btn btn-primary" onClick={() => setCurrentPage(previousPage)}>Previous</button>}
+	  {nextPage && <button className="btn btn-primary" onClick={() => setCurrentPage(nextPage)}>Next</button>}
 	</div>
       </div>
     </div>

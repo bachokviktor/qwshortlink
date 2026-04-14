@@ -43,12 +43,12 @@ function Login() {
 
   return (
     <div className="centered-wrapper">
-      <div className="auth-container">
-	<div className="centered-wrapper">
-          <h2>Login</h2>
+      <div className="card fl-col fl-gap">
+        <h2>Login</h2>
 
-          <form onSubmit={handleLogin}>
-            <label htmlFor="userName">Username</label><br/>
+        <form onSubmit={handleLogin}>
+	  <div className="fl-col">
+            <label htmlFor="userName">Username</label>
             <input
 	      name="userName"
 	      id="userName"
@@ -57,9 +57,11 @@ function Login() {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setUsername(e.target.value) }}
 	      value={username}
-	    /><br/>
+	    />
+	  </div>
 
-            <label htmlFor="userPassword">Password</label><br/>
+	  <div className="fl-col">
+            <label htmlFor="userPassword">Password</label>
             <input
 	      name="userPassword"
 	      id="userPassword"
@@ -68,18 +70,19 @@ function Login() {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
 	      value={password}
-	    /><br/>
+	    />
+	  </div>
 
-	    <div className="centered-wrapper">
-	      {errorMessage && <p className="error-message">{errorMessage}</p>}
-              <button className="btn-primary" type="submit">Login</button>
-	    </div>
-          </form>
+	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <p>
-               Don't have an account? <Link to="/register">Register</Link>
-          </p>
-	</div>
+          <button className="btn btn-primary" type="submit">Login</button>
+        </form>
+
+	<hr/>
+
+        <p>
+             Don't have an account? <Link to="/register">Register</Link>
+        </p>
       </div>
     </div>
   )

@@ -53,12 +53,12 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 
   return (
     <div className="centered-wrapper">
-      <div className="auth-container">
-	<div className="centered-wrapper">
-          <h2>Edit User</h2>
+      <div className="card fl-col fl-gap">
+	<h2>Edit User</h2>
 
-          <form onSubmit={editUser}>
-            <label htmlFor="editUsername">Username</label><br/>
+        <form onSubmit={editUser}>
+	  <div className="fl-col">
+            <label htmlFor="editUsername">Username</label>
             <input
 	      name="editUsername"
 	      id="editUsername"
@@ -67,9 +67,11 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditUsername(e.target.value) }}
 	      value={editUsername}
-	    /><br/>
+	    />
+	  </div>
 
-	    <label htmlFor="editEmail">Email</label><br/>
+	  <div className="fl-col">
+	    <label htmlFor="editEmail">Email</label>
             <input
 	      name="editEmail"
 	      id="editEmail"
@@ -77,9 +79,11 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 	      placeholder="Email..."
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditEmail(e.target.value) }}
 	      value={editEmail}
-	    /><br/>
+	    />
+	  </div>
 
-	    <label htmlFor="editLastName">Last Name</label><br/>
+	  <div className="fl-col">
+	    <label htmlFor="editLastName">Last Name</label>
             <input
 	      name="editLastName"
 	      id="editLastName"
@@ -87,9 +91,11 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 	      placeholder="Last name..."
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditLastName(e.target.value) }}
 	      value={editLastName}
-	    /><br/>
+	    />
+	  </div>
 
-	    <label htmlFor="editFirstName">First Name</label><br/>
+	  <div className="fl-col">
+	    <label htmlFor="editFirstName">First Name</label>
             <input
 	      name="editFirstName"
 	      id="editFirstName"
@@ -97,17 +103,14 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 	      placeholder="First name..."
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditFirstName(e.target.value) }}
 	      value={editFirstName}
-	    /><br/>
+	    />
+	  </div>
 
-	    <div className="centered-wrapper">
-	      {errorMessage && <p className="error-message">{errorMessage}</p>}
-	      <div>
-		<button className="btn-primary" type="submit">Save</button>
-		<button className="btn-primary" onClick={() => {setIsEditingUser(false)}}>Cancel</button>
-	      </div>
-	    </div>
+	    {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+	    <button className="btn btn-primary" type="submit">Save</button>
+	    <button className="btn btn-neutral" onClick={() => {setIsEditingUser(false)}}>Cancel</button>
           </form>
-	</div>
       </div>
     </div>
   )

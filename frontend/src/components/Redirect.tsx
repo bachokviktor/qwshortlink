@@ -40,8 +40,8 @@ function Redirect() {
       <h2>Redirect...</h2>
       <p>You are about to be redirected to <a href={redirectUrl}>{redirectUrl}</a></p>
 
-      <button className="btn-primary" onClick={() => window.location.href = redirectUrl}>Continue</button>
-      <button className="btn-primary" onClick={() => navigate("/")}>Go back</button>
+      <button className="btn btn-primary" onClick={() => window.location.href = redirectUrl}>Continue</button>
+      <button className="btn btn-neutral" onClick={() => navigate("/")}>Go back</button>
     </div>
   )
 }

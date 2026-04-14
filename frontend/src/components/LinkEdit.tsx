@@ -40,12 +40,12 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
 
   return (
     <div className="centered-wrapper">
-      <div className="auth-container">
-	<div className="centered-wrapper">
-          <h2>Edit Link</h2>
+      <div className="card fl-col fl-gap">
+        <h2>Edit Link</h2>
 
-          <form onSubmit={editLink}>
-            <label htmlFor="editLinkUrl">URL</label><br/>
+        <form onSubmit={editLink}>
+	  <div className="fl-col">
+            <label htmlFor="editLinkUrl">URL</label>
             <input
 	      name="editLinkUrl"
 	      id="editLinkUrl"
@@ -54,17 +54,14 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditLinkUrl(e.target.value) }}
 	      value={editLinkUrl}
-	    /><br/>
+	    />
+	  </div>
 
-	    <div className="centered-wrapper">
-	      {errorMessage && <p className="error-message">{errorMessage}</p>}
-	      <div>
-		<button className="btn-primary" type="submit">Save</button>
-		<button className="btn-primary" onClick={() => {setEditLinkId(null); setEditLinkUrl(""); setIsEditingLink(false)}}>Cancel</button>
-	      </div>
-	    </div>
-          </form>
-	</div>
+	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+	  <button className="btn btn-primary" type="submit">Save</button>
+	  <button className="btn btn-neutral" onClick={() => {setEditLinkId(null); setEditLinkUrl(""); setIsEditingLink(false)}}>Cancel</button>
+        </form>
       </div>
     </div>
   )

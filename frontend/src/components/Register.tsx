@@ -50,12 +50,12 @@ function Register() {
 
   return (
     <div className="centered-wrapper">
-      <div className="auth-container">
-	<div className="centered-wrapper">
-          <h2>Registration</h2>
+      <div className="card fl-col fl-gap">
+        <h2>Registration</h2>
 
-          <form onSubmit={handleRegister}>
-            <label htmlFor="userName">Username</label><br/>
+        <form onSubmit={handleRegister}>
+	  <div className="fl-col">
+            <label htmlFor="userName">Username</label>
             <input
 	      name="userName"
 	      id="userName"
@@ -64,9 +64,11 @@ function Register() {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setUsername(e.target.value) }}
 	      value={username}
-	    /><br/>
+	    />
+	  </div>
 
-            <label htmlFor="userPassword1">Password</label><br/>
+	  <div className="fl-col">
+            <label htmlFor="userPassword1">Password</label>
             <input
 	      name="userPassword1"
 	      id="userPassword1"
@@ -75,9 +77,11 @@ function Register() {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword1(e.target.value) }}
 	      value={password1}
-	    /><br/>
+	    />
+	  </div>
 
-            <label htmlFor="userPassword2">Confirm password</label><br/>
+	  <div className="fl-col">
+            <label htmlFor="userPassword2">Confirm password</label>
             <input
 	      name="userPassword2"
 	      id="userPassword2"
@@ -86,18 +90,19 @@ function Register() {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword2(e.target.value) }}
 	      value={password2}
-	    /><br/>
+	    />
+	  </div>
 
-	    <div className="centered-wrapper">
-	      {errorMessage && <p className="error-message">{errorMessage}</p>}
-              <button className="btn-primary" type="submit">Register</button>
-	    </div>
-          </form>
+	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <p>
-               Already have an account? <Link to="/login">Login</Link>
-          </p>
-	</div>
+          <button className="btn btn-primary" type="submit">Register</button>
+        </form>
+
+	<hr/>
+
+        <p>
+             Already have an account? <Link to="/login">Login</Link>
+        </p>
       </div>
     </div>
   )
