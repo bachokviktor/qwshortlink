@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react"
 import api from "../api"
 
 interface PropsInterface {
-  setIsCreatingLink: (value: boolean) => void;
+  setIsAddingLink: (value: boolean) => void;
   fetchLinks: () => void;
 }
 
-function LinkCreate({setIsCreatingLink, fetchLinks}: PropsInterface) {
+function LinkAdd({setIsAddingLink, fetchLinks}: PropsInterface) {
   const [linkUrl, setLinkUrl] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string>("")
 
@@ -14,7 +14,7 @@ function LinkCreate({setIsCreatingLink, fetchLinks}: PropsInterface) {
     setErrorMessage("")
   }, [linkUrl])
 
-  const createLink = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const addLink = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if ((linkUrl.trim() === "") || linkUrl.includes(" ")) {
@@ -25,7 +25,7 @@ function LinkCreate({setIsCreatingLink, fetchLinks}: PropsInterface) {
     try {
       await api.post("links/", {url: linkUrl})
 
-      setIsCreatingLink(false)
+      setIsAddingLink(false)
       fetchLinks()
     } catch (error) {
       setErrorMessage("Something went wrong.")
@@ -33,13 +33,13 @@ function LinkCreate({setIsCreatingLink, fetchLinks}: PropsInterface) {
   }
 
   return (
-    <div className="centered-wrapper">
+    <div className="fl-center-main fl-center-cross">
       <div className="card fl-col fl-gap">
-        <h2>New Link</h2>
+        <h2>Add Link</h2>
 
-        <form onSubmit={createLink}>
+        <form onSubmit={addLink}>
 	  <div className="fl-col">
-            <label htmlFor="newLink">URL</label>
+            <label htmlFor="linkUrl">URL</label>
             <input
 	      name="linkUrl"
 	      id="linkUrl"
@@ -53,12 +53,12 @@ function LinkCreate({setIsCreatingLink, fetchLinks}: PropsInterface) {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 	    
-	  <button className="btn btn-primary" type="submit">Create</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsCreatingLink(false)}}>Cancel</button>
+	  <button className="btn btn-primary" type="submit">Add</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsAddingLink(false)}}>Cancel</button>
         </form>
       </div>
     </div>
   )
 }
 
-export default LinkCreate
+export default LinkAdd

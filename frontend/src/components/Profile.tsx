@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react"
 import AuthContext from "../AuthContext"
 import api from "../api"
 
-import LinkCreate from "./LinkCreate"
+import LinkAdd from "./LinkAdd"
 import LinkEdit from "./LinkEdit"
 import UserEdit from "./UserEdit"
 import PasswordChange from "./PasswordChange"
@@ -17,11 +17,14 @@ function Profile() {
   const auth = useContext(AuthContext)
 
   const [links, setLinks] = useState<LinkInterface[]>([])
+  const [totalLinks, setTotalLinks] = useState<number>(0)
+
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [nextPage, setNextPage] = useState<number | null>(null)
   const [previousPage, setPreviousPage] = useState<number | null>(null)
+  const [totalPages, setTotalPages] = useState<number>(1)
 
-  const [isCreatingLink, setIsCreatingLink] = useState<boolean>(false)
+  const [isAddingLink, setIsAddingLink] = useState<boolean>(false)
 
   const [isEditingLink, setIsEditingLink] = useState<boolean>(false)
   const [editLinkId, setEditLinkId] = useState<number | null>(null)
@@ -46,8 +49,11 @@ function Profile() {
       const response = await api.get(`users/user/links/?page=${currentPage}`)
 
       setLinks(response.data.results)
+      setTotalLinks(response.data.count)
+
       setNextPage(response.data.next)
       setPreviousPage(response.data.previous)
+      setTotalPages(response.data.total_pages)
     } catch (error) {
       setErrorMessage("Failed to fetch links.")
     }
@@ -77,8 +83,8 @@ function Profile() {
     }
   }
 
-  if (isCreatingLink) {
-    return <LinkCreate setIsCreatingLink={setIsCreatingLink} fetchLinks={fetchLinks} />
+  if (isAddingLink) {
+    return <LinkAdd setIsAddingLink={setIsAddingLink} fetchLinks={fetchLinks} />
   }
 
   if (isEditingLink) {
@@ -100,44 +106,56 @@ function Profile() {
   }
 
   return (
-    <div>
-      {errorMessage && (
-	<div className="centered-container">
-	  <p className="error-message">{errorMessage}</p>
-	</div>
-      )}
+    <div className="profile-grid">
+      <div className="error-container">
+	{errorMessage && (
+	  <div className="card card-danger">
+	    <p>{errorMessage}</p>
+	  </div>
+	)}
+      </div>
+
       <div className="profile-container">
-	<h2>{auth.user?.username}</h2>
-	{ (auth.user?.first_name || auth.user?.last_name) &&
+	<div className="card fl-col fl-gap">
+	  <h2>{auth.user?.username}</h2>
+	  { (auth.user?.first_name || auth.user?.last_name) &&
 	  <p>{auth.user?.first_name} {auth.user?.last_name}</p> }
-	<p>Email: {auth.user?.email ? auth.user.email : "Not specified"}</p>
-	<div>
+	  <p>Email: {auth.user?.email ? auth.user.email : "Not specified"}</p>
+	  <p>Total Links: {totalLinks}</p>
+
+	  <hr/>
+
 	  <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>Edit</button>
 	  <button className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>Change password</button>
 	  <button className="btn btn-danger" onClick={deleteUser}>Delete</button>
 	</div>
       </div>
+
       <div className="links-container">
-	<div className="container-heading">
-	  <p>Links</p>
-	  <button className="btn btn-primary" onClick={() => setIsCreatingLink(true)}>New link</button>
-	</div>
-	{links.length > 0 ? links.map((link, index) => (
-	  <div className="container-item" key={index}>
-	    <p><strong>{link.short_code}:</strong> {link.url}</p>
-	    <div>
+	<div className="fl-col fl-gap">
+	  <button className="btn btn-primary" onClick={() => setIsAddingLink(true)}>Add link</button>
+
+	  {links.length > 0 ? links.map((link, index) => (
+	    <div className="card fl-gap fl-center-cross fl-wrap" key={index}>
+	      <p className="linklist-link">{link.short_code}: <a href={link.url}>{link.url}</a></p>
 	      <button className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>Edit</button>
 	      <button className="btn btn-danger" onClick={() => deleteLink(link.id)}>Delete</button>
 	    </div>
-	  </div>
-	)) : (
-	  <div className="container-item">
-	    <p>No links yet.</p>
-	  </div>
-	)}
-	<div>
-	  {previousPage && <button className="btn btn-primary" onClick={() => setCurrentPage(previousPage)}>Previous</button>}
-	  {nextPage && <button className="btn btn-primary" onClick={() => setCurrentPage(nextPage)}>Next</button>}
+	  )) : (
+	    <div className="card">
+	      <p>No links yet.</p>
+	    </div>
+	  )}
+
+	  {(previousPage || nextPage) && (
+	    <div className="card fl-space-between fl-center-cross">
+	      {previousPage && <button className="btn btn-primary" onClick={() => setCurrentPage(previousPage)}>Previous</button>}
+	      <div></div>
+	      <p>{currentPage}/{totalPages}</p>
+	      <div></div>
+	      {nextPage && <button className="btn btn-primary" onClick={() => setCurrentPage(nextPage)}>Next</button>}
+	    </div>
+	  )}
 	</div>
       </div>
     </div>

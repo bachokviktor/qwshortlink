@@ -39,7 +39,7 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
   }
 
   return (
-    <div className="centered-wrapper">
+    <div className="fl-center-main fl-center-cross">
       <div className="card fl-col fl-gap">
         <h2>Edit Link</h2>
 

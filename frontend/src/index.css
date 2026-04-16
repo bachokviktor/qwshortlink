@@ -158,11 +158,24 @@ UTILITY CLASSES
     padding: 2rem;
 }
 
-.centered-wrapper {
+.card-danger {
+    border: 2px solid var(--color-danger);
+    color: var(--color-danger);
+}
+
+.card-danger p {
+    color: var(--color-danger);
+    font-weight: bold;
+}
+
+.fl-center-main {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+}
+
+.fl-center-cross {
+    display: flex;
+    align-items: center;
 }
 
 .fl-col {
@@ -173,6 +186,16 @@ UTILITY CLASSES
 .fl-gap {
     display: flex;
     gap: 1.5rem;
+}
+
+.fl-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.fl-space-between {
+    display: flex;
+    justify-content: space-between;
 }
 
 /*
@@ -309,50 +332,46 @@ footer {
 
 /*
 
-Profile
+PROFILE
 
 */
 
-.profile-container {
-    background-color: var(--color-foreground);
-    border-radius: 5px;
-    margin:  25px;
-    padding: 25px;
+.profile-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 400px 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+	"error error"
+	"profile links";
+    padding: 1rem;
 }
 
-.profile-container button {
-    margin: 0 10px;
+.error-container {
+    grid-area: error;
+}
+
+.profile-container {
+    grid-area: profile;
+    overflow-wrap: break-word;
 }
 
 .links-container {
-    background-color: var(--color-foreground);
-    border-radius: 5px;
-    margin:  25px;
+    grid-area: links;
 }
 
-.container-heading {
-    background-color: var(--color-neutral);
-    color: var(--color-text-light);
-    margin: 0;
-    border-radius: 5px;
-    padding: 5px 25px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.linklist-link {
+    margin-right: auto;
+    min-width: 0;
+    overflow-wrap: break-word;
 }
 
-.container-item {
-    margin: 0;
-    padding: 5px 25px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.container-item button {
-    margin: 0 10px;
-}
-
-.centered-container button {
-    margin: 0 20px;
+@media (max-width: 900px) {
+    .profile-grid {
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-areas:
+	    "error"
+	    "profile"
+	    "links";
+    }
 }
