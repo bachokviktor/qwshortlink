@@ -339,7 +339,7 @@ PROFILE
 .profile-grid {
     display: grid;
     gap: 1rem;
-    grid-template-columns: 400px 1fr;
+    grid-template-columns: 400px minmax(0, 1fr);
     grid-template-rows: auto 1fr;
     grid-template-areas:
 	"error error"

@@ -21,7 +21,7 @@ class Link(models.Model):
     """
     This model represents a link.
     """
-    url = models.URLField()
+    url = models.URLField(max_length=2048)
     short_code = models.CharField(
         default=generate_short_code, unique=True, editable=False
     )
