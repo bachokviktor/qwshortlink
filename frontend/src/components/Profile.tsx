@@ -14,6 +14,8 @@ interface LinkInterface {
 }
 
 function Profile() {
+  const baseUrl = import.meta.env.VITE_WEBSITE_URL
+
   const auth = useContext(AuthContext)
 
   const [links, setLinks] = useState<LinkInterface[]>([])
@@ -74,7 +76,7 @@ function Profile() {
   }
 
   const copyShortCode = (shortCode: string) => {
-    navigator.clipboard.writeText(shortCode)
+    navigator.clipboard.writeText(`${baseUrl}l/${shortCode}`)
   }
 
   const deleteUser = async () => {
@@ -141,7 +143,7 @@ function Profile() {
 
 	  {links.length > 0 ? links.map((link, index) => (
 	    <div className="card fl-gap fl-center-cross fl-wrap" key={index}>
-	      <p className="linklist-link">{link.short_code}: <a href={link.url}>{link.url}</a></p>
+	      <p className="linklist-link">{baseUrl}l/{link.short_code}: <a href={link.url}>{link.url}</a></p>
 	      <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>Copy</button>
 	      <button className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>Edit</button>
 	      <button className="btn btn-danger" onClick={() => deleteLink(link.id)}>Delete</button>
