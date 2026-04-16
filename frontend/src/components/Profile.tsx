@@ -73,6 +73,10 @@ function Profile() {
     }
   }
 
+  const copyShortCode = (shortCode: string) => {
+    navigator.clipboard.writeText(shortCode)
+  }
+
   const deleteUser = async () => {
     try {
       await api.delete("users/user/")
@@ -138,6 +142,7 @@ function Profile() {
 	  {links.length > 0 ? links.map((link, index) => (
 	    <div className="card fl-gap fl-center-cross fl-wrap" key={index}>
 	      <p className="linklist-link">{link.short_code}: <a href={link.url}>{link.url}</a></p>
+	      <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>Copy</button>
 	      <button className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>Edit</button>
 	      <button className="btn btn-danger" onClick={() => deleteLink(link.id)}>Delete</button>
 	    </div>
