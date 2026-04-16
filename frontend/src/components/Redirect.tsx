@@ -36,12 +36,16 @@ function Redirect() {
   }
 
   return (
-    <div className="centered-container">
-      <h2>Redirect...</h2>
-      <p>You are about to be redirected to <a href={redirectUrl}>{redirectUrl}</a></p>
+    <div className="fl-center-main fl-center-cross vertical-padding">
+      <div className="card fl-col fl-gap redirect-link-break">
+	<h2>Redirect...</h2>
+	<p>You are about to be redirected to <a href={redirectUrl}>{redirectUrl}</a></p>
 
-      <button className="btn btn-primary" onClick={() => window.location.href = redirectUrl}>Continue</button>
-      <button className="btn btn-neutral" onClick={() => navigate("/")}>Go back</button>
+	<div className="fl-gap fl-wrap">
+	  <button className="btn btn-primary fl-grow" onClick={() => window.location.href = redirectUrl}>Continue</button>
+	  <button className="btn btn-neutral fl-grow" onClick={() => navigate("/")}>Go back</button>
+	</div>
+      </div>
     </div>
   )
 }

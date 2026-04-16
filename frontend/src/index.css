@@ -152,6 +152,10 @@ UTILITY CLASSES
     color: var(--color-danger);
 }
 
+.vertical-padding {
+    padding: 1rem 0;
+}
+
 .card {
     background-color: var(--color-foreground);
     border-radius: 5px;
@@ -196,6 +200,10 @@ UTILITY CLASSES
 .fl-space-between {
     display: flex;
     justify-content: space-between;
+}
+
+.fl-grow {
+    flex-grow: 1;
 }
 
 /*
@@ -374,4 +382,16 @@ PROFILE
 	    "profile"
 	    "links";
     }
+}
+
+/*
+
+REDIRECT
+
+*/
+
+.redirect-link-break {
+    min-width: 0;
+    max-width: calc(100vw - 2rem);
+    overflow-wrap: break-word;
 }
