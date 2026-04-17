@@ -4,6 +4,7 @@ import api from "../api"
 
 import LinkAdd from "./LinkAdd"
 import LinkEdit from "./LinkEdit"
+import LinkDelete from "./LinkDelete"
 import UserEdit from "./UserEdit"
 import PasswordChange from "./PasswordChange"
 
@@ -31,6 +32,9 @@ function Profile() {
   const [isEditingLink, setIsEditingLink] = useState<boolean>(false)
   const [editLinkId, setEditLinkId] = useState<number | null>(null)
   const [editLinkUrl, setEditLinkUrl] = useState<string>("")
+
+  const [isDeletingLink, setIsDeletingLink] = useState<boolean>(false)
+  const [deleteLinkId, setDeleteLinkId] = useState<number | null>(null)
 
   const [isEditingUser, setIsEditingUser] = useState<boolean>(false)
 
@@ -61,9 +65,12 @@ function Profile() {
     }
   }
 
-  const deleteLink = async (id: number) => {
+  const deleteLink = async (id: number | null) => {
     try {
       await api.delete(`links/${id}/`)
+
+      setDeleteLinkId(null)
+      setIsDeletingLink(false)
 
       if (links.length === 1 && previousPage) {
 	setCurrentPage(previousPage)
@@ -101,6 +108,14 @@ function Profile() {
 	     setEditLinkUrl={setEditLinkUrl}
 	     setIsEditingLink={setIsEditingLink}
 	     fetchLinks={fetchLinks} />
+  }
+
+  if (isDeletingLink) {
+    return <LinkDelete
+	     deleteLinkId={deleteLinkId}
+	     setDeleteLinkId={setDeleteLinkId}
+	     setIsDeletingLink={setIsDeletingLink}
+	     deleteLink={deleteLink} />
   }
 
   if (isEditingUser) {
@@ -146,7 +161,7 @@ function Profile() {
 	      <p className="linklist-link">{baseUrl}l/{link.short_code}: <a href={link.url}>{link.url}</a></p>
 	      <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>Copy</button>
 	      <button className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>Edit</button>
-	      <button className="btn btn-danger" onClick={() => deleteLink(link.id)}>Delete</button>
+	      <button className="btn btn-danger" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>Delete</button>
 	    </div>
 	  )) : (
 	    <div className="card">
