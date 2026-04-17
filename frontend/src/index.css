@@ -153,7 +153,18 @@ UTILITY CLASSES
 }
 
 .vertical-padding {
-    padding: 1rem 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.vertical-padding-large {
+    padding-top: 2.5rem;
+    padding-bottom: 7rem;
+}
+
+.horizontal-padding {
+    padding-left: 7%;
+    padding-right: 7%;
 }
 
 .card {
@@ -190,6 +201,11 @@ UTILITY CLASSES
 .fl-gap {
     display: flex;
     gap: 1.5rem;
+}
+
+.fl-gap-large {
+    display: flex;
+    gap: 5rem;
 }
 
 .fl-wrap {
