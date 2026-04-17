@@ -6,7 +6,7 @@ function Home() {
 
   return (
     <div className="centered-container">
-      <img alt="Logo" src="https://placehold.co/256" />
+      <img alt="Logo" src="/logo.svg" height="256px" />
       <h1>QWShortLink</h1>
       <p>URL Shortener built with Django REST Framework and React</p>
       {user ? <p>Welcome to the site!</p> : <p>You are not authenticated.</p>}
