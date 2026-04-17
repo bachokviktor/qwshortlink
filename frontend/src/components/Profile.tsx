@@ -7,6 +7,7 @@ import LinkEdit from "./LinkEdit"
 import LinkDelete from "./LinkDelete"
 import UserEdit from "./UserEdit"
 import PasswordChange from "./PasswordChange"
+import UserDelete from "./UserDelete"
 
 interface LinkInterface {
   id: number;
@@ -39,6 +40,8 @@ function Profile() {
   const [isEditingUser, setIsEditingUser] = useState<boolean>(false)
 
   const [isChangingPassword, setIsChangingPassword] = useState<boolean>(false)
+
+  const [isDeletingUser, setIsDeletingUser] = useState<boolean>(false)
 
   const [errorMessage, setErrorMessage] = useState<string | undefined>("")
 
@@ -86,16 +89,6 @@ function Profile() {
     navigator.clipboard.writeText(`${baseUrl}l/${shortCode}`)
   }
 
-  const deleteUser = async () => {
-    try {
-      await api.delete("users/user/")
-
-      auth.logout()
-    } catch (error) {
-      setErrorMessage("Failed to delete user.")
-    }
-  }
-
   if (isAddingLink) {
     return <LinkAdd setIsAddingLink={setIsAddingLink} fetchLinks={fetchLinks} />
   }
@@ -126,6 +119,10 @@ function Profile() {
     return <PasswordChange setIsChangingPassword={setIsChangingPassword} />
   }
 
+  if (isDeletingUser) {
+    return <UserDelete setIsDeletingUser={setIsDeletingUser} />
+  }
+
   return (
     <div className="profile-grid">
       <title>Profile - QWShortLink</title>
@@ -149,7 +146,7 @@ function Profile() {
 
 	  <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>Edit</button>
 	  <button className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>Change password</button>
-	  <button className="btn btn-danger" onClick={deleteUser}>Delete</button>
+	  <button className="btn btn-danger" onClick={() => setIsDeletingUser(true)}>Delete</button>
 	</div>
       </div>
 
