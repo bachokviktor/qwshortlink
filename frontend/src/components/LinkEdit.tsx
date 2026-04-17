@@ -40,6 +40,8 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
+      <title>Edit Link - QWShortLink</title>
+
       <div className="card fl-col fl-gap">
         <h2>Edit Link</h2>
 

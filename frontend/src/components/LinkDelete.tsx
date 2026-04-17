@@ -8,6 +8,8 @@ interface PropsInterface {
 function LinkDelete({deleteLinkId, setDeleteLinkId, setIsDeletingLink, deleteLink}:PropsInterface) {
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
+      <title>Delete Link - QWShortLink</title>
+
       <div className="card fl-col fl-gap">
 	<h2>Delete the link?</h2>
 	<p>This action cannot be reverted.</p>

@@ -37,6 +37,8 @@ function Redirect() {
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
+      <title>Redirect - QWShortLink</title>
+
       <div className="card fl-col fl-gap redirect-link-break">
 	<h2>Redirect...</h2>
 	<p>You are about to be redirected to <a href={redirectUrl}>{redirectUrl}</a></p>

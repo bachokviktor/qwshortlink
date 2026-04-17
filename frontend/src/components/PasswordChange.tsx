@@ -41,6 +41,8 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
+      <title>Change Password - QWShortLink</title>
+
       <div className="card fl-col fl-gap">
         <h2>Change Password</h2>
 

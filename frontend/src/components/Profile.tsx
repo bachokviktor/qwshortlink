@@ -128,6 +128,7 @@ function Profile() {
 
   return (
     <div className="profile-grid">
+      <title>Profile - QWShortLink</title>
       <div className="error-container">
 	{errorMessage && (
 	  <div className="card card-danger">
