@@ -1,0 +1,145 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026 Viktor Bachok
+# This file is distributed under the same license as the PACKAGE package.
+# Viktor Bachok, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: QWShortLink\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-18 18:01+0300\n"
+"PO-Revision-Date: 2026-04-18 17:23+0300\n"
+"Last-Translator: Viktor Bachok\n"
+"Language-Team: Ukrainian\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+
+#: config/settings.py:175
+msgid "This is the backend API of QWShortLink"
+msgstr "Це API проєкту QWShortLink"
+
+#: config/settings.py:181
+msgid "Users endpoints"
+msgstr "Кінцеві точки користувачів"
+
+#: config/settings.py:185
+msgid "Links endpoints"
+msgstr "Кінцеві точки посилань"
+
+#: config/settings.py:189
+msgid "JWT Authentication"
+msgstr "JWT Аутентифікація"
+
+#: config/settings.py:207
+msgid "English"
+msgstr "Англійська"
+
+#: config/settings.py:208
+msgid "Ukrainian"
+msgstr "Українська"
+
+#: links/models.py:27
+msgid "short code"
+msgstr "шорткод"
+
+#: links/models.py:33
+msgid "created at"
+msgstr "дата створення"
+
+#: links/models.py:40
+msgid "owner"
+msgstr "власник"
+
+#: links/models.py:44
+msgid "link"
+msgstr "посилання"
+
+#: links/models.py:45
+msgid "links"
+msgstr "посилання"
+
+#: links/views.py:18 links/views.py:19
+msgid "List all links in the system"
+msgstr "Вивести всі посилання у системі"
+
+#: links/views.py:23 users/views.py:100
+msgid "A page number within the paginated result set"
+msgstr "Номер сторінки для пагінації"
+
+#: links/views.py:29
+msgid "Short code corresponding to a link"
+msgstr "Шорткод посилання"
+
+#: links/views.py:36 links/views.py:37
+msgid "Add a new link"
+msgstr "Додати нове посилання"
+
+#: links/views.py:40 links/views.py:41
+msgid "Retrieve a link by id"
+msgstr "Отримати інформацію про посилання за id"
+
+#: links/views.py:45 links/views.py:57 links/views.py:69 links/views.py:81
+msgid "An integer id identifying the link"
+msgstr "Id, що ідентифікує посилання"
+
+#: links/views.py:52 links/views.py:53
+msgid "Update a link with specified id"
+msgstr "Оновити інформацію посилання за id"
+
+#: links/views.py:64 links/views.py:65
+msgid "Partially update a link with specified id"
+msgstr "Частково оновити інформацію посилання за id"
+
+#: links/views.py:76 links/views.py:77
+msgid "Delete a link with specified id"
+msgstr "Видалити посилання за id"
+
+#: users/serializers.py:24 users/serializers.py:113
+msgid "Username must be at least 5 characters long."
+msgstr "Ім'я користувача має бути не менше 5 символів."
+
+#: users/serializers.py:66
+msgid "You must provide an instance to this serializer."
+msgstr "Ви повинні надати об'єкт цьому серіалайзеру."
+
+#: users/serializers.py:71
+msgid "Wrong password."
+msgstr "Хибний пароль."
+
+#: users/serializers.py:79
+msgid "New password must be different from the previous one."
+msgstr "Новий пароль повинен відрізнятись від попереднього."
+
+#: users/views.py:22 users/views.py:23
+msgid "Create a new user"
+msgstr "Створити нового користувача"
+
+#: users/views.py:38 users/views.py:39
+msgid "Change user password"
+msgstr "Змінити пароль користувача"
+
+#: users/views.py:66 users/views.py:67
+msgid "Retrieve the current user"
+msgstr "Отримати інформацію про поточного користувача"
+
+#: users/views.py:70 users/views.py:71
+msgid "Update the current user"
+msgstr "Оновити інформацію поточного користувача"
+
+#: users/views.py:74 users/views.py:75
+msgid "Partially update the current user"
+msgstr "Частково оновити інформацію поточного користувача"
+
+#: users/views.py:78 users/views.py:79
+msgid "Delete the current user"
+msgstr "Видалити поточного користувача"
+
+#: users/views.py:95 users/views.py:96
+msgid "Fetch all the links of the current user"
+msgstr "Вивести всі посилання поточного користувача"

@@ -23,6 +23,12 @@ from .permissions import IsOwner
                 description=_("A page number within the paginated result set"),
                 type=OpenApiTypes.INT,
                 location=OpenApiParameter.QUERY
+            ),
+            OpenApiParameter(
+                name="short_code",
+                description=_("Short code corresponding to a link"),
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY
             )
         ]
     ),
