@@ -5,6 +5,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from drf_spectacular.utils import (
     extend_schema_view, extend_schema, OpenApiParameter
 )
@@ -29,6 +30,7 @@ class UserRegisterView(generics.CreateAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = CreateUserSerializer
     permission_classes = [AllowAny]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
 
 @extend_schema_view(

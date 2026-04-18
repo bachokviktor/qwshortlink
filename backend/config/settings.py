@@ -154,6 +154,10 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "core.pagination.CustomPageNumberPagination",
     "PAGE_SIZE": 15,
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "15/hour",
+        "user": "15/hour",
+    }
 }
 
 SIMPLE_JWT = {
