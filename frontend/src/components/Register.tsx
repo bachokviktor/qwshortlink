@@ -39,8 +39,12 @@ function Register() {
       await api.post("users/register/", {username: username, password: password1})
 
       navigate("/login")
-    } catch (error) {
-      setErrorMessage("Something went wrong.")
+    } catch (error: any) {
+      if (error?.response?.status === 429) {
+	setErrorMessage(`Too many attempts. Try againt in ${error.response.headers["retry-after"]} seconds.`)
+      } else {
+	setErrorMessage("Something went wrong.")
+      }
     }
   }
 
