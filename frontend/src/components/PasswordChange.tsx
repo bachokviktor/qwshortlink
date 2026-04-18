@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import api from "../api"
+import "../i18n"
 
 interface PropsInterface {
   setIsChangingPassword: (value: boolean) => void;
 }
 
 function PasswordChange({setIsChangingPassword}: PropsInterface) {
+  const {t} = useTranslation()
+
   const [password, setPassword] = useState<string>("")
   const [newPassword, setNewPassword] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string>("")
@@ -18,12 +22,12 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
     e.preventDefault()
 
     if ((newPassword.trim() === "") || newPassword.includes(" ") || (newPassword.length < 8)) {
-      setErrorMessage("Password must be at least 8 characters long, contain letters and numbers, not contain whitespaces, and not be too common.")
+      setErrorMessage(t("changePasswordErrValidPassword"))
       return
     }
 
     if (password === newPassword) {
-      setErrorMessage("Passwords must be different.")
+      setErrorMessage(t("changePasswordErrPasswordMatch"))
       return
     }
 
@@ -35,20 +39,20 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 
       setIsChangingPassword(false)
     } catch (error) {
-      setErrorMessage("Failed to change password.")
+      setErrorMessage(t("changePasswordErrResponse"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>Change Password - QWShortLink</title>
+      <title>{`${t("changePasswordTitle")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>Change Password</h2>
+        <h2>{t("changePasswordHeader")}</h2>
 
         <form onSubmit={changePassword}>
 	  <div className="fl-col">
-	    <label htmlFor="oldPassword">Old password</label>
+	    <label htmlFor="oldPassword">{t("changePasswordOldPassword")}</label>
             <input
 	      name="oldPassword"
 	      id="oldPassword"
@@ -61,7 +65,7 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 	  </div>
 
 	  <div className="fl-col">
-            <label htmlFor="newPassword">New password</label>
+            <label htmlFor="newPassword">{t("changePasswordNewPassword")}</label>
             <input
 	      name="newPassword"
 	      id="newPassword"
@@ -75,8 +79,8 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">Change</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsChangingPassword(false)}}>Cancel</button>
+	  <button className="btn btn-primary" type="submit">{t("changePasswordSubmit")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsChangingPassword(false)}}>{t("changePasswordCancel")}</button>
         </form>
       </div>
     </div>

@@ -1,8 +1,13 @@
 import {useContext, useEffect, useState} from "react"
 import {Outlet, NavLink} from "react-router"
+import {useTranslation} from "react-i18next"
 import AuthContext from "../AuthContext"
+import "../i18n"
+
 
 function Layout() {
+  const {t} = useTranslation()
+
   const {isLoading, user} = useContext(AuthContext)
 
   const [isNavbarOpen, setIsNavbarOpen] = useState<boolean>(false)
@@ -34,31 +39,31 @@ function Layout() {
 	    <li>
 	      <button
 		className="nav-hamburger"
-		aria-label="Close sidebar"
+		aria-label={t("navAriaClose")}
 		onClick={() => {setIsNavbarOpen(false)}}
 	      >
 		<svg xmlns="http://www.w3.org/2000/svg" height="1.5rem" viewBox="0 -960 960 960" width="1.5rem" fill="#1f1f1f"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg>
 	      </button>
 	    </li>
             <li>
-	      <NavLink to="/" onClick={() => {setIsNavbarOpen(false)}}>Home</NavLink>
+	      <NavLink to="/" onClick={() => {setIsNavbarOpen(false)}}>{t("navHome")}</NavLink>
 	    </li>
 	    { user ? (
 	      <>
 		<li>
-		  <NavLink to="/profile" onClick={() => {setIsNavbarOpen(false)}}>Profile</NavLink>
+		  <NavLink to="/profile" onClick={() => {setIsNavbarOpen(false)}}>{t("navProfile")}</NavLink>
 		</li>
 		<li>
-		  <NavLink to="/logout" onClick={() => {setIsNavbarOpen(false)}}>Logout</NavLink>
+		  <NavLink to="/logout" onClick={() => {setIsNavbarOpen(false)}}>{t("navLogout")}</NavLink>
 		</li>
 	      </>
 	    ) : (
 	      <>
 		<li>
-		  <NavLink to="/login" onClick={() => {setIsNavbarOpen(false)}}>Login</NavLink>
+		  <NavLink to="/login" onClick={() => {setIsNavbarOpen(false)}}>{t("navLogin")}</NavLink>
 		</li>
 		<li>
-		  <NavLink to="/register" onClick={() => {setIsNavbarOpen(false)}}>Register</NavLink>
+		  <NavLink to="/register" onClick={() => {setIsNavbarOpen(false)}}>{t("navRegister")}</NavLink>
 		</li>
 	      </>
 	    )}
@@ -69,7 +74,7 @@ function Layout() {
 
 	<button
 	  className="btn-svg"
-	  aria-label="Toggle darkmode"
+	  aria-label={t("navAriaDarkmode")}
 	  onClick={() => {setIsDarkmode((prev) => !prev)}}
 	>
 	  {isDarkmode ? (
@@ -81,7 +86,7 @@ function Layout() {
 
 	<button
 	  className="nav-hamburger"
-	  aria-label="Open sidebar"
+	  aria-label={t("navAriaOpen")}
 	  aria-expanded={isNavbarOpen}
 	  aria-controls="navbar"
 	  onClick={() => {setIsNavbarOpen(true)}}

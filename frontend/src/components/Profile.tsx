@@ -1,6 +1,8 @@
 import { useContext, useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import AuthContext from "../AuthContext"
 import api from "../api"
+import "../i18n"
 
 import LinkAdd from "./LinkAdd"
 import LinkEdit from "./LinkEdit"
@@ -17,6 +19,8 @@ interface LinkInterface {
 
 function Profile() {
   const baseUrl = import.meta.env.VITE_WEBSITE_URL
+
+  const {t} = useTranslation()
 
   const auth = useContext(AuthContext)
 
@@ -64,7 +68,7 @@ function Profile() {
       setPreviousPage(response.data.previous)
       setTotalPages(response.data.total_pages)
     } catch (error) {
-      setErrorMessage("Failed to fetch links.")
+      setErrorMessage(t("profileErrFetchLinks"))
     }
   }
 
@@ -81,7 +85,7 @@ function Profile() {
 	fetchLinks()
       }
     } catch (error) {
-      setErrorMessage("Failed to delete link.")
+      setErrorMessage(t("profileErrDeleteLink"))
     }
   }
 
@@ -125,7 +129,7 @@ function Profile() {
 
   return (
     <div className="profile-grid">
-      <title>Profile - QWShortLink</title>
+      <title>{`${t("profileTitle")} - QWShortLink`}</title>
       <div className="error-container">
 	{errorMessage && (
 	  <div className="card card-danger">
@@ -140,40 +144,40 @@ function Profile() {
 	  { (auth.user?.first_name || auth.user?.last_name) &&
 	  <p>{auth.user?.first_name} {auth.user?.last_name}</p> }
 	  <p>Email: {auth.user?.email ? auth.user.email : "Not specified"}</p>
-	  <p>Total Links: {totalLinks}</p>
+	  <p>{t("profileTotalLinks")}: {totalLinks}</p>
 
 	  <hr/>
 
-	  <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>Edit</button>
-	  <button className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>Change password</button>
-	  <button className="btn btn-danger" onClick={() => setIsDeletingUser(true)}>Delete</button>
+	  <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>{t("profileUserEdit")}</button>
+	  <button className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>{t("profileChangePassword")}</button>
+	  <button className="btn btn-danger" onClick={() => setIsDeletingUser(true)}>{t("profileUserDelete")}</button>
 	</div>
       </div>
 
       <div className="links-container">
 	<div className="fl-col fl-gap">
-	  <button className="btn btn-primary" onClick={() => setIsAddingLink(true)}>Add link</button>
+	  <button className="btn btn-primary" onClick={() => setIsAddingLink(true)}>{t("profileLinkAdd")}</button>
 
 	  {links.length > 0 ? links.map((link, index) => (
 	    <div className="card fl-gap fl-center-cross fl-wrap" key={index}>
 	      <p className="linklist-link">{baseUrl}l/{link.short_code}: <a href={link.url}>{link.url}</a></p>
-	      <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>Copy</button>
-	      <button className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>Edit</button>
-	      <button className="btn btn-danger" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>Delete</button>
+	      <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>{t("profileLinkCopy")}</button>
+	      <button className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>{t("profileLinkEdit")}</button>
+	      <button className="btn btn-danger" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>{t("profileLinkDelete")}</button>
 	    </div>
 	  )) : (
 	    <div className="card">
-	      <p>No links yet.</p>
+	      <p>{t("profileNoLinks")}</p>
 	    </div>
 	  )}
 
 	  {(previousPage || nextPage) && (
 	    <div className="card fl-space-between fl-center-cross">
-	      {previousPage && <button className="btn btn-primary" onClick={() => setCurrentPage(previousPage)}>Previous</button>}
+	      {previousPage && <button className="btn btn-primary" onClick={() => setCurrentPage(previousPage)}>{t("profilePagePrevious")}</button>}
 	      <div></div>
 	      <p>{currentPage}/{totalPages}</p>
 	      <div></div>
-	      {nextPage && <button className="btn btn-primary" onClick={() => setCurrentPage(nextPage)}>Next</button>}
+	      {nextPage && <button className="btn btn-primary" onClick={() => setCurrentPage(nextPage)}>{t("profilePageNext")}</button>}
 	    </div>
 	  )}
 	</div>

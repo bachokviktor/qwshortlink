@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import api from "../api"
+import "../i18n"
 
 interface PropsInterface {
   setIsAddingLink: (value: boolean) => void;
@@ -7,6 +9,8 @@ interface PropsInterface {
 }
 
 function LinkAdd({setIsAddingLink, fetchLinks}: PropsInterface) {
+  const {t} = useTranslation()
+
   const [linkUrl, setLinkUrl] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string>("")
 
@@ -18,7 +22,7 @@ function LinkAdd({setIsAddingLink, fetchLinks}: PropsInterface) {
     e.preventDefault()
 
     if ((linkUrl.trim() === "") || linkUrl.includes(" ")) {
-      setErrorMessage("Enter a valid URL!")
+      setErrorMessage(t("linkAddErrValidUrl"))
       return
     }
 
@@ -28,16 +32,16 @@ function LinkAdd({setIsAddingLink, fetchLinks}: PropsInterface) {
       setIsAddingLink(false)
       fetchLinks()
     } catch (error) {
-      setErrorMessage("Something went wrong.")
+      setErrorMessage(t("linkAddErrResponse"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>Add Link - QWShortLink</title>
+      <title>{`${t("linkAddTitle")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>Add Link</h2>
+        <h2>{t("linkAddHeader")}</h2>
 
         <form onSubmit={addLink}>
 	  <div className="fl-col">
@@ -55,8 +59,8 @@ function LinkAdd({setIsAddingLink, fetchLinks}: PropsInterface) {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 	    
-	  <button className="btn btn-primary" type="submit">Add</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsAddingLink(false)}}>Cancel</button>
+	  <button className="btn btn-primary" type="submit">{t("linkAddSubmit")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsAddingLink(false)}}>{t("linkAddCancel")}</button>
         </form>
       </div>
     </div>

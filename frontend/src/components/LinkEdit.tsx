@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import api from "../api"
+import "../i18n"
 
 interface PropsInterface {
   editLinkId: number | null;
@@ -11,6 +13,8 @@ interface PropsInterface {
 }
 
 function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIsEditingLink, fetchLinks}: PropsInterface) {
+  const {t} = useTranslation()
+
   const [errorMessage, setErrorMessage] = useState<string>("")
 
   useEffect(() => {
@@ -21,7 +25,7 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
     e.preventDefault()
 
     if ((editLinkUrl.trim() === "") || editLinkUrl.includes(" ")) {
-      setErrorMessage("Enter a valid URL!")
+      setErrorMessage(t("linkEditErrValidUrl"))
       return
     }
 
@@ -34,16 +38,16 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
       setIsEditingLink(false)
       fetchLinks()
     } catch (error) {
-      setErrorMessage("Something went wrong.")
+      setErrorMessage(t("linkEditErrResponse"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>Edit Link - QWShortLink</title>
+      <title>{`${t("linkEditTitle")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>Edit Link</h2>
+        <h2>{t("linkEditHeader")}</h2>
 
         <form onSubmit={editLink}>
 	  <div className="fl-col">
@@ -61,8 +65,8 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">Save</button>
-	  <button className="btn btn-neutral" onClick={() => {setEditLinkId(null); setEditLinkUrl(""); setIsEditingLink(false)}}>Cancel</button>
+	  <button className="btn btn-primary" type="submit">{t("linkEditSubmit")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setEditLinkId(null); setEditLinkUrl(""); setIsEditingLink(false)}}>{t("linkEditCancel")}</button>
         </form>
       </div>
     </div>

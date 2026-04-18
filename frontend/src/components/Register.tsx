@@ -1,9 +1,13 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router"
+import { useTranslation } from "react-i18next"
 import AuthContext from "../AuthContext"
 import api from "../api"
+import "../i18n"
 
 function Register() {
+  const {t} = useTranslation()
+
   const auth = useContext(AuthContext)
 
   const navigate = useNavigate()
@@ -21,17 +25,17 @@ function Register() {
     e.preventDefault()
 
     if ((username.trim() === "") || username.includes(" ") || (username.length < 5)) {
-      setErrorMessage("Username must be at least 5 characters long and not contain whitespaces.")
+      setErrorMessage(t("registerErrValidUsername"))
       return
     }
 
     if ((password1.trim() === "") || password1.includes(" ") || (password1.length < 8)) {
-      setErrorMessage("Password must be at least 8 characters long, contain letters and numbers, not contain whitespaces, and not be too common.")
+      setErrorMessage(t("registerErrValidPassword"))
       return
     }
 
     if (password1 !== password2) {
-      setErrorMessage("Passwords doesn't match!")
+      setErrorMessage(t("registerErrMismatch"))
       return
     }
 
@@ -41,9 +45,9 @@ function Register() {
       navigate("/login")
     } catch (error: any) {
       if (error?.response?.status === 429) {
-	setErrorMessage(`Too many attempts. Try againt in ${error.response.headers["retry-after"]} seconds.`)
+	setErrorMessage(`${t("registerErrThrottle1")} ${error.response.headers["retry-after"]} ${t("registerErrThrottle2")}`)
       } else {
-	setErrorMessage("Something went wrong.")
+	setErrorMessage(t("registerErrResponse"))
       }
     }
   }
@@ -54,14 +58,14 @@ function Register() {
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>Registration - QWShortLink</title>
+      <title>{`${t("registerTitle")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>Registration</h2>
+        <h2>{t("registerHeading")}</h2>
 
         <form onSubmit={handleRegister}>
 	  <div className="fl-col">
-            <label htmlFor="userName">Username</label>
+            <label htmlFor="userName">{t("registerUsername")}</label>
             <input
 	      name="userName"
 	      id="userName"
@@ -74,7 +78,7 @@ function Register() {
 	  </div>
 
 	  <div className="fl-col">
-            <label htmlFor="userPassword1">Password</label>
+            <label htmlFor="userPassword1">{t("registerPassword")}</label>
             <input
 	      name="userPassword1"
 	      id="userPassword1"
@@ -87,7 +91,7 @@ function Register() {
 	  </div>
 
 	  <div className="fl-col">
-            <label htmlFor="userPassword2">Confirm password</label>
+            <label htmlFor="userPassword2">{t("registerConfirmPassword")}</label>
             <input
 	      name="userPassword2"
 	      id="userPassword2"
@@ -101,14 +105,12 @@ function Register() {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <button className="btn btn-primary" type="submit">Register</button>
+          <button className="btn btn-primary" type="submit">{t("registerSubmit")}</button>
         </form>
 
 	<hr/>
 
-        <p>
-             Already have an account? <Link to="/login">Login</Link>
-        </p>
+        <p>{t("registerHaveAccount")} <Link to="/login">{t("registerLogin")}</Link></p>
       </div>
     </div>
   )

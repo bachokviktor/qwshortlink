@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import {BrowserRouter, Routes, Route} from "react-router"
 import {AuthProvider} from "./AuthContext"
 import ProtectedRoute from "./ProtectedRoute"
@@ -10,7 +11,15 @@ import Profile from "./components/Profile"
 import Redirect from "./components/Redirect"
 import NotFound from "./components/NotFound"
 
+import {useTranslation} from "react-i18next"
+import "./i18n"
+
 function App() {
+  const {i18n} = useTranslation()
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language)
+  }, [])
+
   return (
     <>
       <BrowserRouter>

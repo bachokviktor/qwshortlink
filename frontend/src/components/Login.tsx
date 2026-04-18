@@ -1,8 +1,12 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router"
+import { useTranslation } from "react-i18next"
 import AuthContext from "../AuthContext"
+import "../i18n"
 
 function Login() {
+  const {t} = useTranslation()
+
   const auth = useContext(AuthContext)
 
   const navigate = useNavigate()
@@ -19,12 +23,12 @@ function Login() {
     e.preventDefault()
 
     if ((username.trim() === "") || username.includes(" ")) {
-      setErrorMessage("Enter a valid username!")
+      setErrorMessage(t("loginErrValidUsername"))
       return
     }
 
     if ((password.trim() === "") || password.includes(" ")) {
-      setErrorMessage("Enter a valid password!")
+      setErrorMessage(t("loginErrValidPassword"))
       return
     }
 
@@ -33,7 +37,7 @@ function Login() {
 
       navigate("/")
     } catch (error) {
-      setErrorMessage("Something went wrong.")
+      setErrorMessage(t("loginErrResponse"))
     }
   }
 
@@ -43,14 +47,14 @@ function Login() {
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>Login - QWShortLink</title>
+      <title>{`${t("loginTitle")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>Login</h2>
+        <h2>{t("loginHeader")}</h2>
 
         <form onSubmit={handleLogin}>
 	  <div className="fl-col">
-            <label htmlFor="userName">Username</label>
+            <label htmlFor="userName">{t("loginUsername")}</label>
             <input
 	      name="userName"
 	      id="userName"
@@ -63,7 +67,7 @@ function Login() {
 	  </div>
 
 	  <div className="fl-col">
-            <label htmlFor="userPassword">Password</label>
+            <label htmlFor="userPassword">{t("loginPassword")}</label>
             <input
 	      name="userPassword"
 	      id="userPassword"
@@ -77,14 +81,12 @@ function Login() {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <button className="btn btn-primary" type="submit">Login</button>
+          <button className="btn btn-primary" type="submit">{t("loginSubmit")}</button>
         </form>
 
 	<hr/>
 
-        <p>
-             Don't have an account? <Link to="/register">Register</Link>
-        </p>
+        <p>{t("loginNoAccount")} <Link to="/register">{t("loginRegister")}</Link></p>
       </div>
     </div>
   )

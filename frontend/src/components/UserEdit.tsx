@@ -1,12 +1,16 @@
 import React, { useContext, useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import AuthContext from "../AuthContext"
 import api from "../api"
+import "../i18n"
 
 interface PropsInterface {
   setIsEditingUser: (value: boolean) => void;
 }
 
 function UserEdit({setIsEditingUser}: PropsInterface) {
+  const {t} = useTranslation()
+
   const auth = useContext(AuthContext)
 
   const [editUsername, setEditUsername] = useState<string>(
@@ -32,7 +36,7 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
     e.preventDefault()
 
     if ((editUsername.trim() === "") || editUsername.includes(" ") || (editUsername.length < 5)) {
-      setErrorMessage("Username must be at least 5 characters long and not contain whitespaces.")
+      setErrorMessage(t("userEditErrValidUsername"))
       return
     }
 
@@ -47,20 +51,20 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
       setIsEditingUser(false)
       auth.fetchUser()
     } catch (error) {
-      setErrorMessage("Something went wrong.")
+      setErrorMessage(t("userEditErrResponse"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>Edit User - QWShortLink</title>
+      <title>{`${t("userEditTitle")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-	<h2>Edit User</h2>
+	<h2>{t("userEditHeader")}</h2>
 
         <form onSubmit={editUser}>
 	  <div className="fl-col">
-            <label htmlFor="editUsername">Username</label>
+            <label htmlFor="editUsername">{t("userEditUsername")}</label>
             <input
 	      name="editUsername"
 	      id="editUsername"
@@ -85,7 +89,7 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 	  </div>
 
 	  <div className="fl-col">
-	    <label htmlFor="editLastName">Last Name</label>
+	    <label htmlFor="editLastName">{t("userEditLastName")}</label>
             <input
 	      name="editLastName"
 	      id="editLastName"
@@ -97,7 +101,7 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 	  </div>
 
 	  <div className="fl-col">
-	    <label htmlFor="editFirstName">First Name</label>
+	    <label htmlFor="editFirstName">{t("userEditFirstName")}</label>
             <input
 	      name="editFirstName"
 	      id="editFirstName"
@@ -108,11 +112,11 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 	    />
 	  </div>
 
-	    {errorMessage && <p className="error-message">{errorMessage}</p>}
+	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	    <button className="btn btn-primary" type="submit">Save</button>
-	    <button className="btn btn-neutral" onClick={() => {setIsEditingUser(false)}}>Cancel</button>
-          </form>
+	  <button className="btn btn-primary" type="submit">{t("userEditSubmit")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsEditingUser(false)}}>{t("userEditCancel")}</button>
+        </form>
       </div>
     </div>
   )
