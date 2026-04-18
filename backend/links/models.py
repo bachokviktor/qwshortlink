@@ -1,6 +1,7 @@
 import secrets
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 def generate_short_code():
@@ -23,14 +24,25 @@ class Link(models.Model):
     """
     url = models.URLField(max_length=2048)
     short_code = models.CharField(
-        default=generate_short_code, unique=True, editable=False
+        verbose_name=_("short code"),
+        default=generate_short_code,
+        unique=True,
+        editable=False
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        verbose_name=_("created at"),
+        auto_now_add=True
+    )
     owner = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name="links"
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name="links",
+        verbose_name=_("owner")
     )
 
     class Meta:
+        verbose_name = _("link")
+        verbose_name_plural = _("links")
         indexes = [
             models.Index(fields=["url"]),
             models.Index(fields=["short_code"])
