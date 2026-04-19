@@ -16,8 +16,14 @@ import "./i18n"
 
 function App() {
   const {i18n} = useTranslation()
+
   useEffect(() => {
-    i18n.changeLanguage(navigator.language)
+    const preferredLanguage = localStorage.getItem("preferredLanguage")
+    if (preferredLanguage) {
+      i18n.changeLanguage(preferredLanguage)
+    } else {
+      i18n.changeLanguage(navigator.language)
+    }
   }, [])
 
   return (

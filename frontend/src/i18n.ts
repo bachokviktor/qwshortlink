@@ -28,6 +28,7 @@ i18n.use(initReactI18next).init({
 	navAriaDarkmode: "Toggle darkmode",
 	navAriaOpen: "Open sidebar",
 	navAriaClose: "Close sidebar",
+	navAriaLanguages: "Change Language",
 
 	notFoundHeader: "404 Not Found",
 	notFoundBody: "This page does not exist",
@@ -151,6 +152,7 @@ i18n.use(initReactI18next).init({
 	navAriaDarkmode: "Змінити тему",
 	navAriaOpen: "Відкрити меню навігації",
 	navAriaClose: "Закрити меню навігації",
+	navAriaLanguages: "Змінити мову",
 
 	notFoundHeader: "404 Не Знайдено",
 	notFoundBody: "Такої сторінки не існує",

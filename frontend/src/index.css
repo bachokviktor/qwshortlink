@@ -298,6 +298,37 @@ nav a:hover {
     z-index: 9;
 }
 
+.language-dropdown {
+    position: relative;
+}
+
+.language-dropdown ul {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: var(--color-foreground);
+    list-style: none;
+    flex-direction: column;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.language-dropdown li button {
+    background-color: var(--color-foreground);
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.5s ease;
+}
+
+.language-dropdown li button:hover {
+    background-color: var(--color-primary);
+}
+
+.language-dropdown ul.show {
+    display: flex;
+}
+
 @media (max-width: 900px) {
     .nav-hamburger {
 	display: flex;
