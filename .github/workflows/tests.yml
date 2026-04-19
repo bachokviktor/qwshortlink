@@ -1,0 +1,43 @@
+name: Unit tests
+
+on:
+  push:
+
+env:
+  DEBUG: "t"
+  DB_NAME: "test_db"
+  DB_USER: "postgres"
+  DB_PASSWORD: "postgres"
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    strategy:
+      max-parallel: 4
+
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - run: pip install -e requirements.txt
+      - run: pytest
