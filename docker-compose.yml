@@ -1,6 +1,23 @@
 name: qwshortlink
 
 services:
+  frontend:
+    image: qwshortlink-frontend
+    container_name: qwshortlink-frontend
+    pull_policy: never
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
+    ports:
+      - 5173:5173
+    volumes:
+      - ./frontend:/app:z
+      - /app/node_modules
+    depends_on:
+      - backend
+
   backend:
     image: qwshortlink-backend
     container_name: qwshortlink-backend
