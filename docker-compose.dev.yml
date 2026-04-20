@@ -7,7 +7,7 @@ services:
     pull_policy: never
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     env_file:
       - ./frontend/.env
     ports:
@@ -24,7 +24,7 @@ services:
     pull_policy: never
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     env_file:
       - ./backend/.env
     ports:

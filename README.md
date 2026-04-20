@@ -14,6 +14,7 @@ URL Shortener built with Django REST Framework and React
 - Caching with Redis
 - Containerization with Docker
 - Responsive React frontend
+- Support of multiple languages
 
 ## Tech Stack
 
@@ -44,13 +45,13 @@ Add Redis configuration at `redis/redis.conf`
 Build container images
 
 ``` bash
-docker compose build
+docker compose -f docker-compose.dev.yml build
 ```
 
 Run the containers with Docker Compose
 
 ``` bash
-docker compose up
+docker compose -f docker-compose.dev.yml up
 ```
 
 **Note:** You may need to restart when running for the first time
@@ -69,10 +70,12 @@ docker exec -it qwshortlink-backend python3 manage.py createsuperuser
 
 ## Testing
 
-Run unit tests
+Currently, only unit tests for the backend are available
+
+Run unit tests in Docker
 
 ``` bash
-pytest -v
+docker exec -t qwshortlink-backend pytest -v
 ```
 
 ## License
