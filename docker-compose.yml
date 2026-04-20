@@ -1,0 +1,67 @@
+name: qwshortlink
+
+services:
+  nginx:
+    image: nginx:1.30.0-alpine3.23-perl
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:z
+      - frontend_data:/app/frontend
+      - staticfiles_data:/app/staticfiles
+      - media_data:/app/media
+    depends_on:
+      - backend
+      - frontend
+
+  frontend:
+    image: qwshortlink-frontend
+    pull_policy: never
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
+    volumes:
+      - frontend_data:/app/dist
+    command: npm run build
+
+  backend:
+    image: qwshortlink-backend
+    container_name: qwshortlink-backend
+    pull_policy: never
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    volumes:
+      - staticfiles_data:/app/staticfiles
+      - media_data:/app/media
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:18.3-trixie
+    container_name: qwshortlink-db
+    restart: always
+    shm_size: 128mb
+    env_file:
+      - ./db/.env
+    volumes:
+      - db_data:/var/lib/postgresql
+
+  redis:
+    image: redis:8.6.2-trixie
+    container_name: qwshortlink-redis
+    restart: always
+    volumes:
+      - ./redis:/usr/local/etc/redis:z
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+volumes:
+  db_data:
+  frontend_data:
+  staticfiles_data:
+  media_data:
