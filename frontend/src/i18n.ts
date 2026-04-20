@@ -2,7 +2,7 @@ import i18n from "i18next"
 import { initReactI18next } from "react-i18next"
 
 i18n.use(initReactI18next).init({
-  debug: true,
+  debug: import.meta.env.VITE_I18N_DEBUG === "t",
   fallbackLng: "en",
 
   resources: {
@@ -20,6 +20,7 @@ i18n.use(initReactI18next).init({
 	sectionOpenSourceGitHub: "The source code is available on our GitHub:",
 	sectionDisclaimerHeading: "Disclaimer",
 	sectionDisclaimerBody: "We distribute our project under the MIT License, which makes everyone able to freely modify the code and host their own instance of QWShortLink. However, we cannot provide any guarantees about the safety of such self-hosted instances.",
+	sectionDisclaimerUrl: "The only URL of the original QWShortLink is",
 
 	navHome: "Home",
 	navProfile: "Profile",
@@ -145,6 +146,7 @@ i18n.use(initReactI18next).init({
 	sectionOpenSourceGitHub: "Вихідний код доступний на нашому GitHub:",
 	sectionDisclaimerHeading: "Дисклеймер",
 	sectionDisclaimerBody: "Цей проєкт розповсюджується під MIT ліцензією, яка надає будь-кому право створити на основі нього свою власну, довільно модифіковану, версію QWShortLink. Однак, ми не можемо надати жодних гарантій щодо безпеки таких модифікованих версій проєкту.",
+	sectionDisclaimerUrl: "Єдина адреса оригінального QWShortLink це",
 
 	navHome: "Головна",
 	navProfile: "Профіль",

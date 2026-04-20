@@ -30,13 +30,15 @@ function Home() {
       <div className="fl-col fl-gap">
 	<h2>{t("sectionOpenSourceHeading")}</h2>
 	<p>{t("sectionOpenSourceBody")}</p>
-	<p>{t("sectionOpenSourceGitHub")} <a href="https://github.com/bachokviktor/qwshortlink">https://github.com/bachokviktor/qwshortlink</a></p>
+	<p className="text-break">{t("sectionOpenSourceGitHub")} <a href="https://github.com/bachokviktor/qwshortlink">https://github.com/bachokviktor/qwshortlink</a></p>
       </div>
 
       <div className="card card-danger fl-col fl-gap">
 	<p>{t("sectionDisclaimerHeading")}</p>
 
 	<p>{t("sectionDisclaimerBody")}</p>
+
+	<p>{t("sectionDisclaimerUrl")} <a href="https://qwsl.click">https://qwsl.click</a></p>
       </div>
     </div>
   )
