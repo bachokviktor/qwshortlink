@@ -5,14 +5,24 @@ services:
     image: nginx:1.30.0-alpine3.23-perl
     ports:
       - 80:80
+      - 443:443
+    restart: always
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:z
+      - certbot_webroot:/var/www/certbot
+      - certbot_certs:/etc/letsencrypt
       - frontend_data:/app/frontend
       - staticfiles_data:/app/staticfiles
       - media_data:/app/media
     depends_on:
       - backend
       - frontend
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - certbot_webroot:/var/www/certbot
+      - certbot_certs:/etc/letsencrypt
 
   frontend:
     image: qwshortlink-frontend
@@ -65,3 +75,5 @@ volumes:
   frontend_data:
   staticfiles_data:
   media_data:
+  certbot_webroot:
+  certbot_certs:
