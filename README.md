@@ -8,6 +8,7 @@ URL Shortener built with Django REST Framework and React
 
 > [!CAUTION]
 > We distribute our project under the MIT License, which makes everyone able to freely modify the code and host their own instance of QWShortLink. However, we cannot provide any guarantees about the safety of such self-hosted instances.
+>
 > The only URL of the original QWShortLink is https://qwsl.click
 
 ## Features
