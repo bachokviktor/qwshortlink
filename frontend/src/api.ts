@@ -26,7 +26,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error?.response.status === 401 && !originalRequest._retry && !originalRequest.url.includes("token/refresh/")) {
       // Don't get into a loop
       originalRequest._retry = true
 
@@ -42,6 +42,7 @@ api.interceptors.response.use(
 	return api(originalRequest)
       } catch (error) {
 	localStorage.clear()
+	window.location.href = "/login"
       }
     }
 

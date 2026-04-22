@@ -180,13 +180,13 @@ if not DEBUG:
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "QWShortLink API",
     "DESCRIPTION": _("This is the backend API of QWShortLink"),
-    "VERSION": "1.0.0",
+    "VERSION": "1.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
     "TAGS": [
         {
