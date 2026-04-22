@@ -27,7 +27,7 @@ URL Shortener built with Django REST Framework and React
 
 **Frontend:** React, React Router, Axios
 
-**Infrastructure:** PostgreSQL, Redis, Docker
+**Infrastructure:** PostgreSQL, Redis, nginx, Docker
 
 **Testing:** pytest
 
