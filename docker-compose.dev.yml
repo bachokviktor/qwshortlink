@@ -31,9 +31,25 @@ services:
       - 8000:8000
     volumes:
       - ./backend:/app:z
+    command: python3 manage.py runserver 0.0.0.0:8000
     depends_on:
       - db
       - redis
+
+  celery:
+    image: qwshortlink-backend
+    container_name: qwshortlink-celery
+    pull_policy: never
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app:z
+    command: celery -A config worker -l INFO
+    depends_on:
+      - backend
 
   db:
     image: postgres:18.3-trixie

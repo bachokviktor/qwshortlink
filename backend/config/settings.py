@@ -137,6 +137,12 @@ CACHES = {
 }
 
 
+# Celery
+
+CELERY_TIMEZONE = os.getenv("DJ_TIME_ZONE", "UTC")
+CELERY_BROKER_URL = os.getenv("REDIS_URL")
+
+
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
