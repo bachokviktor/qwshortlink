@@ -15,6 +15,7 @@ from links.serializers import LinkSerializer
 from .serializers import (
     CreateUserSerializer, ChangePasswordSerializer, UserSerializer
 )
+from .tasks import send_verification_email
 
 
 @extend_schema_view(
@@ -31,6 +32,11 @@ class UserRegisterView(generics.CreateAPIView):
     serializer_class = CreateUserSerializer
     permission_classes = [AllowAny]
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+
+        send_verification_email.delay_on_commit(instance.pk)
 
 
 @extend_schema_view(

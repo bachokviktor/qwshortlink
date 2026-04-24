@@ -1,0 +1,7 @@
+Hello there,
+
+Before you can continue using your QWShortLink account, we need to verify your email.
+
+Your email verification code is:
+
+{{ verification_code }}

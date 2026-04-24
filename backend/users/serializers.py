@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
+from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
@@ -11,7 +12,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = get_user_model()
-        fields = ["id", "username", "password"]
+        fields = ["id", "username", "email", "password"]
         extra_kwargs = {
             "password": {
                 "write_only": True,
@@ -23,6 +24,14 @@ class CreateUserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 _("Username must be at least 5 characters long.")
             )
+
+        return value
+
+    def validate_email(self, value):
+        try:
+            validate_email(value)
+        except ValidationError as error:
+            raise serializers.ValidationError(error.message)
 
         return value
 
@@ -112,5 +121,13 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 _("Username must be at least 5 characters long.")
             )
+
+        return value
+
+    def validate_email(self, value):
+        try:
+            validate_email(value)
+        except ValidationError as error:
+            raise serializers.ValidationError(error.message)
 
         return value
