@@ -164,6 +164,20 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = "users.CustomUser"
 
 
+# Email configuration
+
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = os.getenv("SMTP_HOST")
+    EMAIL_PORT = os.getenv("SMTP_PORT")
+    EMAIL_HOST_USER = os.getenv("SMTP_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.getenv("SMTP_HOST_PASSWORD")
+    EMAIL_USE_TLS = True if os.getenv("SMTP_USE_TLS") == "t" else False
+    EMAIL_USE_SSL = True if os.getenv("SMTP_USE_SSL") == "t" else False
+
+
 # REST Framework
 
 REST_FRAMEWORK = {
