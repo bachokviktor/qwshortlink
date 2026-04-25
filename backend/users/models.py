@@ -1,6 +1,8 @@
 import secrets
+from datetime import timedelta
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
@@ -18,6 +20,10 @@ def generate_verification_code():
 
         if not collisions:
             return verification_code
+
+
+def get_expiration_date():
+    return timezone.now() + timedelta(hours=1)
 
 
 class CustomUser(AbstractUser):
@@ -47,6 +53,11 @@ class VerificationCode(models.Model):
     created_at = models.DateTimeField(
         verbose_name=_("created at"),
         auto_now_add=True
+    )
+    expires_at = models.DateTimeField(
+        verbose_name=_("expires at"),
+        blank=True,
+        default=get_expiration_date
     )
 
     class Meta:
