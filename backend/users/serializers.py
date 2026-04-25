@@ -111,7 +111,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "username",
-            "email",
             "first_name",
             "last_name",
         ]
@@ -121,13 +120,5 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 _("Username must be at least 5 characters long.")
             )
-
-        return value
-
-    def validate_email(self, value):
-        try:
-            validate_email(value)
-        except ValidationError as error:
-            raise serializers.ValidationError(error.message)
 
         return value
