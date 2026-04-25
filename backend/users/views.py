@@ -15,6 +15,7 @@ from links.serializers import LinkSerializer
 from .serializers import (
     CreateUserSerializer, ChangePasswordSerializer, UserSerializer
 )
+from .permissions import IsVerifiend
 from .tasks import send_verification_email
 
 
@@ -50,7 +51,7 @@ class UserChangePasswordView(APIView):
     This view handles user password change.
     """
     serializer_class = ChangePasswordSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerifiend]
 
     def put(self, request):
         serializer = self.serializer_class(
@@ -90,7 +91,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     This view is used to retrieve or modify the current user data.
     """
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerifiend]
 
     def get_object(self):
         return self.request.user
@@ -115,7 +116,7 @@ class UserLinksView(generics.ListAPIView):
     This view is used to fetch all links of the current user.
     """
     serializer_class = LinkSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerifiend]
 
     def get_queryset(self):
         return self.request.user.links.all().order_by("-created_at")
