@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import generics
@@ -12,8 +13,12 @@ from drf_spectacular.utils import (
 from drf_spectacular.types import OpenApiTypes
 
 from links.serializers import LinkSerializer
+from .models import VerificationCode
 from .serializers import (
-    CreateUserSerializer, ChangePasswordSerializer, UserSerializer
+    CreateUserSerializer,
+    VerificationCodeSerializer,
+    ChangePasswordSerializer,
+    UserSerializer
 )
 from .permissions import IsVerifiend
 from .tasks import send_verification_email
@@ -38,6 +43,51 @@ class UserRegisterView(generics.CreateAPIView):
         instance = serializer.save()
 
         send_verification_email.delay_on_commit(instance.pk)
+
+
+class RequestVerificationView(APIView):
+    """
+    This view sends a verification code to the user's email address.
+    """
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
+
+    def get(self, request):
+        send_verification_email.delay(request.user.pk)
+
+        return Response(status=status.HTTP_200_OK)
+
+
+class VerificationView(APIView):
+    """
+    This view verifies user email using email.
+    """
+    serializer_class = VerificationCodeSerializer
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            code = VerificationCode.objects.filter(
+                code=serializer.validated_data.get("code")
+            ).filter(expires_at__gt=timezone.now()).first()
+
+            if code and (request.user.email == code.email):
+                user = request.user
+                user.verified = True
+                user.save()
+
+                code.delete()
+
+                return Response(status=status.HTTP_200_OK)
+
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(
+            data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 @extend_schema_view(

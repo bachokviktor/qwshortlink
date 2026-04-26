@@ -49,6 +49,13 @@ class CreateUserSerializer(serializers.ModelSerializer):
         return user
 
 
+class VerificationCodeSerializer(serializers.Serializer):
+    """
+    This serializer is used to serialize email validation codes.
+    """
+    code = serializers.CharField(max_length=10, required=True)
+
+
 class ChangePasswordSerializer(serializers.ModelSerializer):
     """
     This serializer is used to change user password.
