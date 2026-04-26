@@ -46,6 +46,12 @@ class UserRegisterView(generics.CreateAPIView):
         send_verification_email.delay_on_commit(instance.pk)
 
 
+@extend_schema_view(
+    get=extend_schema(
+        summary=_("Send a verification code to the user's email address"),
+        description=_("Send a verification code to the user's email address"),
+    ),
+)
 class RequestVerificationView(APIView):
     """
     This view sends a verification code to the user's email address.
@@ -59,6 +65,12 @@ class RequestVerificationView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema_view(
+    post=extend_schema(
+        summary=_("Verify user email with a verification code"),
+        description=_("Verify user email with a verification code"),
+    ),
+)
 class VerificationView(APIView):
     """
     This view verifies user email using email.
@@ -91,6 +103,12 @@ class VerificationView(APIView):
         )
 
 
+@extend_schema_view(
+    put=extend_schema(
+        summary=_("Change user email"),
+        description=_("Change user email"),
+    ),
+)
 class UserChangeEmailView(APIView):
     """
     This view handles user email change.
