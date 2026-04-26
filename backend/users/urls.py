@@ -18,10 +18,15 @@ urlpatterns = [
         views.VerificationView.as_view(),
         name="verification"
     ),
-    path("user/links/", views.UserLinksView.as_view(), name="user-links"),
+    path(
+        "user/email/",
+        views.UserChangeEmailView.as_view(),
+        name="user-email"
+    ),
     path(
         "user/password/",
         views.UserChangePasswordView.as_view(),
         name="user-password"
     ),
+    path("user/links/", views.UserLinksView.as_view(), name="user-links"),
 ]

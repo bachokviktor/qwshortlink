@@ -17,6 +17,7 @@ from .models import VerificationCode
 from .serializers import (
     CreateUserSerializer,
     VerificationCodeSerializer,
+    ChangeEmailSerializer,
     ChangePasswordSerializer,
     UserSerializer
 )
@@ -84,6 +85,30 @@ class VerificationView(APIView):
                 return Response(status=status.HTTP_200_OK)
 
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(
+            data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+class UserChangeEmailView(APIView):
+    """
+    This view handles user email change.
+    """
+    serializer_class = ChangeEmailSerializer
+    permission_classes = [IsAuthenticated, IsVerifiend]
+
+    def put(self, request):
+        serializer = self.serializer_class(
+            instance=self.request.user, data=request.data
+        )
+
+        if serializer.is_valid():
+            instance = serializer.save()
+
+            send_verification_email.delay_on_commit(instance.pk)
+
+            return Response(status=status.HTTP_200_OK)
 
         return Response(
             data=serializer.errors, status=status.HTTP_400_BAD_REQUEST

@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
@@ -27,14 +26,6 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
         return value
 
-    def validate_email(self, value):
-        try:
-            validate_email(value)
-        except ValidationError as error:
-            raise serializers.ValidationError(error.message)
-
-        return value
-
     def validate_password(self, value):
         try:
             validate_password(password=value)
@@ -54,6 +45,22 @@ class VerificationCodeSerializer(serializers.Serializer):
     This serializer is used to serialize email validation codes.
     """
     code = serializers.CharField(max_length=10, required=True)
+
+
+class ChangeEmailSerializer(serializers.ModelSerializer):
+    """
+    This serializer is used to change user email.
+    """
+    class Meta:
+        model = get_user_model()
+        fields = ["email"]
+
+    def update(self, instance, validated_data):
+        instance.verified = False
+        instance.email = validated_data["email"]
+        instance.save()
+
+        return instance
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
