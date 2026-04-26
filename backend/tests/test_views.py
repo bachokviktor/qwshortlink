@@ -1,7 +1,10 @@
 import pytest
+from datetime import timedelta
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import status
 
+from users.models import VerificationCode
 from links.models import Link
 
 
@@ -10,6 +13,7 @@ class TestUserViews:
     def test_create_user(self, django_user_model, api_client):
         payload = {
             "username": "testuser",
+            "email": "testuser@example.com",
             "password": "x5AXFqw7",
         }
 
@@ -34,7 +38,6 @@ class TestUserViews:
     def test_update_user(self, django_test_user, api_client):
         new_data = {
             "username": "testuser_new",
-            "email": "testuser@example.com",
         }
 
         api_client.force_authenticate(django_test_user)
@@ -49,11 +52,10 @@ class TestUserViews:
 
         assert response.status_code == status.HTTP_200_OK
         assert django_test_user.username == new_data["username"]
-        assert django_test_user.email == new_data["email"]
 
     def test_partially_update_user(self, django_test_user, api_client):
         new_data = {
-            "email": "testuser@example.com",
+            "first_name": "User",
         }
 
         api_client.force_authenticate(django_test_user)
@@ -67,7 +69,7 @@ class TestUserViews:
         django_test_user.refresh_from_db()
 
         assert response.status_code == status.HTTP_200_OK
-        assert django_test_user.email == new_data["email"]
+        assert django_test_user.first_name == new_data["first_name"]
 
     def test_delete_user(
             self, django_user_model, django_test_user, api_client
@@ -102,7 +104,72 @@ class TestUserViews:
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data["results"]) == 2
 
+    def test_user_verification(self, django_test_user, api_client):
+        code = VerificationCode.objects.create(email="testuser@example.com")
+
+        api_client.force_authenticate(django_test_user)
+
+        response = api_client.post(
+            reverse("users:user-verification"),
+            data={
+                "code": code.code,
+            },
+            format="json"
+        )
+
+        django_test_user.refresh_from_db()
+
+        assert response.status_code == status.HTTP_200_OK
+        assert django_test_user.verified
+        assert VerificationCode.objects.count() == 0
+
+    def test_expired_verification(self, django_test_user, api_client):
+        code = VerificationCode.objects.create(
+            email="testuser@example.com",
+            expires_at=timezone.now()-timedelta(hours=2)
+        )
+
+        api_client.force_authenticate(django_test_user)
+
+        response = api_client.post(
+            reverse("users:user-verification"),
+            data={
+                "code": code.code,
+            },
+            format="json"
+        )
+
+        django_test_user.refresh_from_db()
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert not django_test_user.verified
+
+    def test_change_user_email(self, django_test_user, api_client):
+        django_test_user.verified = True
+        django_test_user.save()
+
+        payload = {
+            "email": "newemail@example.com",
+        }
+
+        api_client.force_authenticate(django_test_user)
+
+        response = api_client.put(
+            reverse("users:user-email"),
+            data=payload,
+            format="json"
+        )
+
+        django_test_user.refresh_from_db()
+
+        assert response.status_code == status.HTTP_200_OK
+        assert django_test_user.email == payload["email"]
+        assert not django_test_user.verified
+
     def test_change_user_password(self, django_test_user, api_client):
+        django_test_user.verified = True
+        django_test_user.save()
+
         payload = {
             "password": "x5AXFqw7",
             "new_password": "PNaHseW3",
@@ -149,6 +216,9 @@ class TestUserViews:
 @pytest.mark.django_db
 class TestLinkViews:
     def test_create_link(self, django_test_user, api_client):
+        django_test_user.verified = True
+        django_test_user.save()
+
         payload = {
             "url": "https://new.example.com/",
         }
@@ -197,6 +267,9 @@ class TestLinkViews:
         assert response.data["results"][0]["id"] == link.id
 
     def test_retrieve_link(self, django_test_user, api_client):
+        django_test_user.verified = True
+        django_test_user.save()
+
         link = Link.objects.create(
             url="https://example.com/",
             owner=django_test_user
@@ -213,6 +286,9 @@ class TestLinkViews:
         assert response.data["url"] == link.url
 
     def test_update_link(self, django_test_user, api_client):
+        django_test_user.verified = True
+        django_test_user.save()
+
         link = Link.objects.create(
             url="https://example.com/",
             owner=django_test_user
@@ -236,6 +312,9 @@ class TestLinkViews:
         assert link.url == new_data["url"]
 
     def test_delete_link(self, django_test_user, api_client):
+        django_test_user.verified = True
+        django_test_user.save()
+
         link = Link.objects.create(
             url="https://example.com/",
             owner=django_test_user
@@ -276,6 +355,9 @@ class TestLinkViews:
             username="testuser2",
             password="x5AXFqw7"
         )
+
+        testuser2.verified = True
+        testuser2.save()
 
         api_client.force_authenticate(testuser2)
 

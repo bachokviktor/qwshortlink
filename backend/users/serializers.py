@@ -55,6 +55,21 @@ class ChangeEmailSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = ["email"]
 
+    def validate_email(self, value):
+        instance = getattr(self, "instance", None)
+
+        if not instance:
+            raise serializers.ValidationError(
+                _("You must provide an instance to this serializer.")
+            )
+
+        if value == instance.email:
+            raise serializers.ValidationError(
+                _("New email must be different from the previous one.")
+            )
+
+        return value
+
     def update(self, instance, validated_data):
         instance.verified = False
         instance.email = validated_data["email"]

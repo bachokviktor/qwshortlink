@@ -18,6 +18,7 @@ def django_test_user(db, django_user_model):
     """
     user = django_user_model.objects.create_user(
         username="testuser",
+        email="testuser@example.com",
         password="x5AXFqw7"
     )
 

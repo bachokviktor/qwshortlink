@@ -16,7 +16,7 @@ urlpatterns = [
     path(
         "user/verification/",
         views.VerificationView.as_view(),
-        name="verification"
+        name="user-verification"
     ),
     path(
         "user/email/",
