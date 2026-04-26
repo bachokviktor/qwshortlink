@@ -16,9 +16,6 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
   const [editUsername, setEditUsername] = useState<string>(
     auth.user?.username ? auth.user.username : ""
   )
-  const [editEmail, setEditEmail] = useState<string>(
-    auth.user?.email ? auth.user.email : ""
-  )
   const [editFirstName, setEditFirstName] = useState<string>(
     auth.user?.first_name ? auth.user.first_name : ""
   )
@@ -30,7 +27,7 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 
   useEffect(() => {
     setErrorMessage("")
-  }, [editUsername, editEmail, editFirstName, editLastName])
+  }, [editUsername, editFirstName, editLastName])
 
   const editUser = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -43,7 +40,6 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
     try {
       await api.put("users/user/", {
 	username: editUsername,
-	email: editEmail,
 	first_name: editFirstName,
 	last_name: editLastName
       })
@@ -73,18 +69,6 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditUsername(e.target.value) }}
 	      value={editUsername}
-	    />
-	  </div>
-
-	  <div className="fl-col">
-	    <label htmlFor="editEmail">Email</label>
-            <input
-	      name="editEmail"
-	      id="editEmail"
-	      type="email"
-	      placeholder="Email..."
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditEmail(e.target.value) }}
-	      value={editEmail}
 	    />
 	  </div>
 

@@ -7,6 +7,7 @@ export interface UserInterface {
   email: string;
   first_name: string;
   last_name: string;
+  verified: boolean;
 }
 
 interface CredentialsInterface {
@@ -27,7 +28,7 @@ interface PropsInterface {
 }
 
 const AuthContext = createContext<AuthContextInterface>({
-  user: {id: 0, username: "", email: "", first_name: "", last_name: "", },
+  user: {id: 0, username: "", email: "", first_name: "", last_name: "", verified: false },
   isLoading: true,
   login: () => {},
   logout: () => {},

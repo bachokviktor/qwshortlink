@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import AuthContext from "../AuthContext"
 import api from "../api"
@@ -7,7 +7,9 @@ import "../i18n"
 import LinkAdd from "./LinkAdd"
 import LinkEdit from "./LinkEdit"
 import LinkDelete from "./LinkDelete"
+import EmailVerification from "./EmailVerification"
 import UserEdit from "./UserEdit"
+import EmailChange from "./EmailChange"
 import PasswordChange from "./PasswordChange"
 import UserDelete from "./UserDelete"
 
@@ -41,7 +43,11 @@ function Profile() {
   const [isDeletingLink, setIsDeletingLink] = useState<boolean>(false)
   const [deleteLinkId, setDeleteLinkId] = useState<number | null>(null)
 
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState<boolean>(false)
+
   const [isEditingUser, setIsEditingUser] = useState<boolean>(false)
+
+  const [isChangingEmail, setIsChangingEmail] = useState<boolean>(false)
 
   const [isChangingPassword, setIsChangingPassword] = useState<boolean>(false)
 
@@ -115,8 +121,16 @@ function Profile() {
 	     deleteLink={deleteLink} />
   }
 
+  if (isVerifyingEmail) {
+    return <EmailVerification setIsVerifyingEmail={setIsVerifyingEmail} />
+  }
+
   if (isEditingUser) {
     return <UserEdit setIsEditingUser={setIsEditingUser} />
+  }
+
+  if (isChangingEmail) {
+    return <EmailChange setIsChangingEmail={setIsChangingEmail} />
   }
 
   if (isChangingPassword) {
@@ -131,6 +145,13 @@ function Profile() {
     <div className="profile-grid">
       <title>{`${t("profileTitle")} - QWShortLink`}</title>
       <div className="error-container">
+	{auth.user && !auth.user.verified && (
+	  <div className="card card-danger fl-col fl-gap">
+	    <p>{t("verificationBannerFirst")} {auth.user.email}</p>
+
+	    <p>{t("verificationBannerSecond")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsVerifyingEmail(true)}}>{t("verificationBannerLink")}</a></p>
+	  </div>
+	)}
 	{errorMessage && (
 	  <div className="card card-danger">
 	    <p>{errorMessage}</p>
@@ -149,21 +170,22 @@ function Profile() {
 	  <hr/>
 
 	  <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>{t("profileUserEdit")}</button>
-	  <button className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>{t("profileChangePassword")}</button>
+	  <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsChangingEmail(true)}>{t("profileChangeEmail")}</button>
+	  <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>{t("profileChangePassword")}</button>
 	  <button className="btn btn-danger" onClick={() => setIsDeletingUser(true)}>{t("profileUserDelete")}</button>
 	</div>
       </div>
 
       <div className="links-container">
 	<div className="fl-col fl-gap">
-	  <button className="btn btn-primary" onClick={() => setIsAddingLink(true)}>{t("profileLinkAdd")}</button>
+	  <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsAddingLink(true)}>{t("profileLinkAdd")}</button>
 
 	  {links.length > 0 ? links.map((link, index) => (
 	    <div className="card fl-gap fl-center-cross fl-wrap" key={index}>
 	      <p className="linklist-link">{baseUrl}l/{link.short_code}: <a href={link.url}>{link.url}</a></p>
 	      <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>{t("profileLinkCopy")}</button>
-	      <button className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>{t("profileLinkEdit")}</button>
-	      <button className="btn btn-danger" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>{t("profileLinkDelete")}</button>
+	      <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>{t("profileLinkEdit")}</button>
+	      <button disabled={!auth.user?.verified} className="btn btn-danger" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>{t("profileLinkDelete")}</button>
 	    </div>
 	  )) : (
 	    <div className="card">

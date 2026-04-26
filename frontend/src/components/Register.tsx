@@ -13,19 +13,25 @@ function Register() {
   const navigate = useNavigate()
 
   const [username, setUsername] = useState<string>("")
+  const [email, setEmail] = useState<string>("")
   const [password1, setPassword1] = useState<string>("")
   const [password2, setPassword2] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string>("")
 
   useEffect(() => {
     setErrorMessage("")
-  }, [username, password1, password2])
+  }, [username, email, password1, password2])
 
   const handleRegister = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if ((username.trim() === "") || username.includes(" ") || (username.length < 5)) {
       setErrorMessage(t("registerErrValidUsername"))
+      return
+    }
+
+    if ((email.trim() === "") || email.includes(" ")) {
+      setErrorMessage(t("registerErrValidEmail"))
       return
     }
 
@@ -40,7 +46,7 @@ function Register() {
     }
 
     try {
-      await api.post("users/register/", {username: username, password: password1})
+      await api.post("users/register/", {username: username, email: email, password: password1})
 
       navigate("/login")
     } catch (error: any) {
@@ -74,6 +80,19 @@ function Register() {
 	      required
 	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setUsername(e.target.value) }}
 	      value={username}
+	    />
+	  </div>
+
+	  <div className="fl-col">
+            <label htmlFor="userEmail">Email</label>
+            <input
+	      name="userEmail"
+	      id="userEmail"
+	      type="email"
+	      placeholder="email..."
+	      required
+	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value) }}
+	      value={email}
 	    />
 	  </div>
 

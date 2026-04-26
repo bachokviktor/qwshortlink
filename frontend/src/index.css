@@ -3,6 +3,7 @@
     --color-foreground: #FFFFFF;
     --color-text: #1A1A1A;
     --color-text-light: #F8F8FF;
+    --color-disabled: #A1A2A5;
     --color-neutral: #717275;
     --color-neutral-active: #57585D;
     --color-primary: #05AD98;
@@ -16,6 +17,7 @@
     --color-foreground: #282A2E;
     --color-text: #F8F8FF;
     --color-text-light: #F8F8FF;
+    --color-disabled: #717275;
     --color-neutral: #3F4144;
     --color-neutral-active: #33393A;
     --color-primary: #057676;
@@ -76,6 +78,16 @@ BUTTONS
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
+}
+
+.btn:disabled {
+    background-color: var(--color-disabled);
+    cursor: not-allowed;
+}
+
+.btn:disabled:active {
+    background-color: var(--color-disabled);
+    cursor: not-allowed;
 }
 
 .btn-primary {

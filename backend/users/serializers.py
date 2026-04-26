@@ -140,9 +140,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "username",
+            "email",
             "first_name",
             "last_name",
+            "verified",
         ]
+        read_only_fields = ["email", "verified"]
 
     def validate_username(self, value):
         if len(value) < 5:
