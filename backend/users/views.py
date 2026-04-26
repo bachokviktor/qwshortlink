@@ -91,7 +91,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     This view is used to retrieve or modify the current user data.
     """
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated, IsVerifiend]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user
@@ -116,7 +116,7 @@ class UserLinksView(generics.ListAPIView):
     This view is used to fetch all links of the current user.
     """
     serializer_class = LinkSerializer
-    permission_classes = [IsAuthenticated, IsVerifiend]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return self.request.user.links.all().order_by("-created_at")

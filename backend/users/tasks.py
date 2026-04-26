@@ -14,7 +14,7 @@ def send_verification_email(pk):
     user = get_user_model().objects.get(pk=pk)
 
     verification_code = models.VerificationCode.objects.create(
-        user=user
+        email=user.email,
     )
 
     email_content = render_to_string(

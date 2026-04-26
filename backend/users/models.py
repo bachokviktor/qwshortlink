@@ -27,7 +27,10 @@ def get_expiration_date():
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(_("email address"))
+    email = models.EmailField(
+        verbose_name=_("email address"),
+        unique=True
+    )
     verified = models.BooleanField(
         verbose_name=_("verification status"),
         blank=True,
@@ -45,14 +48,8 @@ class VerificationCode(models.Model):
         unique=True,
         editable=False
     )
-    user = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        verbose_name=_("user")
-    )
-    created_at = models.DateTimeField(
-        verbose_name=_("created at"),
-        auto_now_add=True
+    email = models.EmailField(
+        verbose_name=_("email address"),
     )
     expires_at = models.DateTimeField(
         verbose_name=_("expires at"),
@@ -64,8 +61,9 @@ class VerificationCode(models.Model):
         verbose_name = _("verification code")
         verbose_name_plural = _("verification codes")
         indexes = [
-            models.Index(fields=["code"])
+            models.Index(fields=["code"]),
+            models.Index(fields=["email"])
         ]
 
     def __str__(self):
-        return f"{self.code}: {self.user.username}"
+        return f"{self.code}: {self.email}"
