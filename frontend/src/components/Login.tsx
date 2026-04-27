@@ -4,12 +4,16 @@ import { useTranslation } from "react-i18next"
 import AuthContext from "../AuthContext"
 import "../i18n"
 
+import PasswordRequestReset from "./PasswordRequestReset"
+
 function Login() {
   const {t} = useTranslation()
 
   const auth = useContext(AuthContext)
 
   const navigate = useNavigate()
+
+  const [isRequestingReset, setIsRequestingReset] = useState<boolean>(false)
 
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
@@ -43,6 +47,10 @@ function Login() {
 
   if (auth.user) {
     return <Navigate to="/" />
+  }
+
+  if (isRequestingReset) {
+    return <PasswordRequestReset setIsRequestingReset={setIsRequestingReset} />
   }
 
   return (
@@ -85,6 +93,8 @@ function Login() {
         </form>
 
 	<hr/>
+
+	<p>{t("loginForgotPassword")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsRequestingReset(true)}}>{t("loginResetPassword")}</a></p>
 
         <p>{t("loginNoAccount")} <Link to="/register">{t("loginRegister")}</Link></p>
       </div>
