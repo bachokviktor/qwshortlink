@@ -22,8 +22,24 @@ def generate_verification_code():
             return verification_code
 
 
+def generate_password_reset_code():
+    """
+    Generates a short random string.
+    """
+    char_pool = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+    while True:
+        code = "".join(
+            secrets.choice(char_pool) for _ in range(10)
+        )
+        collisions = PasswordResetCode.objects.filter(code=code)
+
+        if not collisions:
+            return code
+
+
 def get_expiration_date():
-    return timezone.now() + timedelta(hours=1)
+    return timezone.now() + timedelta(minutes=30)
 
 
 class CustomUser(AbstractUser):
@@ -44,6 +60,7 @@ class VerificationCode(models.Model):
     """
     code = models.CharField(
         verbose_name=_("verification code"),
+        max_length=10,
         default=generate_verification_code,
         unique=True,
         editable=False
@@ -67,3 +84,34 @@ class VerificationCode(models.Model):
 
     def __str__(self):
         return f"{self.code}: {self.email}"
+
+
+class PasswordResetCode(models.Model):
+    """
+    This model represents a password reset code.
+    """
+    code = models.CharField(
+        verbose_name=_("password reset code"),
+        default=generate_password_reset_code,
+        max_length=10,
+        unique=True,
+        editable=False
+    )
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, verbose_name=_("user")
+    )
+    expires_at = models.DateTimeField(
+        verbose_name=_("expires at"),
+        blank=True,
+        default=get_expiration_date
+    )
+
+    class Meta:
+        verbose_name = _("password reset code")
+        verbose_name_plural = _("password reset codes")
+        indexes = [
+            models.Index(fields=["code"])
+        ]
+
+    def __str__(self):
+        return f"{self.code}: {self.user.username}"

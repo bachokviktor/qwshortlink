@@ -131,6 +131,35 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         return instance
 
 
+class RequestPasswordResetSerializer(serializers.Serializer):
+    """
+    This serializer is used to serialize username for password reset.
+    """
+    username = serializers.CharField(max_length=150, required=True)
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    """
+    This serializer is used to serialize username,
+    code, and a new password during the password reset.
+    """
+    username = serializers.CharField(max_length=150, required=True)
+    code = serializers.CharField(
+        max_length=10, write_only=True, required=True
+    )
+    password = serializers.CharField(
+        max_length=128, write_only=True, required=True
+    )
+
+    def validate_password(self, value):
+        try:
+            validate_password(password=value)
+        except ValidationError as error:
+            raise serializers.ValidationError(error.messages)
+
+        return value
+
+
 class UserSerializer(serializers.ModelSerializer):
     """
     This serializer is used to retrieve or update user data.

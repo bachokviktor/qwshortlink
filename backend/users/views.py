@@ -13,16 +13,19 @@ from drf_spectacular.utils import (
 from drf_spectacular.types import OpenApiTypes
 
 from links.serializers import LinkSerializer
-from .models import VerificationCode
+from .models import VerificationCode, PasswordResetCode
 from .serializers import (
     CreateUserSerializer,
     VerificationCodeSerializer,
     ChangeEmailSerializer,
     ChangePasswordSerializer,
+    RequestPasswordResetSerializer,
+    PasswordResetSerializer,
     UserSerializer
 )
 from .permissions import IsVerifiend
-from .tasks import send_verification_email
+from .throttling import RestrictedAnonThrottle
+from .tasks import send_verification_email, send_password_reset_email
 
 
 @extend_schema_view(
@@ -127,6 +130,80 @@ class UserChangeEmailView(APIView):
             send_verification_email.delay_on_commit(instance.pk)
 
             return Response(status=status.HTTP_200_OK)
+
+        return Response(
+            data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+@extend_schema_view(
+    post=extend_schema(
+        summary=_("Send password reset code to the user"),
+        description=_("Send password reset code to the user"),
+    ),
+)
+class RequestPasswordResetView(APIView):
+    """
+    This view sends password reset code to the user.
+    """
+    serializer_class = RequestPasswordResetSerializer
+    permission_classes = [AllowAny]
+    throttle_classes = [RestrictedAnonThrottle, UserRateThrottle]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            user = get_user_model().objects.filter(
+                username=serializer.validated_data.get("username")
+            ).first()
+
+            if user and user.verified:
+                send_password_reset_email.delay(pk=user.pk)
+
+                return Response(status=status.HTTP_200_OK)
+
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(
+            data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+@extend_schema_view(
+    post=extend_schema(
+        summary=_("Reset user password"),
+        description=_("Reset user password"),
+    ),
+)
+class PasswordResetView(APIView):
+    """
+    This view resets user password.
+    """
+    serializer_class = PasswordResetSerializer
+    permission_classes = [AllowAny]
+    throttle_classes = [RestrictedAnonThrottle, UserRateThrottle]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            code = PasswordResetCode.objects.filter(
+                code=serializer.validated_data.get("code")
+            ).filter(expires_at__gt=timezone.now()).first()
+            user = get_user_model().objects.filter(
+                username=serializer.validated_data.get("username")
+            ).first()
+
+            if code and user and (code.user == user):
+                user.set_password(serializer.validated_data.get("password"))
+                user.save()
+
+                code.delete()
+
+                return Response(status=status.HTTP_200_OK)
+
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(
             data=serializer.errors, status=status.HTTP_400_BAD_REQUEST

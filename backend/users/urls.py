@@ -24,6 +24,16 @@ urlpatterns = [
         name="user-email"
     ),
     path(
+        "user/request-reset/",
+        views.RequestPasswordResetView.as_view(),
+        name="request-reset"
+    ),
+    path(
+        "user/reset/",
+        views.PasswordResetView.as_view(),
+        name="user-reset"
+    ),
+    path(
         "user/password/",
         views.UserChangePasswordView.as_view(),
         name="user-password"

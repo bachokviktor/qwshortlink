@@ -20,3 +20,4 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.register(models.CustomUser, CustomUserAdmin)
 admin.site.register(models.VerificationCode)
+admin.site.register(models.PasswordResetCode)
