@@ -26,7 +26,12 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    if (error?.response.status === 401 && !originalRequest._retry && !originalRequest.url.includes("token/refresh/")) {
+    if (
+      error?.response.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes("token/refresh/") &&
+      !originalRequest.url.includes("token/")
+    ) {
       // Don't get into a loop
       originalRequest._retry = true
 
