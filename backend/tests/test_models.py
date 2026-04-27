@@ -1,6 +1,6 @@
 import pytest
 
-from users.models import VerificationCode
+from users.models import VerificationCode, PasswordResetCode
 from links.models import Link
 
 
@@ -24,6 +24,15 @@ class TestVerificationCodeModel:
 
         assert code.id == 1
         assert VerificationCode.objects.count() == 1
+
+
+@pytest.mark.django_db
+class TestPasswordResetCodeModel:
+    def test_create_password_reset_code(self, django_test_user):
+        code = PasswordResetCode.objects.create(user=django_test_user)
+
+        assert code.id == 1
+        assert PasswordResetCode.objects.count() == 1
 
 
 @pytest.mark.django_db

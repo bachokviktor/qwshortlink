@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
 
-from users.models import VerificationCode
+from users.models import VerificationCode, PasswordResetCode
 from links.models import Link
 
 
@@ -143,6 +143,52 @@ class TestUserViews:
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert not django_test_user.verified
+
+    def test_user_reset(self, django_test_user, api_client):
+        django_test_user.verified = True
+        django_test_user.save()
+
+        code = PasswordResetCode.objects.create(user=django_test_user)
+
+        response = api_client.post(
+            reverse("users:user-reset"),
+            data={
+                "username": django_test_user.username,
+                "code": code.code,
+                "password": "PNaHseW3",
+            },
+            format="json"
+        )
+
+        django_test_user.refresh_from_db()
+
+        assert response.status_code == status.HTTP_200_OK
+        assert django_test_user.check_password("PNaHseW3")
+        assert PasswordResetCode.objects.count() == 0
+
+    def test_expired_reset(self, django_test_user, api_client):
+        django_test_user.verified = True
+        django_test_user.save()
+
+        code = PasswordResetCode.objects.create(
+            user=django_test_user,
+            expires_at=timezone.now()-timedelta(hours=2)
+        )
+
+        response = api_client.post(
+            reverse("users:user-reset"),
+            data={
+                "username": django_test_user.username,
+                "code": code.code,
+                "password": "PNaHseW3",
+            },
+            format="json"
+        )
+
+        django_test_user.refresh_from_db()
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert not django_test_user.check_password("PNaHseW3")
 
     def test_change_user_email(self, django_test_user, api_client):
         django_test_user.verified = True
