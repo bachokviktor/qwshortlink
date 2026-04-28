@@ -53,6 +53,7 @@ class UserRegisterView(generics.CreateAPIView):
     get=extend_schema(
         summary=_("Send a verification code to the user's email address"),
         description=_("Send a verification code to the user's email address"),
+        responses={200: None},
     ),
 )
 class RequestVerificationView(APIView):

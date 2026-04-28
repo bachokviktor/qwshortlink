@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QWShortLink\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-18 18:01+0300\n"
-"PO-Revision-Date: 2026-04-18 17:23+0300\n"
+"POT-Creation-Date: 2026-04-28 14:20+0300\n"
+"PO-Revision-Date: 2026-04-28 14:20+0300\n"
 "Last-Translator: Viktor Bachok\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -20,27 +20,27 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: config/settings.py:175
+#: config/settings.py:210
 msgid "This is the backend API of QWShortLink"
 msgstr "Це API проєкту QWShortLink"
 
-#: config/settings.py:181
+#: config/settings.py:216
 msgid "Users endpoints"
 msgstr "Кінцеві точки користувачів"
 
-#: config/settings.py:185
+#: config/settings.py:220
 msgid "Links endpoints"
 msgstr "Кінцеві точки посилань"
 
-#: config/settings.py:189
+#: config/settings.py:224
 msgid "JWT Authentication"
 msgstr "JWT Аутентифікація"
 
-#: config/settings.py:207
+#: config/settings.py:242
 msgid "English"
 msgstr "Англійська"
 
-#: config/settings.py:208
+#: config/settings.py:243
 msgid "Ukrainian"
 msgstr "Українська"
 
@@ -64,82 +64,138 @@ msgstr "посилання"
 msgid "links"
 msgstr "посилання"
 
-#: links/views.py:18 links/views.py:19
+#: links/views.py:19 links/views.py:20
 msgid "List all links in the system"
 msgstr "Вивести всі посилання у системі"
 
-#: links/views.py:23 users/views.py:100
+#: links/views.py:24 users/views.py:277
 msgid "A page number within the paginated result set"
 msgstr "Номер сторінки для пагінації"
 
-#: links/views.py:29
+#: links/views.py:30
 msgid "Short code corresponding to a link"
 msgstr "Шорткод посилання"
 
-#: links/views.py:36 links/views.py:37
+#: links/views.py:37 links/views.py:38
 msgid "Add a new link"
 msgstr "Додати нове посилання"
 
-#: links/views.py:40 links/views.py:41
+#: links/views.py:41 links/views.py:42
 msgid "Retrieve a link by id"
 msgstr "Отримати інформацію про посилання за id"
 
-#: links/views.py:45 links/views.py:57 links/views.py:69 links/views.py:81
+#: links/views.py:46 links/views.py:58 links/views.py:70 links/views.py:82
 msgid "An integer id identifying the link"
 msgstr "Id, що ідентифікує посилання"
 
-#: links/views.py:52 links/views.py:53
+#: links/views.py:53 links/views.py:54
 msgid "Update a link with specified id"
 msgstr "Оновити інформацію посилання за id"
 
-#: links/views.py:64 links/views.py:65
+#: links/views.py:65 links/views.py:66
 msgid "Partially update a link with specified id"
 msgstr "Частково оновити інформацію посилання за id"
 
-#: links/views.py:76 links/views.py:77
+#: links/views.py:77 links/views.py:78
 msgid "Delete a link with specified id"
 msgstr "Видалити посилання за id"
 
-#: users/serializers.py:24 users/serializers.py:113
+#: users/models.py:47 users/models.py:69
+msgid "email address"
+msgstr "електронна адреса"
+
+#: users/models.py:51
+msgid "verification status"
+msgstr "статус верифікації"
+
+#: users/models.py:62 users/models.py:78
+msgid "verification code"
+msgstr "верифікаційний код"
+
+#: users/models.py:72 users/models.py:104
+msgid "expires at"
+msgstr "термін дії"
+
+#: users/models.py:79
+msgid "verification codes"
+msgstr "верифікаційні коди"
+
+#: users/models.py:94 users/models.py:110
+msgid "password reset code"
+msgstr "код для скидання паролю"
+
+#: users/models.py:101
+msgid "user"
+msgstr "користувач"
+
+#: users/models.py:111
+msgid "password reset codes"
+msgstr "коди для скидання паролю"
+
+#: users/serializers.py:24 users/serializers.py:182
 msgid "Username must be at least 5 characters long."
 msgstr "Ім'я користувача має бути не менше 5 символів."
 
-#: users/serializers.py:66
+#: users/serializers.py:63 users/serializers.py:104
 msgid "You must provide an instance to this serializer."
 msgstr "Ви повинні надати об'єкт цьому серіалайзеру."
 
-#: users/serializers.py:71
+#: users/serializers.py:68
+msgid "New email must be different from the previous one."
+msgstr "Новий email повинен відрізнятись від попереднього."
+
+#: users/serializers.py:109
 msgid "Wrong password."
 msgstr "Хибний пароль."
 
-#: users/serializers.py:79
+#: users/serializers.py:117
 msgid "New password must be different from the previous one."
 msgstr "Новий пароль повинен відрізнятись від попереднього."
 
-#: users/views.py:22 users/views.py:23
+#: users/views.py:33 users/views.py:34
 msgid "Create a new user"
 msgstr "Створити нового користувача"
 
-#: users/views.py:38 users/views.py:39
+#: users/views.py:54 users/views.py:55
+msgid "Send a verification code to the user's email address"
+msgstr "Надіслати верифікаційний код на email користувача"
+
+#: users/views.py:73 users/views.py:74
+msgid "Verify user email with a verification code"
+msgstr "Підтверджує email користувача за допомогою верифікаційного коду"
+
+#: users/views.py:111 users/views.py:112
+msgid "Change user email"
+msgstr "Змінити email користувача"
+
+#: users/views.py:141 users/views.py:142
+msgid "Send password reset code to the user"
+msgstr "Надіслати код для скидання паролю користувачеві"
+
+#: users/views.py:175 users/views.py:176
+msgid "Reset user password"
+msgstr "Скинути пароль користувача"
+
+#: users/views.py:215 users/views.py:216
 msgid "Change user password"
 msgstr "Змінити пароль користувача"
 
-#: users/views.py:66 users/views.py:67
+#: users/views.py:243 users/views.py:244
 msgid "Retrieve the current user"
 msgstr "Отримати інформацію про поточного користувача"
 
-#: users/views.py:70 users/views.py:71
+#: users/views.py:247 users/views.py:248
 msgid "Update the current user"
 msgstr "Оновити інформацію поточного користувача"
 
-#: users/views.py:74 users/views.py:75
+#: users/views.py:251 users/views.py:252
 msgid "Partially update the current user"
 msgstr "Частково оновити інформацію поточного користувача"
 
-#: users/views.py:78 users/views.py:79
+#: users/views.py:255 users/views.py:256
 msgid "Delete the current user"
 msgstr "Видалити поточного користувача"
 
-#: users/views.py:95 users/views.py:96
+#: users/views.py:272 users/views.py:273
 msgid "Fetch all the links of the current user"
 msgstr "Вивести всі посилання поточного користувача"
