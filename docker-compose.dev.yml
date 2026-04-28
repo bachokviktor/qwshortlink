@@ -51,6 +51,22 @@ services:
     depends_on:
       - backend
 
+  celery_beat:
+    image: qwshortlink-backend
+    container_name: qwshortlink-celery-beat
+    pull_policy: never
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app:z
+    command: celery -A config beat -l INFO
+    depends_on:
+      - backend
+      - celery
+
   db:
     image: postgres:18.3-trixie
     container_name: qwshortlink-db

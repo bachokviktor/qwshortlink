@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     "django_filters",
     "corsheaders",
     "drf_spectacular",
+    "django_celery_beat",
     "core",
     "users",
     "links",
@@ -141,6 +142,7 @@ CACHES = {
 
 CELERY_TIMEZONE = os.getenv("DJ_TIME_ZONE", "UTC")
 CELERY_BROKER_URL = os.getenv("REDIS_URL")
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 
 # Password validation
