@@ -41,31 +41,31 @@ function Layout() {
 	    <li>
 	      <button
 		className="nav-hamburger"
-		aria-label={t("navAriaClose")}
+		aria-label={t("nav.ariaClose")}
 		onClick={() => {setIsNavbarOpen(false)}}
 	      >
 		<svg xmlns="http://www.w3.org/2000/svg" height="1.5rem" viewBox="0 -960 960 960" width="1.5rem" fill="#1f1f1f"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg>
 	      </button>
 	    </li>
             <li>
-	      <NavLink to="/" onClick={() => {setIsNavbarOpen(false)}}>{t("navHome")}</NavLink>
+	      <NavLink to="/" onClick={() => {setIsNavbarOpen(false)}}>{t("homePage.title")}</NavLink>
 	    </li>
 	    { user ? (
 	      <>
 		<li>
-		  <NavLink to="/profile" onClick={() => {setIsNavbarOpen(false)}}>{t("navProfile")}</NavLink>
+		  <NavLink to="/profile" onClick={() => {setIsNavbarOpen(false)}}>{t("profilePage.title")}</NavLink>
 		</li>
 		<li>
-		  <NavLink to="/logout" onClick={() => {setIsNavbarOpen(false)}}>{t("navLogout")}</NavLink>
+		  <NavLink to="/logout" onClick={() => {setIsNavbarOpen(false)}}>{t("auth.logout")}</NavLink>
 		</li>
 	      </>
 	    ) : (
 	      <>
 		<li>
-		  <NavLink to="/login" onClick={() => {setIsNavbarOpen(false)}}>{t("navLogin")}</NavLink>
+		  <NavLink to="/login" onClick={() => {setIsNavbarOpen(false)}}>{t("auth.login")}</NavLink>
 		</li>
 		<li>
-		  <NavLink to="/register" onClick={() => {setIsNavbarOpen(false)}}>{t("navRegister")}</NavLink>
+		  <NavLink to="/register" onClick={() => {setIsNavbarOpen(false)}}>{t("auth.registration")}</NavLink>
 		</li>
 	      </>
 	    )}
@@ -77,7 +77,7 @@ function Layout() {
 	<div className="language-dropdown">
 	  <button
 	    className="btn-svg"
-	    aria-label={t("navAriaLanguages")}
+	    aria-label={t("nav.ariaLanguages")}
 	    onClick={() => {setIsDropdownOpen((prev) => !prev)}}
 	  >
 	    <svg xmlns="http://www.w3.org/2000/svg" height="1.5rem" viewBox="0 -960 960 960" width="1.5rem" fill="#1f1f1f"><path d="m476-80 182-480h84L924-80h-84l-43-122H603L560-80h-84ZM160-200l-56-56 202-202q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H40v-80h280v-80h80v80h280v80H564q-21 72-63 148t-83 116l96 98-30 82-122-125-202 201Zm468-72h144l-72-204-72 204Z"/></svg>
@@ -95,7 +95,7 @@ function Layout() {
 
 	<button
 	  className="btn-svg"
-	  aria-label={t("navAriaDarkmode")}
+	  aria-label={t("nav.ariaDarkmode")}
 	  onClick={() => {setIsDarkmode((prev) => !prev)}}
 	>
 	  {isDarkmode ? (
@@ -107,7 +107,7 @@ function Layout() {
 
 	<button
 	  className="nav-hamburger"
-	  aria-label={t("navAriaOpen")}
+	  aria-label={t("nav.ariaOpen")}
 	  aria-expanded={isNavbarOpen}
 	  aria-controls="navbar"
 	  onClick={() => {setIsNavbarOpen(true)}}

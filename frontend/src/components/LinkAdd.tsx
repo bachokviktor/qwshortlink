@@ -22,7 +22,7 @@ function LinkAdd({setIsAddingLink, fetchLinks}: PropsInterface) {
     e.preventDefault()
 
     if ((linkUrl.trim() === "") || linkUrl.includes(" ")) {
-      setErrorMessage(t("linkAddErrValidUrl"))
+      setErrorMessage(t("validation.invalidUrl"))
       return
     }
 
@@ -32,16 +32,16 @@ function LinkAdd({setIsAddingLink, fetchLinks}: PropsInterface) {
       setIsAddingLink(false)
       fetchLinks()
     } catch (error) {
-      setErrorMessage(t("linkAddErrResponse"))
+      setErrorMessage(t("errors.badResponse"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("linkAddTitle")} - QWShortLink`}</title>
+      <title>{`${t("linkAddPage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>{t("linkAddHeader")}</h2>
+        <h2>{t("linkAddPage.title")}</h2>
 
         <form onSubmit={addLink}>
 	  <div className="fl-col">
@@ -59,8 +59,8 @@ function LinkAdd({setIsAddingLink, fetchLinks}: PropsInterface) {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 	    
-	  <button className="btn btn-primary" type="submit">{t("linkAddSubmit")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsAddingLink(false)}}>{t("linkAddCancel")}</button>
+	  <button className="btn btn-primary" type="submit">{t("actions.add")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsAddingLink(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

@@ -22,12 +22,12 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
     e.preventDefault()
 
     if ((newPassword.trim() === "") || newPassword.includes(" ") || (newPassword.length < 8)) {
-      setErrorMessage(t("changePasswordErrValidPassword"))
+      setErrorMessage(t("validation.passwordRequirements"))
       return
     }
 
     if (password === newPassword) {
-      setErrorMessage(t("changePasswordErrPasswordMatch"))
+      setErrorMessage(t("validation.samePasswords"))
       return
     }
 
@@ -39,20 +39,20 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 
       setIsChangingPassword(false)
     } catch (error) {
-      setErrorMessage(t("changePasswordErrResponse"))
+      setErrorMessage(t("passwordChangePage.error"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("changePasswordTitle")} - QWShortLink`}</title>
+      <title>{`${t("passwordChangePage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>{t("changePasswordHeader")}</h2>
+        <h2>{t("passwordChangePage.title")}</h2>
 
         <form onSubmit={changePassword}>
 	  <div className="fl-col">
-	    <label htmlFor="oldPassword">{t("changePasswordOldPassword")}</label>
+	    <label htmlFor="oldPassword">{t("auth.oldPassword")}</label>
             <input
 	      name="oldPassword"
 	      id="oldPassword"
@@ -65,7 +65,7 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 	  </div>
 
 	  <div className="fl-col">
-            <label htmlFor="newPassword">{t("changePasswordNewPassword")}</label>
+            <label htmlFor="newPassword">{t("auth.newPassword")}</label>
             <input
 	      name="newPassword"
 	      id="newPassword"
@@ -79,8 +79,8 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("changePasswordSubmit")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsChangingPassword(false)}}>{t("changePasswordCancel")}</button>
+	  <button className="btn btn-primary" type="submit">{t("actions.change")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsChangingPassword(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

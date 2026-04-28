@@ -26,22 +26,22 @@ function Register() {
     e.preventDefault()
 
     if ((username.trim() === "") || username.includes(" ") || (username.length < 5)) {
-      setErrorMessage(t("registerErrValidUsername"))
+      setErrorMessage(t("validation.usernameRequirements"))
       return
     }
 
     if ((email.trim() === "") || email.includes(" ")) {
-      setErrorMessage(t("registerErrValidEmail"))
+      setErrorMessage(t("validation.invalidEmail"))
       return
     }
 
     if ((password1.trim() === "") || password1.includes(" ") || (password1.length < 8)) {
-      setErrorMessage(t("registerErrValidPassword"))
+      setErrorMessage(t("validation.passwordRequirements"))
       return
     }
 
     if (password1 !== password2) {
-      setErrorMessage(t("registerErrMismatch"))
+      setErrorMessage(t("validation.mismatchPasswords"))
       return
     }
 
@@ -51,9 +51,9 @@ function Register() {
       navigate("/login")
     } catch (error: any) {
       if (error?.response?.status === 429) {
-	setErrorMessage(`${t("registerErrThrottle1")} ${error.response.headers["retry-after"]} ${t("registerErrThrottle2")}`)
+	setErrorMessage(t("errors.throttle", { value: error.response.headers["retry-after"] }))
       } else {
-	setErrorMessage(t("registerErrResponse"))
+	setErrorMessage(t("errors.badResponse"))
       }
     }
   }
@@ -64,14 +64,14 @@ function Register() {
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("registerTitle")} - QWShortLink`}</title>
+      <title>{`${t("auth.registration")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>{t("registerHeading")}</h2>
+        <h2>{t("auth.registration")}</h2>
 
         <form onSubmit={handleRegister}>
 	  <div className="fl-col">
-            <label htmlFor="userName">{t("registerUsername")}</label>
+            <label htmlFor="userName">{t("auth.username")}</label>
             <input
 	      name="userName"
 	      id="userName"
@@ -97,7 +97,7 @@ function Register() {
 	  </div>
 
 	  <div className="fl-col">
-            <label htmlFor="userPassword1">{t("registerPassword")}</label>
+            <label htmlFor="userPassword1">{t("auth.password")}</label>
             <input
 	      name="userPassword1"
 	      id="userPassword1"
@@ -110,7 +110,7 @@ function Register() {
 	  </div>
 
 	  <div className="fl-col">
-            <label htmlFor="userPassword2">{t("registerConfirmPassword")}</label>
+            <label htmlFor="userPassword2">{t("auth.confirmPassword")}</label>
             <input
 	      name="userPassword2"
 	      id="userPassword2"
@@ -124,12 +124,12 @@ function Register() {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <button className="btn btn-primary" type="submit">{t("registerSubmit")}</button>
+          <button className="btn btn-primary" type="submit">{t("auth.register")}</button>
         </form>
 
 	<hr/>
 
-        <p>{t("registerHaveAccount")} <Link to="/login">{t("registerLogin")}</Link></p>
+        <p>{t("registrationPage.haveAccount")} <Link to="/login">{t("auth.login")}</Link></p>
       </div>
     </div>
   )

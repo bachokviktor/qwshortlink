@@ -34,16 +34,16 @@ function EmailChange({setIsChangingEmail}: PropsInterface) {
       setIsChangingEmail(false)
       auth.fetchUser()
     } catch (error) {
-      setErrorMessage(t("changeEmailErrResponse"))
+      setErrorMessage(t("emailChangePage.error"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("changeEmailTitle")} - QWShortLink`}</title>
+      <title>{`${t("emailChangePage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-	<h2>{t("changeEmailHeader")}</h2>
+	<h2>{t("emailChangePage.title")}</h2>
 
         <form onSubmit={handleEditEmail}>
 	  <div className="fl-col">
@@ -60,8 +60,8 @@ function EmailChange({setIsChangingEmail}: PropsInterface) {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("changeEmailSubmit")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsChangingEmail(false)}}>{t("changeEmailCancel")}</button>
+	  <button className="btn btn-primary" type="submit">{t("actions.submit")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsChangingEmail(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

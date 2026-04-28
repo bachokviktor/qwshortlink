@@ -13,15 +13,15 @@ function LinkDelete({deleteLinkId, setDeleteLinkId, setIsDeletingLink, deleteLin
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("linkDeleteTitle")} - QWShortLink`}</title>
+      <title>{`${t("linkDeletePage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-	<h2>{t("linkDeleteHeader")}</h2>
-	<p>{t("linkDeleteBody")}</p>
+	<h2>{t("linkDeletePage.title")}</h2>
+	<p>{t("linkDeletePage.body")}</p>
 
 	<div className="fl-gap fl-wrap">
-	  <button className="btn btn-danger fl-grow" onClick={() => deleteLink(deleteLinkId)}>{t("linkDeleteSubmit")}</button>
-	  <button className="btn btn-neutral fl-grow" onClick={() => {setDeleteLinkId(null); setIsDeletingLink(false)}}>{t("linkDeleteCancel")}</button>
+	  <button className="btn btn-danger fl-grow" onClick={() => deleteLink(deleteLinkId)}>{t("actions.delete")}</button>
+	  <button className="btn btn-neutral fl-grow" onClick={() => {setDeleteLinkId(null); setIsDeletingLink(false)}}>{t("actions.cancel")}</button>
 	</div>
       </div>
     </div>

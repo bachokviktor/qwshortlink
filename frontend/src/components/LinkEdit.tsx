@@ -25,7 +25,7 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
     e.preventDefault()
 
     if ((editLinkUrl.trim() === "") || editLinkUrl.includes(" ")) {
-      setErrorMessage(t("linkEditErrValidUrl"))
+      setErrorMessage(t("validation.invalidUrl"))
       return
     }
 
@@ -38,16 +38,16 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
       setIsEditingLink(false)
       fetchLinks()
     } catch (error) {
-      setErrorMessage(t("linkEditErrResponse"))
+      setErrorMessage(t("errors.badResponse"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("linkEditTitle")} - QWShortLink`}</title>
+      <title>{`${t("linkEditPage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>{t("linkEditHeader")}</h2>
+        <h2>{t("linkEditPage.title")}</h2>
 
         <form onSubmit={editLink}>
 	  <div className="fl-col">
@@ -65,8 +65,8 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("linkEditSubmit")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setEditLinkId(null); setEditLinkUrl(""); setIsEditingLink(false)}}>{t("linkEditCancel")}</button>
+	  <button className="btn btn-primary" type="submit">{t("actions.save")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setEditLinkId(null); setEditLinkUrl(""); setIsEditingLink(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

@@ -27,12 +27,12 @@ function Login() {
     e.preventDefault()
 
     if ((username.trim() === "") || username.includes(" ")) {
-      setErrorMessage(t("loginErrValidUsername"))
+      setErrorMessage(t("validation.invalidUsername"))
       return
     }
 
     if ((password.trim() === "") || password.includes(" ")) {
-      setErrorMessage(t("loginErrValidPassword"))
+      setErrorMessage(t("validation.invalidPassword"))
       return
     }
 
@@ -41,7 +41,7 @@ function Login() {
 
       navigate("/")
     } catch (error) {
-      setErrorMessage(t("loginErrResponse"))
+      setErrorMessage(t("errors.badResponse"))
     }
   }
 
@@ -55,14 +55,14 @@ function Login() {
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("loginTitle")} - QWShortLink`}</title>
+      <title>{`${t("auth.login")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>{t("loginHeader")}</h2>
+        <h2>{t("auth.login")}</h2>
 
         <form onSubmit={handleLogin}>
 	  <div className="fl-col">
-            <label htmlFor="userName">{t("loginUsername")}</label>
+            <label htmlFor="userName">{t("auth.username")}</label>
             <input
 	      name="userName"
 	      id="userName"
@@ -75,7 +75,7 @@ function Login() {
 	  </div>
 
 	  <div className="fl-col">
-            <label htmlFor="userPassword">{t("loginPassword")}</label>
+            <label htmlFor="userPassword">{t("auth.password")}</label>
             <input
 	      name="userPassword"
 	      id="userPassword"
@@ -89,14 +89,14 @@ function Login() {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <button className="btn btn-primary" type="submit">{t("loginSubmit")}</button>
+          <button className="btn btn-primary" type="submit">{t("actions.continue")}</button>
         </form>
 
 	<hr/>
 
-	<p>{t("loginForgotPassword")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsRequestingReset(true)}}>{t("loginResetPassword")}</a></p>
+	<p>{t("loginPage.forgotPassword")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsRequestingReset(true)}}>{t("actions.reset")}</a></p>
 
-        <p>{t("loginNoAccount")} <Link to="/register">{t("loginRegister")}</Link></p>
+        <p>{t("loginPage.noAccount")} <Link to="/register">{t("auth.register")}</Link></p>
       </div>
     </div>
   )

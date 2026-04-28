@@ -30,9 +30,9 @@ function EmailVerification({setIsVerifyingEmail}: PropsInterface) {
     try {
       await api.get("users/user/request-verification/")
 
-      setSuccessMessage(t("verifyEmailSuccessResend"))
+      setSuccessMessage(t("verificationPage.successfulRequest"))
     } catch (error) {
-      setErrorMessage(t("verifyEmailErrResponse"))
+      setErrorMessage(t("errors.badResponse"))
     }
   }
 
@@ -47,20 +47,20 @@ function EmailVerification({setIsVerifyingEmail}: PropsInterface) {
       setIsVerifyingEmail(false)
       auth.fetchUser()
     } catch (error) {
-      setErrorMessage(t("verifyEmailErrResponse"))
+      setErrorMessage(t("errors.badResponse"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("verifyEmailTitle")} - QWShortLink`}</title>
+      <title>{`${t("verificationPage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-	<h2>{t("verifyEmailHeader")}</h2>
+	<h2>{t("verificationPage.title")}</h2>
 
         <form onSubmit={verifyEmail}>
 	  <div className="fl-col">
-	    <label htmlFor="verificationCode">{t("verifyEmailCode")}</label>
+	    <label htmlFor="verificationCode">{t("verificationPage.verificationCode")}</label>
             <input
 	      name="verificationCode"
 	      id="verificationCode"
@@ -75,13 +75,13 @@ function EmailVerification({setIsVerifyingEmail}: PropsInterface) {
 
 	  {successMessage && <p>{successMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("verifyEmailSubmit")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsVerifyingEmail(false)}}>{t("verifyEmailCancel")}</button>
+	  <button className="btn btn-primary" type="submit">{t("actions.submit")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsVerifyingEmail(false)}}>{t("actions.cancel")}</button>
         </form>
 
 	<hr/>
 
-        <p>{t("verifyEmailNoCode")} <a href="#" onClick={resendCode}>{t("verifyEmailResend")}</a></p>
+        <p>{t("verificationPage.noCode")} <a href="#" onClick={resendCode}>{t("actions.resend")}</a></p>
       </div>
     </div>
   )

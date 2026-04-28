@@ -28,7 +28,7 @@ function UserDelete({setIsDeletingUser}: PropsInterface) {
 
       await deleteUser()
     } catch (error) {
-      setErrorMessage(t("deleteUserErrResponse"))
+      setErrorMessage(t("userDeletePage.error"))
     }
   }
 
@@ -38,22 +38,22 @@ function UserDelete({setIsDeletingUser}: PropsInterface) {
 
       auth.logout()
     } catch (error) {
-      setErrorMessage(t("deleteUserErrResponse"))
+      setErrorMessage(t("userDeletePage.error"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("deleteUserTitle")} - QWShortLink`}</title>
+      <title>{`${t("userDeletePage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-        <h2>{t("deleteUserHeader")}</h2>
+        <h2>{t("userDeletePage.title")}</h2>
 
-	<p>{t("deleteUserBody")}</p>
+	<p>{t("userDeletePage.body")}</p>
 
         <form onSubmit={confirmDeleteUser}>
 	  <div className="fl-col">
-	    <label htmlFor="password">{t("deleteUserPassword")}</label>
+	    <label htmlFor="password">{t("auth.password")}</label>
             <input
 	      name="password"
 	      id="password"
@@ -67,8 +67,8 @@ function UserDelete({setIsDeletingUser}: PropsInterface) {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-danger" type="submit">{t("deleteUserSubmit")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsDeletingUser(false)}}>{t("deleteUserCancel")}</button>
+	  <button className="btn btn-danger" type="submit">{t("actions.delete")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsDeletingUser(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

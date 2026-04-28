@@ -1,0 +1,153 @@
+{
+    "actions": {
+	"submit": "Submit",
+	"save": "Save",
+	"continue": "Continue",
+	"change": "Change",
+	"add": "Add",
+	"copy": "Copy",
+	"edit": "Edit",
+	"send": "Send",
+	"resend": "Resend",
+	"previous": "Previous",
+	"next": "Next",
+	"delete": "Delete",
+	"reset": "Reset",
+	"cancel": "Cancel",
+	"goBack": "Go back"
+    },
+
+    "errors": {
+	"badResponse": "Something went wrong.",
+	"throttle": "Too many attempts. Try againt in {{ value }} seconds."
+    },
+
+    "validation": {
+	"invalidUsername": "Enter a valid username.",
+	"invalidEmail": "Enter a valid email.",
+	"invalidPassword": "Enter a valid password.",
+	"mismatchPasswords": "Passwords doesn't match.",
+	"samePasswords": "Passwords must be different.",
+	"invalidUrl": "Enter a valid URL.",
+	"usernameRequirements": "Username must be at least 5 characters long and not contain whitespaces.",
+	"passwordRequirements": "Password must be at least 8 characters long, contain letters and numbers, not contain whitespaces, and not be too common."
+    },
+
+    "auth": {
+	"login": "Login",
+	"logout": "Logout",
+	"register": "Register",
+	"registration": "Registration",
+	"username": "Username",
+	"password": "Password",
+	"confirmPassword": "Confirm password",
+	"oldPassword": "Old password",
+	"newPassword": "New password",
+	"lastName": "Last Name",
+	"firstName": "First Name"
+    },
+
+    "verificationBanner": {
+        "firstLine": "We sent a verification code to",
+	"secondLine": "Before you can continue using your account, you need to",
+	"link": "verify your email"
+    },
+
+    "nav": {
+	"ariaDarkmode": "Toggle darkmode",
+	"ariaOpen": "Open sidebar",
+	"ariaClose": "Close sidebar",
+	"ariaLanguages": "Change Language"
+    },
+
+    "notFound": {
+	"title": "404 Not Found",
+	"body": "This page does not exist"
+    },
+
+    "homePage": {
+	"title": "Home",
+	"projectSummary": "Free and open soure URL shortener built with Django REST Framework and React",
+	"sectionLinkManagementHeading": "Convenient Link Management",
+	"sectionLinkManagementBody": "Our platform provides a dedicated dashboard interface directly in your user profile, where you can easily organize, track, and manage all of your links.",
+	"sectionMultipleLanguagesHeading": "Support of Multiple Languages",
+	"sectionMultipleLanguagesBody": "Currently, you can use the platform in English and Ukrainian translations, with plans to add more languages in the future.",
+	"sectionResponsiveDesignHeading": "Responsive Design",
+	"sectionResponsiveDesignBody": "Regardless of the device you use to access our services, the website will adapt perfectly to any screen size, providing a smooth and user-friendly experience.",
+	"sectionOpenSourceHeading": "Completely Free and Open Source",
+	"sectionOpenSourceBody": "QWShortLink is completely free to use, with no hidden costs or limitations. It is an open-source project, distributed under the MIT License.",
+	"sectionOpenSourceGitHub": "The source code is available on our GitHub:",
+	"sectionDisclaimerHeading": "Disclaimer",
+	"sectionDisclaimerBody": "We distribute our project under the MIT License, which makes everyone able to freely modify the code and host their own instance of QWShortLink. However, we cannot provide any guarantees about the safety of such self-hosted instances.",
+	"sectionDisclaimerUrl": "The only URL of the original QWShortLink is"
+    },
+
+    "verificationPage": {
+	"title": "Email Verification",
+	"verificationCode": "Verification Code",
+	"noCode": "Did not receive the code?",
+	"successfulRequest": "Successfully sent the code."
+    },
+
+    "redirectPage": {
+	"title": "Redirect",
+	"body": "You are about to be redirected to"
+    },
+
+    "loginPage": {
+	"forgotPassword": "Forgot Password?",
+	"noAccount": "Don't have an account?"
+    },
+
+    "passwordResetPage": {
+	"title": "Password Reset",
+	"firstStageText": "We will send a password reset code to your email.",
+	"secondStageText": "Password reset code was sent successfully.",
+	"resetCode": "Password Reset Code"
+    },
+
+    "registrationPage": {
+	"haveAccount": "Already have an account?"
+    },
+
+    "linkAddPage": {
+	"title": "Add Link"
+    },
+
+    "linkEditPage": {
+	"title": "Edit Link"
+    },
+
+    "linkDeletePage": {
+	"title": "Delete link?",
+	"body": "This action cannot be reverted."
+    },
+
+    "userEditPage": {
+	"title": "Edit User"
+    },
+
+    "emailChangePage": {
+	"title": "Change Email",
+	"error": "Failed to change email."
+    },
+
+    "passwordChangePage": {
+	"title": "Change Password",
+	"error": "Failed to change password."
+    },
+
+    "userDeletePage": {
+	"title": "Delete your account?",
+	"body": "To procede confirm your password.",
+	"error": "Failed to delete user."
+    },
+
+    "profilePage": {
+	"title": "Profile",
+	"totalLinks": "Total Links",
+	"noLinks": "No links yet.",
+	"errorFetch": "Failed to fetch links.",
+	"errorDelete": "Failed to delete link."
+    }
+}

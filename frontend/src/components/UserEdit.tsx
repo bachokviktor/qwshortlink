@@ -33,7 +33,7 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
     e.preventDefault()
 
     if ((editUsername.trim() === "") || editUsername.includes(" ") || (editUsername.length < 5)) {
-      setErrorMessage(t("userEditErrValidUsername"))
+      setErrorMessage(t("validation.usernameRequirements"))
       return
     }
 
@@ -47,20 +47,20 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
       setIsEditingUser(false)
       auth.fetchUser()
     } catch (error) {
-      setErrorMessage(t("userEditErrResponse"))
+      setErrorMessage(t("errors.badResponse"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("userEditTitle")} - QWShortLink`}</title>
+      <title>{`${t("userEditPage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-	<h2>{t("userEditHeader")}</h2>
+	<h2>{t("userEditPage.title")}</h2>
 
         <form onSubmit={editUser}>
 	  <div className="fl-col">
-            <label htmlFor="editUsername">{t("userEditUsername")}</label>
+            <label htmlFor="editUsername">{t("auth.username")}</label>
             <input
 	      name="editUsername"
 	      id="editUsername"
@@ -73,7 +73,7 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 	  </div>
 
 	  <div className="fl-col">
-	    <label htmlFor="editLastName">{t("userEditLastName")}</label>
+	    <label htmlFor="editLastName">{t("auth.lastName")}</label>
             <input
 	      name="editLastName"
 	      id="editLastName"
@@ -85,7 +85,7 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 	  </div>
 
 	  <div className="fl-col">
-	    <label htmlFor="editFirstName">{t("userEditFirstName")}</label>
+	    <label htmlFor="editFirstName">{t("auth.firstName")}</label>
             <input
 	      name="editFirstName"
 	      id="editFirstName"
@@ -98,8 +98,8 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("userEditSubmit")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsEditingUser(false)}}>{t("userEditCancel")}</button>
+	  <button className="btn btn-primary" type="submit">{t("actions.save")}</button>
+	  <button className="btn btn-neutral" onClick={() => {setIsEditingUser(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

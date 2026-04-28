@@ -22,7 +22,7 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
 
   useEffect(() => {
     setErrorMessage("")
-  }, [username])
+  }, [username, resetCode, password1, password2])
 
   const requestReset = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -32,7 +32,7 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
 
       setIsProceedingReset(true)
     } catch (error) {
-      setErrorMessage(t("requestResetErrResponse"))
+      setErrorMessage(t("errors.badResponse"))
     }
   }
 
@@ -40,12 +40,12 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
     e.preventDefault()
 
     if ((password1.trim() === "") || password1.includes(" ") || (password1.length < 8)) {
-      setErrorMessage(t("registerErrValidPassword"))
+      setErrorMessage(t("validation.passwordRequirements"))
       return
     }
 
     if (password1 !== password2) {
-      setErrorMessage(t("registerErrMismatch"))
+      setErrorMessage(t("validation.mismatchPasswords"))
       return
     }
 
@@ -58,7 +58,7 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
 
       handleCancel()
     } catch (error) {
-      setErrorMessage(t("requestResetErrResponse"))
+      setErrorMessage(t("errors.badResponse"))
     }
   }
 
@@ -70,16 +70,16 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
   if (isProceedingReset) {
     return (
       <div className="fl-center-main fl-center-cross vertical-padding">
-	<title>{`${t("requestResetTitle")} - QWShortLink`}</title>
+	<title>{`${t("passwordResetPage.title")} - QWShortLink`}</title>
 
 	<div className="card fl-col fl-gap">
-	  <h2>{t("requestResetHeader")}</h2>
+	  <h2>{t("passwordResetPage.title")}</h2>
 
-	  <p>{t("requestParagraph2")}</p>
+	  <p>{t("passwordResetPage.secondStageText")}</p>
 
           <form onSubmit={proceedeReset}>
 	    <div className="fl-col">
-	      <label htmlFor="resetCode">{t("requestResetCode")}</label>
+	      <label htmlFor="resetCode">{t("passwordResetPage.resetCode")}</label>
               <input
 		name="resetCode"
 		id="resetCode"
@@ -92,7 +92,7 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
 	    </div>
 
 	    <div className="fl-col">
-            <label htmlFor="userPassword1">{t("registerPassword")}</label>
+            <label htmlFor="userPassword1">{t("auth.password")}</label>
             <input
 	      name="userPassword1"
 	      id="userPassword1"
@@ -105,7 +105,7 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
 	  </div>
 
 	  <div className="fl-col">
-            <label htmlFor="userPassword2">{t("registerConfirmPassword")}</label>
+            <label htmlFor="userPassword2">{t("auth.confirmPassword")}</label>
             <input
 	      name="userPassword2"
 	      id="userPassword2"
@@ -119,8 +119,8 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
 
 	    {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	    <button className="btn btn-primary" type="submit">{t("requestResetComplete")}</button>
-	    <button className="btn btn-neutral" onClick={handleCancel}>{t("requestResetCancel")}</button>
+	    <button className="btn btn-primary" type="submit">{t("actions.reset")}</button>
+	    <button className="btn btn-neutral" onClick={handleCancel}>{t("actions.cancel")}</button>
           </form>
 	</div>
       </div>
@@ -129,16 +129,16 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("requestResetTitle")} - QWShortLink`}</title>
+      <title>{`${t("passwordResetPage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-	<h2>{t("requestResetHeader")}</h2>
+	<h2>{t("passwordResetPage.title")}</h2>
 
-	<p>{t("requestParagraph1")}</p>
+	<p>{t("passwordResetPage.firstStageText")}</p>
 
         <form onSubmit={requestReset}>
 	  <div className="fl-col">
-	    <label htmlFor="userName">{t("requestResetUsername")}</label>
+	    <label htmlFor="userName">{t("auth.username")}</label>
             <input
 	      name="userName"
 	      id="userName"
@@ -152,8 +152,8 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
 
 	  {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("requestResetSubmit")}</button>
-	  <button className="btn btn-neutral" onClick={handleCancel}>{t("requestResetCancel")}</button>
+	  <button className="btn btn-primary" type="submit">{t("actions.continue")}</button>
+	  <button className="btn btn-neutral" onClick={handleCancel}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>
