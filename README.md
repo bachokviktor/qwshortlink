@@ -17,6 +17,7 @@ URL Shortener built with Django REST Framework and React
 - REST API backend
 - Swagger docs
 - Caching with Redis
+- Sending emails and periodic task scheduling with Celery
 - Containerization with Docker
 - Responsive React frontend
 - Support of multiple languages
@@ -27,7 +28,7 @@ URL Shortener built with Django REST Framework and React
 
 **Frontend:** React, React Router, Axios
 
-**Infrastructure:** PostgreSQL, Redis, nginx, Docker
+**Infrastructure:** PostgreSQL, Redis, Celery, nginx, Docker
 
 **Testing:** pytest
 
@@ -44,6 +45,7 @@ Set appropriate environmental variables in following files:
 - `backend/.env`
 - `frontend/.env`
 - `db/.env`
+- `redis/.env`
 
 Add Redis configuration at `redis/redis.conf`
 
@@ -57,14 +59,6 @@ Run the containers with Docker Compose
 
 ``` bash
 docker compose -f docker-compose.dev.yml up
-```
-
-**Note:** You may need to restart when running for the first time
-
-Apply migrations
-
-``` bash
-docker exec -t qwshortlink-backend python3 manage.py migrate
 ```
 
 Create a superuser

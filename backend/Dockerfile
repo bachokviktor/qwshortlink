@@ -16,7 +16,3 @@ RUN pip install -r requirements.txt
 RUN pip install gunicorn
 
 COPY . .
-
-EXPOSE 5555
-
-CMD ["gunicorn", "config.wsgi", "--workers", "2", "--bind", "0.0.0.0:5555"]

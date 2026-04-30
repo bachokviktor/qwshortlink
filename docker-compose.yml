@@ -48,9 +48,43 @@ services:
     volumes:
       - staticfiles_data:/app/staticfiles
       - media_data:/app/media
+    command: sh -c "python3 manage.py migrate && gunicorn config.wsgi --workers 2 --bind 0.0.0.0:5555"
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      celery:
+        condition: service_started
+
+  celery:
+    image: qwshortlink-backend
+    container_name: qwshortlink-celery
+    pull_policy: never
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./backend/.env
+    command: celery -A config worker -l INFO
+
+  celery_beat:
+    image: qwshortlink-backend
+    container_name: qwshortlink-celery-beat
+    pull_policy: never
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./backend/.env
+    command: celery -A config beat -l INFO
+    depends_on:
+      db:
+        condition: service_healthy
+      celery:
+        condition: service_started
+      backend:
+        condition: service_started
 
   db:
     image: postgres:18.3-trixie
@@ -61,14 +95,28 @@ services:
       - ./db/.env
     volumes:
       - db_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   redis:
     image: redis:8.6.2-trixie
     container_name: qwshortlink-redis
     restart: always
+    env_file:
+      - ./redis/.env
     volumes:
       - ./redis:/usr/local/etc/redis:z
     command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $${REDIS_PASSWORD} ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
 volumes:
   db_data:
