@@ -179,6 +179,8 @@ else:
     EMAIL_USE_TLS = True if os.getenv("SMTP_USE_TLS") == "t" else False
     EMAIL_USE_SSL = True if os.getenv("SMTP_USE_SSL") == "t" else False
 
+DEFAULT_FROM_EMAIL = os.getenv("SMTP_DEFAULT_FROM_EMAIL")
+
 
 # REST Framework
 

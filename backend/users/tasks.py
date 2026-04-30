@@ -29,7 +29,7 @@ def send_verification_email(pk):
     send_mail(
         subject="QWShortLink Email Verification",
         message=email_content,
-        from_email="noreply@example.com",
+        from_email=None,
         recipient_list=[user.email]
     )
 
@@ -55,7 +55,7 @@ def send_password_reset_email(pk):
     send_mail(
         subject="QWShortLink Password Reset",
         message=email_content,
-        from_email="noreply@example.com",
+        from_email=None,
         recipient_list=[user.email]
     )
 
