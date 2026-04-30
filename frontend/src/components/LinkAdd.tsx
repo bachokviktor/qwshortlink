@@ -44,23 +44,23 @@ function LinkAdd({setIsAddingLink, fetchLinks}: PropsInterface) {
         <h2>{t("linkAddPage.title")}</h2>
 
         <form onSubmit={addLink}>
-	  <div className="fl-col">
+          <div className="fl-col">
             <label htmlFor="linkUrl">URL</label>
             <input
-	      name="linkUrl"
-	      id="linkUrl"
-	      type="url"
-	      placeholder="URL..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setLinkUrl(e.target.value) }}
-	      value={linkUrl}
-	    />
-	  </div>
+              name="linkUrl"
+              id="linkUrl"
+              type="url"
+              placeholder="URL..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setLinkUrl(e.target.value) }}
+              value={linkUrl}
+            />
+          </div>
 
-	  {errorMessage && <p className="error-message">{errorMessage}</p>}
-	    
-	  <button className="btn btn-primary" type="submit">{t("actions.add")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsAddingLink(false)}}>{t("actions.cancel")}</button>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+      
+          <button className="btn btn-primary" type="submit">{t("actions.add")}</button>
+          <button className="btn btn-neutral" onClick={() => {setIsAddingLink(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

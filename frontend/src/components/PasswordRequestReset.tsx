@@ -31,8 +31,12 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
       await api.post("users/user/request-reset/", { username: username })
 
       setIsProceedingReset(true)
-    } catch (error) {
-      setErrorMessage(t("errors.badResponse"))
+    } catch (error: any) {
+      if (error?.response?.status === 429) {
+        setErrorMessage(t("errors.throttle", { value: error.response.headers["retry-after"] }))
+      } else {
+        setErrorMessage(t("errors.badResponse"))
+      }
     }
   }
 
@@ -51,14 +55,18 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
 
     try {
       await api.post("users/user/reset/", {
-	username: username,
-	code: resetCode,
-	password: password1
+        username: username,
+        code: resetCode,
+        password: password1
       })
 
       handleCancel()
-    } catch (error) {
-      setErrorMessage(t("errors.badResponse"))
+    } catch (error: any) {
+      if (error?.response?.status === 429) {
+        setErrorMessage(t("errors.throttle", { value: error.response.headers["retry-after"] }))
+      } else {
+        setErrorMessage(t("errors.badResponse"))
+      }
     }
   }
 
@@ -70,59 +78,59 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
   if (isProceedingReset) {
     return (
       <div className="fl-center-main fl-center-cross vertical-padding">
-	<title>{`${t("passwordResetPage.title")} - QWShortLink`}</title>
+        <title>{`${t("passwordResetPage.title")} - QWShortLink`}</title>
 
-	<div className="card fl-col fl-gap">
-	  <h2>{t("passwordResetPage.title")}</h2>
+        <div className="card fl-col fl-gap">
+          <h2>{t("passwordResetPage.title")}</h2>
 
-	  <p>{t("passwordResetPage.secondStageText")}</p>
+          <p>{t("passwordResetPage.secondStageText")}</p>
 
           <form onSubmit={proceedeReset}>
-	    <div className="fl-col">
-	      <label htmlFor="resetCode">{t("passwordResetPage.resetCode")}</label>
+            <div className="fl-col">
+              <label htmlFor="resetCode">{t("passwordResetPage.resetCode")}</label>
               <input
-		name="resetCode"
-		id="resetCode"
-		type="text"
-		placeholder="code..."
-		required
-		onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setResetCode(e.target.value) }}
-		value={resetCode}
-	      />
-	    </div>
+                name="resetCode"
+                id="resetCode"
+                type="text"
+                placeholder="code..."
+                required
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setResetCode(e.target.value) }}
+                value={resetCode}
+              />
+            </div>
 
-	    <div className="fl-col">
-            <label htmlFor="userPassword1">{t("auth.password")}</label>
-            <input
-	      name="userPassword1"
-	      id="userPassword1"
-	      type="password"
-	      placeholder="password..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword1(e.target.value) }}
-	      value={password1}
-	    />
-	  </div>
+            <div className="fl-col">
+              <label htmlFor="userPassword1">{t("auth.password")}</label>
+              <input
+                name="userPassword1"
+                id="userPassword1"
+                type="password"
+                placeholder="password..."
+                required
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword1(e.target.value) }}
+                value={password1}
+              />
+            </div>
 
-	  <div className="fl-col">
-            <label htmlFor="userPassword2">{t("auth.confirmPassword")}</label>
-            <input
-	      name="userPassword2"
-	      id="userPassword2"
-	      type="password"
-	      placeholder="confirm password..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword2(e.target.value) }}
-	      value={password2}
-	    />
-	  </div>
+            <div className="fl-col">
+              <label htmlFor="userPassword2">{t("auth.confirmPassword")}</label>
+              <input
+                name="userPassword2"
+                id="userPassword2"
+                type="password"
+                placeholder="confirm password..."
+                required
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword2(e.target.value) }}
+                value={password2}
+              />
+            </div>
 
-	    {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	    <button className="btn btn-primary" type="submit">{t("actions.reset")}</button>
-	    <button className="btn btn-neutral" onClick={handleCancel}>{t("actions.cancel")}</button>
+            <button className="btn btn-primary" type="submit">{t("actions.reset")}</button>
+            <button className="btn btn-neutral" onClick={handleCancel}>{t("actions.cancel")}</button>
           </form>
-	</div>
+        </div>
       </div>
     )
   }
@@ -132,28 +140,28 @@ function PasswordRequestReset({setIsRequestingReset}: PropsInterface) {
       <title>{`${t("passwordResetPage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-	<h2>{t("passwordResetPage.title")}</h2>
+        <h2>{t("passwordResetPage.title")}</h2>
 
-	<p>{t("passwordResetPage.firstStageText")}</p>
+        <p>{t("passwordResetPage.firstStageText")}</p>
 
         <form onSubmit={requestReset}>
-	  <div className="fl-col">
-	    <label htmlFor="userName">{t("auth.username")}</label>
+          <div className="fl-col">
+            <label htmlFor="userName">{t("auth.username")}</label>
             <input
-	      name="userName"
-	      id="userName"
-	      type="text"
-	      placeholder="username..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setUsername(e.target.value) }}
-	      value={username}
-	    />
-	  </div>
+              name="userName"
+              id="userName"
+              type="text"
+              placeholder="username..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setUsername(e.target.value) }}
+              value={username}
+            />
+          </div>
 
-	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("actions.continue")}</button>
-	  <button className="btn btn-neutral" onClick={handleCancel}>{t("actions.cancel")}</button>
+          <button className="btn btn-primary" type="submit">{t("actions.continue")}</button>
+          <button className="btn btn-neutral" onClick={handleCancel}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

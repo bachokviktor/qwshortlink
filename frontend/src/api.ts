@@ -28,26 +28,26 @@ api.interceptors.response.use(
 
     if (
       error?.response.status === 401 &&
-      !originalRequest._retry &&
-      !originalRequest.url.includes("token/refresh/") &&
-      !originalRequest.url.includes("token/")
+        !originalRequest._retry &&
+        !originalRequest.url.includes("token/refresh/") &&
+        !originalRequest.url.includes("token/")
     ) {
       // Don't get into a loop
       originalRequest._retry = true
 
       try {
-	const refreshToken = localStorage.getItem("refresh-token")
+        const refreshToken = localStorage.getItem("refresh-token")
 
-	const response = await api.post("token/refresh/", { refresh: refreshToken })
-	const token = response.data.access
+        const response = await api.post("token/refresh/", { refresh: refreshToken })
+        const token = response.data.access
 
-	localStorage.setItem("access-token", token)
-	originalRequest.headers.Authorization = `Bearer ${token}`
+        localStorage.setItem("access-token", token)
+        originalRequest.headers.Authorization = `Bearer ${token}`
 
-	return api(originalRequest)
+        return api(originalRequest)
       } catch (error) {
-	localStorage.clear()
-	window.location.href = "/login"
+        localStorage.clear()
+        window.location.href = "/login"
       }
     }
 

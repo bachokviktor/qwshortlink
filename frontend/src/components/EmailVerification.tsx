@@ -31,8 +31,12 @@ function EmailVerification({setIsVerifyingEmail}: PropsInterface) {
       await api.get("users/user/request-verification/")
 
       setSuccessMessage(t("verificationPage.successfulRequest"))
-    } catch (error) {
-      setErrorMessage(t("errors.badResponse"))
+    } catch (error: any) {
+      if (error?.response?.status === 429) {
+        setErrorMessage(t("errors.throttle", { value: error.response.headers["retry-after"] }))
+      } else {
+        setErrorMessage(t("errors.badResponse"))
+      }
     }
   }
 
@@ -41,13 +45,17 @@ function EmailVerification({setIsVerifyingEmail}: PropsInterface) {
 
     try {
       await api.post("users/user/verification/", {
-	code: verificationCode,
+        code: verificationCode,
       })
 
       setIsVerifyingEmail(false)
       auth.fetchUser()
-    } catch (error) {
-      setErrorMessage(t("errors.badResponse"))
+    } catch (error: any) {
+      if (error?.response?.status === 429) {
+        setErrorMessage(t("errors.throttle", { value: error.response.headers["retry-after"] }))
+      } else {
+        setErrorMessage(t("errors.badResponse"))
+      }
     }
   }
 
@@ -56,30 +64,30 @@ function EmailVerification({setIsVerifyingEmail}: PropsInterface) {
       <title>{`${t("verificationPage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-	<h2>{t("verificationPage.title")}</h2>
+        <h2>{t("verificationPage.title")}</h2>
 
         <form onSubmit={verifyEmail}>
-	  <div className="fl-col">
-	    <label htmlFor="verificationCode">{t("verificationPage.verificationCode")}</label>
+          <div className="fl-col">
+            <label htmlFor="verificationCode">{t("verificationPage.verificationCode")}</label>
             <input
-	      name="verificationCode"
-	      id="verificationCode"
-	      type="text"
-	      placeholder="code..."
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setVerificationCode(e.target.value) }}
-	      value={verificationCode}
-	    />
-	  </div>
+              name="verificationCode"
+              id="verificationCode"
+              type="text"
+              placeholder="code..."
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setVerificationCode(e.target.value) }}
+              value={verificationCode}
+            />
+          </div>
 
-	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  {successMessage && <p>{successMessage}</p>}
+          {successMessage && <p>{successMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("actions.submit")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsVerifyingEmail(false)}}>{t("actions.cancel")}</button>
+          <button className="btn btn-primary" type="submit">{t("actions.submit")}</button>
+          <button className="btn btn-neutral" onClick={() => {setIsVerifyingEmail(false)}}>{t("actions.cancel")}</button>
         </form>
 
-	<hr/>
+        <hr/>
 
         <p>{t("verificationPage.noCode")} <a href="#" onClick={resendCode}>{t("actions.resend")}</a></p>
       </div>

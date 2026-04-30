@@ -28,7 +28,7 @@ function EmailChange({setIsChangingEmail}: PropsInterface) {
 
     try {
       await api.put("users/user/email/", {
-	email: editEmail,
+        email: editEmail,
       })
 
       setIsChangingEmail(false)
@@ -43,25 +43,25 @@ function EmailChange({setIsChangingEmail}: PropsInterface) {
       <title>{`${t("emailChangePage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-	<h2>{t("emailChangePage.title")}</h2>
+        <h2>{t("emailChangePage.title")}</h2>
 
         <form onSubmit={handleEditEmail}>
-	  <div className="fl-col">
-	    <label htmlFor="editEmail">Email</label>
+          <div className="fl-col">
+            <label htmlFor="editEmail">Email</label>
             <input
-	      name="editEmail"
-	      id="editEmail"
-	      type="email"
-	      placeholder="Email..."
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditEmail(e.target.value) }}
-	      value={editEmail}
-	    />
-	  </div>
+              name="editEmail"
+              id="editEmail"
+              type="email"
+              placeholder="Email..."
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditEmail(e.target.value) }}
+              value={editEmail}
+            />
+          </div>
 
-	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("actions.submit")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsChangingEmail(false)}}>{t("actions.cancel")}</button>
+          <button className="btn btn-primary" type="submit">{t("actions.submit")}</button>
+          <button className="btn btn-neutral" onClick={() => {setIsChangingEmail(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

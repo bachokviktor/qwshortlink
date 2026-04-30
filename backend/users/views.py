@@ -24,7 +24,7 @@ from .serializers import (
     UserSerializer
 )
 from .permissions import IsVerifiend
-from .throttling import RestrictedAnonThrottle
+from core.throttling import RestrictedAnonThrottle
 from .tasks import send_verification_email, send_password_reset_email
 
 

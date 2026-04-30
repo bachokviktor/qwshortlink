@@ -51,9 +51,9 @@ function Register() {
       navigate("/login")
     } catch (error: any) {
       if (error?.response?.status === 429) {
-	setErrorMessage(t("errors.throttle", { value: error.response.headers["retry-after"] }))
+        setErrorMessage(t("errors.throttle", { value: error.response.headers["retry-after"] }))
       } else {
-	setErrorMessage(t("errors.badResponse"))
+        setErrorMessage(t("errors.badResponse"))
       }
     }
   }
@@ -70,64 +70,64 @@ function Register() {
         <h2>{t("auth.registration")}</h2>
 
         <form onSubmit={handleRegister}>
-	  <div className="fl-col">
+          <div className="fl-col">
             <label htmlFor="userName">{t("auth.username")}</label>
             <input
-	      name="userName"
-	      id="userName"
-	      type="text"
-	      placeholder="username..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setUsername(e.target.value) }}
-	      value={username}
-	    />
-	  </div>
+              name="userName"
+              id="userName"
+              type="text"
+              placeholder="username..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setUsername(e.target.value) }}
+              value={username}
+            />
+          </div>
 
-	  <div className="fl-col">
+          <div className="fl-col">
             <label htmlFor="userEmail">Email</label>
             <input
-	      name="userEmail"
-	      id="userEmail"
-	      type="email"
-	      placeholder="email..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value) }}
-	      value={email}
-	    />
-	  </div>
+              name="userEmail"
+              id="userEmail"
+              type="email"
+              placeholder="email..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value) }}
+              value={email}
+            />
+          </div>
 
-	  <div className="fl-col">
+          <div className="fl-col">
             <label htmlFor="userPassword1">{t("auth.password")}</label>
             <input
-	      name="userPassword1"
-	      id="userPassword1"
-	      type="password"
-	      placeholder="password..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword1(e.target.value) }}
-	      value={password1}
-	    />
-	  </div>
+              name="userPassword1"
+              id="userPassword1"
+              type="password"
+              placeholder="password..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword1(e.target.value) }}
+              value={password1}
+            />
+          </div>
 
-	  <div className="fl-col">
+          <div className="fl-col">
             <label htmlFor="userPassword2">{t("auth.confirmPassword")}</label>
             <input
-	      name="userPassword2"
-	      id="userPassword2"
-	      type="password"
-	      placeholder="confirm password..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword2(e.target.value) }}
-	      value={password2}
-	    />
-	  </div>
+              name="userPassword2"
+              id="userPassword2"
+              type="password"
+              placeholder="confirm password..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword2(e.target.value) }}
+              value={password2}
+            />
+          </div>
 
-	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           <button className="btn btn-primary" type="submit">{t("auth.register")}</button>
         </form>
 
-	<hr/>
+        <hr/>
 
         <p>{t("registrationPage.haveAccount")} <Link to="/login">{t("auth.login")}</Link></p>
       </div>

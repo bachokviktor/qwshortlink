@@ -10,9 +10,9 @@ function NotFound() {
       <title>404 - QWShortLink</title>
 
       <div className="fl-col fl-gap">
-	<h2>{t("notFound.title")}</h2>
-	<p>{t("notFound.body")}</p>
-	<Link to="/">{t("homePage.title")}</Link>
+        <h2>{t("notFound.title")}</h2>
+        <p>{t("notFound.body")}</p>
+        <Link to="/">{t("homePage.title")}</Link>
       </div>
     </div>
   )

@@ -50,23 +50,23 @@ function LinkEdit({editLinkId, setEditLinkId, editLinkUrl, setEditLinkUrl, setIs
         <h2>{t("linkEditPage.title")}</h2>
 
         <form onSubmit={editLink}>
-	  <div className="fl-col">
+          <div className="fl-col">
             <label htmlFor="editLinkUrl">URL</label>
             <input
-	      name="editLinkUrl"
-	      id="editLinkUrl"
-	      type="url"
-	      placeholder="URL..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditLinkUrl(e.target.value) }}
-	      value={editLinkUrl}
-	    />
-	  </div>
+              name="editLinkUrl"
+              id="editLinkUrl"
+              type="url"
+              placeholder="URL..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditLinkUrl(e.target.value) }}
+              value={editLinkUrl}
+            />
+          </div>
 
-	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("actions.save")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setEditLinkId(null); setEditLinkUrl(""); setIsEditingLink(false)}}>{t("actions.cancel")}</button>
+          <button className="btn btn-primary" type="submit">{t("actions.save")}</button>
+          <button className="btn btn-neutral" onClick={() => {setEditLinkId(null); setEditLinkUrl(""); setIsEditingLink(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

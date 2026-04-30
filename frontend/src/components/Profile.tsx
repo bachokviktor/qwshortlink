@@ -86,9 +86,9 @@ function Profile() {
       setIsDeletingLink(false)
 
       if (links.length === 1 && previousPage) {
-	setCurrentPage(previousPage)
+        setCurrentPage(previousPage)
       } else {
-	fetchLinks()
+        fetchLinks()
       }
     } catch (error) {
       setErrorMessage(t("profilePage.errorDelete"))
@@ -105,20 +105,20 @@ function Profile() {
 
   if (isEditingLink) {
     return <LinkEdit
-	     editLinkId={editLinkId}
-	     setEditLinkId={setEditLinkId}
-	     editLinkUrl={editLinkUrl}
-	     setEditLinkUrl={setEditLinkUrl}
-	     setIsEditingLink={setIsEditingLink}
-	     fetchLinks={fetchLinks} />
+             editLinkId={editLinkId}
+             setEditLinkId={setEditLinkId}
+             editLinkUrl={editLinkUrl}
+             setEditLinkUrl={setEditLinkUrl}
+             setIsEditingLink={setIsEditingLink}
+             fetchLinks={fetchLinks} />
   }
 
   if (isDeletingLink) {
     return <LinkDelete
-	     deleteLinkId={deleteLinkId}
-	     setDeleteLinkId={setDeleteLinkId}
-	     setIsDeletingLink={setIsDeletingLink}
-	     deleteLink={deleteLink} />
+             deleteLinkId={deleteLinkId}
+             setDeleteLinkId={setDeleteLinkId}
+             setIsDeletingLink={setIsDeletingLink}
+             deleteLink={deleteLink} />
   }
 
   if (isVerifyingEmail) {
@@ -145,64 +145,64 @@ function Profile() {
     <div className="profile-grid">
       <title>{`${t("profilePage.title")} - QWShortLink`}</title>
       <div className="error-container">
-	{auth.user && !auth.user.verified && (
-	  <div className="card card-danger fl-col fl-gap">
-	    <p>{t("verificationBanner.firstLine")} {auth.user.email}</p>
+        {auth.user && !auth.user.verified && (
+          <div className="card card-danger fl-col fl-gap">
+            <p>{t("verificationBanner.firstLine")} {auth.user.email}</p>
 
-	    <p>{t("verificationBanner.secondLine")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsVerifyingEmail(true)}}>{t("verificationBanner.link")}</a></p>
-	  </div>
-	)}
-	{errorMessage && (
-	  <div className="card card-danger">
-	    <p>{errorMessage}</p>
-	  </div>
-	)}
+            <p>{t("verificationBanner.secondLine")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsVerifyingEmail(true)}}>{t("verificationBanner.link")}</a></p>
+          </div>
+        )}
+        {errorMessage && (
+          <div className="card card-danger">
+            <p>{errorMessage}</p>
+          </div>
+        )}
       </div>
 
       <div className="profile-container">
-	<div className="card fl-col fl-gap">
-	  <h2>{auth.user?.username}</h2>
-	  { (auth.user?.first_name || auth.user?.last_name) &&
-	  <p>{auth.user?.first_name} {auth.user?.last_name}</p> }
-	  <p>Email: {auth.user?.email}</p>
-	  <p>{t("profilePage.totalLinks")}: {totalLinks}</p>
+        <div className="card fl-col fl-gap">
+          <h2>{auth.user?.username}</h2>
+          { (auth.user?.first_name || auth.user?.last_name) &&
+            <p>{auth.user?.first_name} {auth.user?.last_name}</p> }
+          <p>Email: {auth.user?.email}</p>
+          <p>{t("profilePage.totalLinks")}: {totalLinks}</p>
 
-	  <hr/>
+          <hr/>
 
-	  <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>{t("actions.edit")}</button>
-	  <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsChangingEmail(true)}>{t("emailChangePage.title")}</button>
-	  <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>{t("passwordChangePage.title")}</button>
-	  <button className="btn btn-danger" onClick={() => setIsDeletingUser(true)}>{t("actions.delete")}</button>
-	</div>
+          <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>{t("actions.edit")}</button>
+          <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsChangingEmail(true)}>{t("emailChangePage.title")}</button>
+          <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>{t("passwordChangePage.title")}</button>
+          <button className="btn btn-danger" onClick={() => setIsDeletingUser(true)}>{t("actions.delete")}</button>
+        </div>
       </div>
 
       <div className="links-container">
-	<div className="fl-col fl-gap">
-	  <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsAddingLink(true)}>{t("linkAddPage.title")}</button>
+        <div className="fl-col fl-gap">
+          <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsAddingLink(true)}>{t("linkAddPage.title")}</button>
 
-	  {links.length > 0 ? links.map((link, index) => (
-	    <div className="card fl-gap fl-center-cross fl-wrap" key={index}>
-	      <p className="linklist-link">{baseUrl}l/{link.short_code}: <a href={link.url}>{link.url}</a></p>
-	      <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>{t("actions.copy")}</button>
-	      <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>{t("actions.edit")}</button>
-	      <button disabled={!auth.user?.verified} className="btn btn-danger" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>{t("actions.delete")}</button>
-	    </div>
-	  )) : (
-	    <div className="card">
-	      <p>{t("profilePage.noLinks")}</p>
-	    </div>
-	  )}
+          {links.length > 0 ? links.map((link, index) => (
+            <div className="card fl-gap fl-center-cross fl-wrap" key={index}>
+              <p className="linklist-link">{baseUrl}l/{link.short_code}: <a href={link.url}>{link.url}</a></p>
+              <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>{t("actions.copy")}</button>
+              <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>{t("actions.edit")}</button>
+              <button disabled={!auth.user?.verified} className="btn btn-danger" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>{t("actions.delete")}</button>
+            </div>
+          )) : (
+            <div className="card">
+              <p>{t("profilePage.noLinks")}</p>
+            </div>
+          )}
 
-	  {(previousPage || nextPage) && (
-	    <div className="card fl-space-between fl-center-cross">
-	      {previousPage && <button className="btn btn-primary" onClick={() => setCurrentPage(previousPage)}>{t("actions.previous")}</button>}
-	      <div></div>
-	      <p>{currentPage}/{totalPages}</p>
-	      <div></div>
-	      {nextPage && <button className="btn btn-primary" onClick={() => setCurrentPage(nextPage)}>{t("actions.next")}</button>}
-	    </div>
-	  )}
-	</div>
+          {(previousPage || nextPage) && (
+            <div className="card fl-space-between fl-center-cross">
+              {previousPage && <button className="btn btn-primary" onClick={() => setCurrentPage(previousPage)}>{t("actions.previous")}</button>}
+              <div></div>
+              <p>{currentPage}/{totalPages}</p>
+              <div></div>
+              {nextPage && <button className="btn btn-primary" onClick={() => setCurrentPage(nextPage)}>{t("actions.next")}</button>}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

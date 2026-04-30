@@ -29,24 +29,24 @@ function App() {
   return (
     <>
       <BrowserRouter>
-	<AuthProvider>
-	  <Routes>
-	    <Route element={<Layout />}>
-	      <Route index element={<Home />} />
-	      <Route path="/login" element={<Login />} />
-	      <Route path="/register" element={<Register />} />
-	      <Route path="/logout" element={<Logout />} />
+        <AuthProvider>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/logout" element={<Logout />} />
 
-	      <Route element={<ProtectedRoute />}>
-		<Route path="/profile" element={<Profile />} />
-	      </Route>
+              <Route element={<ProtectedRoute />}>
+                <Route path="/profile" element={<Profile />} />
+              </Route>
 
-	      <Route path="/l/:shortCode" element={<Redirect />} />
+              <Route path="/l/:shortCode" element={<Redirect />} />
 
-	      <Route path="*" element={<NotFound />} />
-	    </Route>
-	  </Routes>
-	</AuthProvider>
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </>
   )

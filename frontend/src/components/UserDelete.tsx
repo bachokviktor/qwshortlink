@@ -49,26 +49,26 @@ function UserDelete({setIsDeletingUser}: PropsInterface) {
       <div className="card fl-col fl-gap">
         <h2>{t("userDeletePage.title")}</h2>
 
-	<p>{t("userDeletePage.body")}</p>
+        <p>{t("userDeletePage.body")}</p>
 
         <form onSubmit={confirmDeleteUser}>
-	  <div className="fl-col">
-	    <label htmlFor="password">{t("auth.password")}</label>
+          <div className="fl-col">
+            <label htmlFor="password">{t("auth.password")}</label>
             <input
-	      name="password"
-	      id="password"
-	      type="password"
-	      placeholder="Password..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
-	      value={password}
-	    />
-	  </div>
+              name="password"
+              id="password"
+              type="password"
+              placeholder="Password..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
+              value={password}
+            />
+          </div>
 
-	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-danger" type="submit">{t("actions.delete")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsDeletingUser(false)}}>{t("actions.cancel")}</button>
+          <button className="btn btn-danger" type="submit">{t("actions.delete")}</button>
+          <button className="btn btn-neutral" onClick={() => {setIsDeletingUser(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

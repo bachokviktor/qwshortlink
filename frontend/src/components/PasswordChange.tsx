@@ -33,8 +33,8 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
 
     try {
       await api.put("users/user/password/", {
-	password: password,
-	new_password: newPassword
+        password: password,
+        new_password: newPassword
       })
 
       setIsChangingPassword(false)
@@ -51,36 +51,36 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
         <h2>{t("passwordChangePage.title")}</h2>
 
         <form onSubmit={changePassword}>
-	  <div className="fl-col">
-	    <label htmlFor="oldPassword">{t("auth.oldPassword")}</label>
+          <div className="fl-col">
+            <label htmlFor="oldPassword">{t("auth.oldPassword")}</label>
             <input
-	      name="oldPassword"
-	      id="oldPassword"
-	      type="password"
-	      placeholder="Password..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
-	      value={password}
-	    />
-	  </div>
+              name="oldPassword"
+              id="oldPassword"
+              type="password"
+              placeholder="Password..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
+              value={password}
+            />
+          </div>
 
-	  <div className="fl-col">
+          <div className="fl-col">
             <label htmlFor="newPassword">{t("auth.newPassword")}</label>
             <input
-	      name="newPassword"
-	      id="newPassword"
-	      type="password"
-	      placeholder="New password..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setNewPassword(e.target.value) }}
-	      value={newPassword}
-	    />
-	  </div>
+              name="newPassword"
+              id="newPassword"
+              type="password"
+              placeholder="New password..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setNewPassword(e.target.value) }}
+              value={newPassword}
+            />
+          </div>
 
-	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("actions.change")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsChangingPassword(false)}}>{t("actions.cancel")}</button>
+          <button className="btn btn-primary" type="submit">{t("actions.change")}</button>
+          <button className="btn btn-neutral" onClick={() => {setIsChangingPassword(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

@@ -39,9 +39,9 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
 
     try {
       await api.put("users/user/", {
-	username: editUsername,
-	first_name: editFirstName,
-	last_name: editLastName
+        username: editUsername,
+        first_name: editFirstName,
+        last_name: editLastName
       })
 
       setIsEditingUser(false)
@@ -56,50 +56,50 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
       <title>{`${t("userEditPage.title")} - QWShortLink`}</title>
 
       <div className="card fl-col fl-gap">
-	<h2>{t("userEditPage.title")}</h2>
+        <h2>{t("userEditPage.title")}</h2>
 
         <form onSubmit={editUser}>
-	  <div className="fl-col">
+          <div className="fl-col">
             <label htmlFor="editUsername">{t("auth.username")}</label>
             <input
-	      name="editUsername"
-	      id="editUsername"
-	      type="text"
-	      placeholder="Username..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditUsername(e.target.value) }}
-	      value={editUsername}
-	    />
-	  </div>
+              name="editUsername"
+              id="editUsername"
+              type="text"
+              placeholder="Username..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditUsername(e.target.value) }}
+              value={editUsername}
+            />
+          </div>
 
-	  <div className="fl-col">
-	    <label htmlFor="editLastName">{t("auth.lastName")}</label>
+          <div className="fl-col">
+            <label htmlFor="editLastName">{t("auth.lastName")}</label>
             <input
-	      name="editLastName"
-	      id="editLastName"
-	      type="text"
-	      placeholder="Last name..."
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditLastName(e.target.value) }}
-	      value={editLastName}
-	    />
-	  </div>
+              name="editLastName"
+              id="editLastName"
+              type="text"
+              placeholder="Last name..."
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditLastName(e.target.value) }}
+              value={editLastName}
+            />
+          </div>
 
-	  <div className="fl-col">
-	    <label htmlFor="editFirstName">{t("auth.firstName")}</label>
+          <div className="fl-col">
+            <label htmlFor="editFirstName">{t("auth.firstName")}</label>
             <input
-	      name="editFirstName"
-	      id="editFirstName"
-	      type="text"
-	      placeholder="First name..."
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditFirstName(e.target.value) }}
-	      value={editFirstName}
-	    />
-	  </div>
+              name="editFirstName"
+              id="editFirstName"
+              type="text"
+              placeholder="First name..."
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEditFirstName(e.target.value) }}
+              value={editFirstName}
+            />
+          </div>
 
-	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-	  <button className="btn btn-primary" type="submit">{t("actions.save")}</button>
-	  <button className="btn btn-neutral" onClick={() => {setIsEditingUser(false)}}>{t("actions.cancel")}</button>
+          <button className="btn btn-primary" type="submit">{t("actions.save")}</button>
+          <button className="btn btn-neutral" onClick={() => {setIsEditingUser(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
     </div>

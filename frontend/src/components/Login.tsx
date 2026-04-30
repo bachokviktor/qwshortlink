@@ -61,40 +61,40 @@ function Login() {
         <h2>{t("auth.login")}</h2>
 
         <form onSubmit={handleLogin}>
-	  <div className="fl-col">
+          <div className="fl-col">
             <label htmlFor="userName">{t("auth.username")}</label>
             <input
-	      name="userName"
-	      id="userName"
-	      type="text"
-	      placeholder="username..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setUsername(e.target.value) }}
-	      value={username}
-	    />
-	  </div>
+              name="userName"
+              id="userName"
+              type="text"
+              placeholder="username..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setUsername(e.target.value) }}
+              value={username}
+            />
+          </div>
 
-	  <div className="fl-col">
+          <div className="fl-col">
             <label htmlFor="userPassword">{t("auth.password")}</label>
             <input
-	      name="userPassword"
-	      id="userPassword"
-	      type="password"
-	      placeholder="password..."
-	      required
-	      onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
-	      value={password}
-	    />
-	  </div>
+              name="userPassword"
+              id="userPassword"
+              type="password"
+              placeholder="password..."
+              required
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
+              value={password}
+            />
+          </div>
 
-	  {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           <button className="btn btn-primary" type="submit">{t("actions.continue")}</button>
         </form>
 
-	<hr/>
+        <hr/>
 
-	<p>{t("loginPage.forgotPassword")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsRequestingReset(true)}}>{t("actions.reset")}</a></p>
+        <p>{t("loginPage.forgotPassword")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsRequestingReset(true)}}>{t("actions.reset")}</a></p>
 
         <p>{t("loginPage.noAccount")} <Link to="/register">{t("auth.register")}</Link></p>
       </div>
