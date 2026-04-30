@@ -1,2 +1,3 @@
 # Configuration
 redis.conf
+.env

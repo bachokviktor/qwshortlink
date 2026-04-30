@@ -16,7 +16,8 @@ services:
       - ./frontend:/app:z
       - /app/node_modules
     depends_on:
-      - backend
+      backend:
+        condition: service_started
 
   backend:
     image: qwshortlink-backend
@@ -31,10 +32,14 @@ services:
       - 8000:8000
     volumes:
       - ./backend:/app:z
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      celery:
+        condition: service_started
 
   celery:
     image: qwshortlink-backend
@@ -48,8 +53,6 @@ services:
     volumes:
       - ./backend:/app:z
     command: celery -A config worker -l INFO
-    depends_on:
-      - backend
 
   celery_beat:
     image: qwshortlink-backend
@@ -64,8 +67,12 @@ services:
       - ./backend:/app:z
     command: celery -A config beat -l INFO
     depends_on:
-      - backend
-      - celery
+      db:
+        condition: service_healthy
+      celery:
+        condition: service_started
+      backend:
+        condition: service_started
 
   db:
     image: postgres:18.3-trixie
@@ -76,14 +83,28 @@ services:
       - ./db/.env
     volumes:
       - db_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   redis:
     image: redis:8.6.2-trixie
     container_name: qwshortlink-redis
     restart: always
+    env_file:
+      - ./redis/.env
     volumes:
       - ./redis:/usr/local/etc/redis:z
     command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $${REDIS_PASSWORD} ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
 volumes:
   db_data:
