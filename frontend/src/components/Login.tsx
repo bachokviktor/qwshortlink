@@ -1,10 +1,18 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router"
+import { GoogleLogin } from "@react-oauth/google"
 import { useTranslation } from "react-i18next"
 import AuthContext from "../AuthContext"
+import api from "../api"
 import "../i18n"
 
 import PasswordRequestReset from "./PasswordRequestReset"
+
+interface GoogleAuthInterface {
+  clientId: string;
+  credential: string;
+  select_by: string;
+}
 
 function Login() {
   const {t} = useTranslation()
@@ -40,6 +48,19 @@ function Login() {
       await auth.login({username, password})
 
       navigate("/")
+    } catch (error) {
+      setErrorMessage(t("errors.badResponse"))
+    }
+  }
+
+  const handleGoogleSignIn = async (credentialResponse: GoogleAuthInterface) => {
+    try {
+      const response = await api.post("auth/google/", credentialResponse)
+
+      localStorage.setItem("access-token", response.data.access)
+      localStorage.setItem("refresh-token", response.data.refresh)
+
+      await auth.fetchUser()
     } catch (error) {
       setErrorMessage(t("errors.badResponse"))
     }
@@ -93,6 +114,23 @@ function Login() {
         </form>
 
         <hr/>
+
+        <div className="google-auth">
+          <GoogleLogin
+            onSuccess={credentialResponse => {
+              if (credentialResponse.clientId && credentialResponse.credential && credentialResponse.select_by) {
+                handleGoogleSignIn({
+                  clientId: credentialResponse.clientId,
+                  credential: credentialResponse.credential,
+                  select_by: credentialResponse.select_by
+                })
+              }
+            }}
+            onError={() => {
+              setErrorMessage(t("errors.badResponse"))
+            }}
+          />
+        </div>
 
         <p>{t("loginPage.forgotPassword")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsRequestingReset(true)}}>{t("actions.reset")}</a></p>
 

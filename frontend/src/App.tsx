@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import {BrowserRouter, Routes, Route} from "react-router"
+import {GoogleOAuthProvider} from "@react-oauth/google"
 import {AuthProvider} from "./AuthContext"
 import ProtectedRoute from "./ProtectedRoute"
 import Layout from "./components/Layout"
@@ -29,24 +30,26 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/logout" element={<Logout />} />
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_OAUTH_CLIENT_ID}>
+          <AuthProvider>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/logout" element={<Logout />} />
 
-              <Route element={<ProtectedRoute />}>
-                <Route path="/profile" element={<Profile />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/profile" element={<Profile />} />
+                </Route>
+
+                <Route path="/l/:shortCode" element={<Redirect />} />
+
+                <Route path="*" element={<NotFound />} />
               </Route>
-
-              <Route path="/l/:shortCode" element={<Redirect />} />
-
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </AuthProvider>
+            </Routes>
+          </AuthProvider>
+        </GoogleOAuthProvider>
       </BrowserRouter>
     </>
   )
