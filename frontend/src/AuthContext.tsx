@@ -15,10 +15,17 @@ interface CredentialsInterface {
   password: string;
 }
 
+interface CodeResponseInterface {
+  clientId: string;
+  credential: string;
+  select_by: string;
+}
+
 interface AuthContextInterface {
   user: null | UserInterface;
   isLoading: boolean;
   login: (credentials: CredentialsInterface) => void;
+  googleSignIn: (codeResponse: CodeResponseInterface) => void;
   logout: () => void;
   fetchUser: () => void;
 }
@@ -31,6 +38,7 @@ const AuthContext = createContext<AuthContextInterface>({
   user: {id: 0, username: "", email: "", first_name: "", last_name: "", verified: false },
   isLoading: true,
   login: () => {},
+  googleSignIn: () => {},
   logout: () => {},
   fetchUser: () => {}
 })
@@ -74,13 +82,26 @@ export function AuthProvider({children}: PropsInterface) {
     }
   }
 
+  const googleSignIn = async (codeResponse: CodeResponseInterface) => {
+    try {
+      const response = await api.post("auth/google/", codeResponse)
+
+      localStorage.setItem("access-token", response.data.access)
+      localStorage.setItem("refresh-token", response.data.refresh)
+
+      await fetchUser()
+    } catch (error) {
+      throw error
+    }
+  }
+
   const logout = () => {
     localStorage.clear()
     setUser(null)
   }
 
   return (
-    <AuthContext.Provider value={{user, isLoading, login, logout, fetchUser}}>
+    <AuthContext.Provider value={{user, isLoading, login, googleSignIn, logout, fetchUser}}>
       {children}
     </AuthContext.Provider>
   )

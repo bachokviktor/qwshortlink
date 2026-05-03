@@ -130,12 +130,19 @@ BUTTONS
 .btn-svg svg {
   fill: var(--color-text);
   width: 1.5rem;
-  height: 1.5rem;;
+  height: 1.5rem;
 }
 
-.google-auth span {
-  position: relative;
-  color: var(--color-text-dark);
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-google svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 /*
