@@ -31,6 +31,7 @@ from .serializers import (
 )
 from .permissions import IsVerifiend, EmailAuth
 from core.throttling import RestrictedAnonThrottle
+from core.utils import get_random_string
 from .tasks import send_verification_email, send_password_reset_email
 
 
@@ -89,7 +90,11 @@ class GoogleAuthView(APIView):
                 )
 
                 email = id_info["email"]
-                username = email.split("@")[0].replace(".", "_").replace("+", "_")
+                username = email.split("@")[0].replace(
+                    ".", ""
+                ).replace(
+                    "+", ""
+                ) + "_" + get_random_string()
                 first_name = id_info.get("given_name", "")
                 last_name = id_info.get("family_name", "")
 
