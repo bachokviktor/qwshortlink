@@ -19,7 +19,8 @@
 
   "errors": {
     "badResponse": "Something went wrong.",
-    "throttle": "Too many attempts. Try againt in {{ value }} seconds."
+    "throttle": "Too many attempts. Try againt in {{ value }} seconds.",
+    "emailAuth": "You should login with email."
   },
 
   "validation": {

@@ -136,9 +136,17 @@ function Register() {
         {!isNavbarOpen &&
           <div className="google-auth">
             <GoogleLogin
-              onSuccess={credentialResponse => {
-                if (credentialResponse.credential){
-                  auth.googleSignIn(credentialResponse.credential)
+              onSuccess={async (credentialResponse) => {
+                if (credentialResponse.credential) {
+                  try {
+                    await auth.googleSignIn(credentialResponse.credential)
+                  } catch (error: any) {
+                    if (error?.response?.status === 403) {
+                      setErrorMessage(t("errors.emailAuth"))
+                    } else {
+                      setErrorMessage(t("errors.badResponse"))
+                    }
+                  }
                 }
               }}
               onError={() => {
