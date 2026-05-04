@@ -24,7 +24,9 @@ function UserDelete({setIsDeletingUser}: PropsInterface) {
     e.preventDefault()
 
     try {
-      await api.post("token/", {username: auth.user?.username, password: password})
+      if (auth.user?.auth_method === "email") {
+        await api.post("token/", {username: auth.user?.username, password: password})
+      }
 
       await deleteUser()
     } catch (error) {
@@ -52,18 +54,20 @@ function UserDelete({setIsDeletingUser}: PropsInterface) {
         <p>{t("userDeletePage.body")}</p>
 
         <form onSubmit={confirmDeleteUser}>
-          <div className="fl-col">
-            <label htmlFor="password">{t("auth.password")}</label>
-            <input
-              name="password"
-              id="password"
-              type="password"
-              placeholder="Password..."
-              required
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
-              value={password}
-            />
-          </div>
+          {auth.user?.auth_method === "email" && (
+            <div className="fl-col">
+              <label htmlFor="password">{t("auth.password")}</label>
+              <input
+                name="password"
+                id="password"
+                type="password"
+                placeholder="Password..."
+                required
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setPassword(e.target.value) }}
+                value={password}
+              />
+            </div>
+          )}
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 

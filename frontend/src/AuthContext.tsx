@@ -8,6 +8,7 @@ export interface UserInterface {
   first_name: string;
   last_name: string;
   verified: boolean;
+  auth_method: string;
 }
 
 interface CredentialsInterface {
@@ -15,17 +16,11 @@ interface CredentialsInterface {
   password: string;
 }
 
-interface CodeResponseInterface {
-  clientId: string;
-  credential: string;
-  select_by: string;
-}
-
 interface AuthContextInterface {
   user: null | UserInterface;
   isLoading: boolean;
   login: (credentials: CredentialsInterface) => void;
-  googleSignIn: (codeResponse: CodeResponseInterface) => void;
+  googleSignIn: (credential: string) => void;
   logout: () => void;
   fetchUser: () => void;
 }
@@ -35,7 +30,7 @@ interface PropsInterface {
 }
 
 const AuthContext = createContext<AuthContextInterface>({
-  user: {id: 0, username: "", email: "", first_name: "", last_name: "", verified: false },
+  user: {id: 0, username: "", email: "", first_name: "", last_name: "", verified: false, auth_method: "" },
   isLoading: true,
   login: () => {},
   googleSignIn: () => {},
@@ -82,9 +77,14 @@ export function AuthProvider({children}: PropsInterface) {
     }
   }
 
-  const googleSignIn = async (codeResponse: CodeResponseInterface) => {
+  const googleSignIn = async (credential: string) => {
     try {
-      const response = await api.post("auth/google/", codeResponse)
+      const response = await api.post(
+        "users/google-auth/",
+        {
+          credential: credential,
+        }
+      )
 
       localStorage.setItem("access-token", response.data.access)
       localStorage.setItem("refresh-token", response.data.refresh)

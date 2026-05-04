@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -7,15 +8,20 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
 from drf_spectacular.utils import (
-    extend_schema_view, extend_schema, OpenApiParameter
+    extend_schema_view, extend_schema, OpenApiParameter, inline_serializer
 )
 from drf_spectacular.types import OpenApiTypes
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 
 from links.serializers import LinkSerializer
 from .models import VerificationCode, PasswordResetCode
 from .serializers import (
     CreateUserSerializer,
+    GoogleAuthSerializer,
     VerificationCodeSerializer,
     ChangeEmailSerializer,
     ChangePasswordSerializer,
@@ -23,7 +29,7 @@ from .serializers import (
     PasswordResetSerializer,
     UserSerializer
 )
-from .permissions import IsVerifiend
+from .permissions import IsVerifiend, EmailAuth
 from core.throttling import RestrictedAnonThrottle
 from .tasks import send_verification_email, send_password_reset_email
 
@@ -50,6 +56,83 @@ class UserRegisterView(generics.CreateAPIView):
 
 
 @extend_schema_view(
+    post=extend_schema(
+        summary=_("Authenticate a user with Google"),
+        description=_("Authenticate a user with Google"),
+        responses={
+            200: inline_serializer(
+                name="Success",
+                fields={
+                    "access": serializers.CharField(read_only=True),
+                    "refresh": serializers.CharField(read_only=True),
+                }
+            )
+        },
+    ),
+)
+class GoogleAuthView(APIView):
+    """
+    This view handles Google Sign In.
+    """
+    serializer_class = GoogleAuthSerializer
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            try:
+                id_info = id_token.verify_oauth2_token(
+                    id_token=serializer.validated_data.get("credential"),
+                    request=google_requests.Request(),
+                    audience=settings.GOOGLE_OAUTH_CLIENT_ID
+                )
+
+                email = id_info["email"]
+                username = email.split("@")[0].replace(".", "_").replace("+", "_")
+                first_name = id_info.get("given_name", "")
+                last_name = id_info.get("family_name", "")
+
+                user = get_user_model().objects.filter(
+                    email=email
+                ).first()
+
+                if not user:
+                    user = get_user_model()(
+                        username=username,
+                        email=email,
+                        first_name=first_name,
+                        last_name=last_name,
+                        verified=True,
+                        auth_method="google"
+                    )
+                    user.set_unusable_password()
+                    user.save()
+
+                if user.auth_method != "google":
+                    return Response(
+                        {"error": _("You should sign in with email.")},
+                        status=status.HTTP_403_FORBIDDEN
+                    )
+
+                refresh = RefreshToken.for_user(user)
+
+                return Response(
+                    data={
+                        "access": str(refresh.access_token),
+                        "refresh": str(refresh)
+                    },
+                    status=status.HTTP_200_OK
+                )
+            except ValueError:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(
+            data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+@extend_schema_view(
     get=extend_schema(
         summary=_("Send a verification code to the user's email address"),
         description=_("Send a verification code to the user's email address"),
@@ -60,7 +143,7 @@ class RequestVerificationView(APIView):
     """
     This view sends a verification code to the user's email address.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, EmailAuth]
     throttle_classes = [UserRateThrottle]
 
     def get(self, request):
@@ -80,7 +163,7 @@ class VerificationView(APIView):
     This view verifies user email using email.
     """
     serializer_class = VerificationCodeSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, EmailAuth]
     throttle_classes = [UserRateThrottle]
 
     def post(self, request):
@@ -118,7 +201,7 @@ class UserChangeEmailView(APIView):
     This view handles user email change.
     """
     serializer_class = ChangeEmailSerializer
-    permission_classes = [IsAuthenticated, IsVerifiend]
+    permission_classes = [IsAuthenticated, IsVerifiend, EmailAuth]
 
     def put(self, request):
         serializer = self.serializer_class(
@@ -159,7 +242,7 @@ class RequestPasswordResetView(APIView):
                 username=serializer.validated_data.get("username")
             ).first()
 
-            if user and user.verified:
+            if user and user.verified and user.auth_method == "email":
                 send_password_reset_email.delay(pk=user.pk)
 
                 return Response(status=status.HTTP_200_OK)
@@ -222,7 +305,7 @@ class UserChangePasswordView(APIView):
     This view handles user password change.
     """
     serializer_class = ChangePasswordSerializer
-    permission_classes = [IsAuthenticated, IsVerifiend]
+    permission_classes = [IsAuthenticated, IsVerifiend, EmailAuth]
 
     def put(self, request):
         serializer = self.serializer_class(

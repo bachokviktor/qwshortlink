@@ -1,9 +1,12 @@
 import {useContext, useEffect, useState} from "react"
-import {Outlet, NavLink} from "react-router"
+import {Outlet, NavLink, useOutletContext} from "react-router"
 import {useTranslation} from "react-i18next"
 import AuthContext from "../AuthContext"
 import "../i18n"
 
+type ContextType = {
+  isNavbarOpen: boolean
+}
 
 function Layout() {
   const {t, i18n} = useTranslation()
@@ -116,7 +119,7 @@ function Layout() {
         </button>
       </header>
 
-      <Outlet />
+      <Outlet context={{isNavbarOpen} satisfies ContextType} />
 
       <footer>
         <p>Copyright (c) 2026 Viktor Bachok</p>
@@ -124,6 +127,10 @@ function Layout() {
       </footer>
     </>
   )
+}
+
+export function useNavOpen() {
+  return useOutletContext<ContextType>()
 }
 
 export default Layout

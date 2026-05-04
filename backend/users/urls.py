@@ -7,6 +7,7 @@ app_name = "users"
 
 urlpatterns = [
     path("register/", views.UserRegisterView.as_view(), name="register"),
+    path("google-auth/", views.GoogleAuthView.as_view(), name="google-auth"),
     path("user/", views.UserDetailView.as_view(), name="user-detail"),
     path(
         "user/request-verification/",

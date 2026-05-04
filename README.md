@@ -14,6 +14,7 @@ URL Shortener built with Django REST Framework and React
 ## Features
 
 - JWT Authentication
+- Social Authentication (Google)
 - REST API backend
 - Swagger docs
 - Caching with Redis
@@ -24,7 +25,7 @@ URL Shortener built with Django REST Framework and React
 
 ## Tech Stack
 
-**Backend:** Django, Django REST Framework, simplejwt, drf-spectacular, django-filter
+**Backend:** Django, Django REST Framework, simplejwt, drf-spectacular, django-filter, google-auth
 
 **Frontend:** React, React Router, Axios
 

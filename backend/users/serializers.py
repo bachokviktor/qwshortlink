@@ -40,6 +40,13 @@ class CreateUserSerializer(serializers.ModelSerializer):
         return user
 
 
+class GoogleAuthSerializer(serializers.Serializer):
+    """
+    This serializer is used to serialize Google Identity credential.
+    """
+    credential = serializers.CharField(required=True)
+
+
 class VerificationCodeSerializer(serializers.Serializer):
     """
     This serializer is used to serialize email validation codes.
@@ -173,8 +180,9 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "verified",
+            "auth_method",
         ]
-        read_only_fields = ["email", "verified"]
+        read_only_fields = ["email", "verified", "auth_method"]
 
     def validate_username(self, value):
         if len(value) < 5:

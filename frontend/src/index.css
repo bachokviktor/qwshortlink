@@ -3,7 +3,6 @@
   --color-foreground: #FFFFFF;
   --color-text: #1A1A1A;
   --color-text-light: #F8F8FF;
-  --color-text-dark: #1A1A1A;
   --color-disabled: #A1A2A5;
   --color-neutral: #717275;
   --color-neutral-active: #57585D;
@@ -18,7 +17,6 @@
   --color-foreground: #282A2E;
   --color-text: #F8F8FF;
   --color-text-light: #F8F8FF;
-  --color-text-dark: #1A1A1A;
   --color-disabled: #717275;
   --color-neutral: #3F4144;
   --color-neutral-active: #33393A;
@@ -133,16 +131,8 @@ BUTTONS
   height: 1.5rem;
 }
 
-.btn-google {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.btn-google svg {
-  width: 1.5rem;
-  height: 1.5rem;
+.google-auth span {
+  color: var(--color-text-light);
 }
 
 /*

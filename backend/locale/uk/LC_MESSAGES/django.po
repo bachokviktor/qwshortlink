@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QWShortLink\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-28 14:20+0300\n"
-"PO-Revision-Date: 2026-04-28 14:20+0300\n"
+"POT-Creation-Date: 2026-05-04 18:15+0300\n"
+"PO-Revision-Date: 2026-05-04 18:15+0300\n"
 "Last-Translator: Viktor Bachok\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -20,27 +20,27 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: config/settings.py:210
+#: config/settings.py:215
 msgid "This is the backend API of QWShortLink"
 msgstr "Це API проєкту QWShortLink"
 
-#: config/settings.py:216
+#: config/settings.py:221
 msgid "Users endpoints"
 msgstr "Кінцеві точки користувачів"
 
-#: config/settings.py:220
+#: config/settings.py:225
 msgid "Links endpoints"
 msgstr "Кінцеві точки посилань"
 
-#: config/settings.py:224
+#: config/settings.py:229
 msgid "JWT Authentication"
 msgstr "JWT Аутентифікація"
 
-#: config/settings.py:242
+#: config/settings.py:247
 msgid "English"
 msgstr "Англійська"
 
-#: config/settings.py:243
+#: config/settings.py:248
 msgid "Ukrainian"
 msgstr "Українська"
 
@@ -68,7 +68,7 @@ msgstr "посилання"
 msgid "List all links in the system"
 msgstr "Вивести всі посилання у системі"
 
-#: links/views.py:24 users/views.py:277
+#: links/views.py:24 users/views.py:361
 msgid "A page number within the paginated result set"
 msgstr "Номер сторінки для пагінації"
 
@@ -100,102 +100,114 @@ msgstr "Частково оновити інформацію посилання 
 msgid "Delete a link with specified id"
 msgstr "Видалити посилання за id"
 
-#: users/models.py:47 users/models.py:69
+#: users/models.py:52 users/models.py:81
 msgid "email address"
 msgstr "електронна адреса"
 
-#: users/models.py:51
+#: users/models.py:56
 msgid "verification status"
 msgstr "статус верифікації"
 
-#: users/models.py:62 users/models.py:78
+#: users/models.py:61
+msgid "authentication method"
+msgstr "спосіб автентифікації"
+
+#: users/models.py:74 users/models.py:90
 msgid "verification code"
 msgstr "верифікаційний код"
 
-#: users/models.py:72 users/models.py:104
+#: users/models.py:84 users/models.py:116
 msgid "expires at"
 msgstr "термін дії"
 
-#: users/models.py:79
+#: users/models.py:91
 msgid "verification codes"
 msgstr "верифікаційні коди"
 
-#: users/models.py:94 users/models.py:110
+#: users/models.py:106 users/models.py:122
 msgid "password reset code"
 msgstr "код для скидання паролю"
 
-#: users/models.py:101
+#: users/models.py:113
 msgid "user"
 msgstr "користувач"
 
-#: users/models.py:111
+#: users/models.py:123
 msgid "password reset codes"
 msgstr "коди для скидання паролю"
 
-#: users/serializers.py:24 users/serializers.py:182
+#: users/serializers.py:24 users/serializers.py:190
 msgid "Username must be at least 5 characters long."
 msgstr "Ім'я користувача має бути не менше 5 символів."
 
-#: users/serializers.py:63 users/serializers.py:104
+#: users/serializers.py:70 users/serializers.py:111
 msgid "You must provide an instance to this serializer."
 msgstr "Ви повинні надати об'єкт цьому серіалайзеру."
 
-#: users/serializers.py:68
+#: users/serializers.py:75
 msgid "New email must be different from the previous one."
 msgstr "Новий email повинен відрізнятись від попереднього."
 
-#: users/serializers.py:109
+#: users/serializers.py:116
 msgid "Wrong password."
 msgstr "Хибний пароль."
 
-#: users/serializers.py:117
+#: users/serializers.py:124
 msgid "New password must be different from the previous one."
 msgstr "Новий пароль повинен відрізнятись від попереднього."
 
-#: users/views.py:33 users/views.py:34
+#: users/views.py:39 users/views.py:40
 msgid "Create a new user"
 msgstr "Створити нового користувача"
 
-#: users/views.py:54 users/views.py:55
+#: users/views.py:60 users/views.py:61
+msgid "Authenticate a user with Google"
+msgstr "Автентифікація через Google"
+
+#: users/views.py:114
+msgid "You should sign in with email."
+msgstr "Вам потрібно ввійти через email."
+
+#: users/views.py:137 users/views.py:138
 msgid "Send a verification code to the user's email address"
 msgstr "Надіслати верифікаційний код на email користувача"
 
-#: users/views.py:73 users/views.py:74
+#: users/views.py:157 users/views.py:158
 msgid "Verify user email with a verification code"
 msgstr "Підтверджує email користувача за допомогою верифікаційного коду"
 
-#: users/views.py:111 users/views.py:112
+#: users/views.py:195 users/views.py:196
 msgid "Change user email"
 msgstr "Змінити email користувача"
 
-#: users/views.py:141 users/views.py:142
+#: users/views.py:225 users/views.py:226
 msgid "Send password reset code to the user"
 msgstr "Надіслати код для скидання паролю користувачеві"
 
-#: users/views.py:175 users/views.py:176
+#: users/views.py:259 users/views.py:260
 msgid "Reset user password"
 msgstr "Скинути пароль користувача"
 
-#: users/views.py:215 users/views.py:216
+#: users/views.py:299 users/views.py:300
 msgid "Change user password"
 msgstr "Змінити пароль користувача"
 
-#: users/views.py:243 users/views.py:244
+#: users/views.py:327 users/views.py:328
 msgid "Retrieve the current user"
 msgstr "Отримати інформацію про поточного користувача"
 
-#: users/views.py:247 users/views.py:248
+#: users/views.py:331 users/views.py:332
 msgid "Update the current user"
 msgstr "Оновити інформацію поточного користувача"
 
-#: users/views.py:251 users/views.py:252
+#: users/views.py:335 users/views.py:336
 msgid "Partially update the current user"
 msgstr "Частково оновити інформацію поточного користувача"
 
-#: users/views.py:255 users/views.py:256
+#: users/views.py:339 users/views.py:340
 msgid "Delete the current user"
 msgstr "Видалити поточного користувача"
 
-#: users/views.py:272 users/views.py:273
+#: users/views.py:356 users/views.py:357
 msgid "Fetch all the links of the current user"
 msgstr "Вивести всі посилання поточного користувача"

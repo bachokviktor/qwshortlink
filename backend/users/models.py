@@ -43,6 +43,11 @@ def get_expiration_date():
 
 
 class CustomUser(AbstractUser):
+    AUTH_METHOD_CHOICES = {
+        "email": "Email",
+        "google": "Google",
+    }
+
     email = models.EmailField(
         verbose_name=_("email address"),
         unique=True
@@ -51,6 +56,13 @@ class CustomUser(AbstractUser):
         verbose_name=_("verification status"),
         blank=True,
         default=False
+    )
+    auth_method = models.CharField(
+        verbose_name=_("authentication method"),
+        max_length=32,
+        choices=AUTH_METHOD_CHOICES,
+        default="email",
+        editable=False
     )
 
 

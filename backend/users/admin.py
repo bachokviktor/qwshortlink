@@ -10,6 +10,7 @@ class CustomUserAdmin(UserAdmin):
         "email",
         "first_name",
         "last_name",
+        "auth_method",
         "verified",
         "is_staff"
     )
