@@ -1,7 +1,10 @@
 from django.utils.translation import gettext_lazy as _
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.shortcuts import redirect, get_object_or_404
+from django.db.models import F
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
 from rest_framework import permissions
 from django_filters import rest_framework as filters
 from drf_spectacular.types import OpenApiTypes
@@ -32,6 +35,19 @@ from users.permissions import IsVerifiend
                 location=OpenApiParameter.QUERY
             )
         ]
+    ),
+    redirect=extend_schema(
+        summary=_("Redirect to a link by id"),
+        description=_("Redirect to a link by id"),
+        parameters=[
+            OpenApiParameter(
+                name="id",
+                description=_("An integer id identifying the link"),
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH
+            )
+        ],
+        responses={302: None},
     ),
     create=extend_schema(
         summary=_("Add a new link"),
@@ -98,6 +114,15 @@ class LinkViewSet(ModelViewSet):
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
+    @action(detail=True, methods=["get"])
+    def redirect(self, request, pk=None):
+        link = get_object_or_404(models.Link, pk=pk)
+
+        link.clicks = F("clicks") + 1
+        link.save()
+
+        return redirect(link.url)
+
     def get_queryset(self):
         if self.action == "list":
             return models.Link.objects.all().order_by("-created_at")
@@ -111,7 +136,7 @@ class LinkViewSet(ModelViewSet):
         return serializers.LinkSerializer
 
     def get_permissions(self):
-        if self.action == "list":
+        if (self.action == "list") or (self.action == "redirect"):
             permission_classes = [permissions.AllowAny]
         elif self.action == "create":
             permission_classes = [permissions.IsAuthenticated, IsVerifiend]
