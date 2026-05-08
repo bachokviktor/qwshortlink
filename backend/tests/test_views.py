@@ -104,6 +104,27 @@ class TestUserViews:
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data["results"]) == 2
 
+    def test_fetch_filtered_links(self, django_test_user, api_client):
+        Link.objects.create(
+            url="https://example.com/",
+            owner=django_test_user
+        )
+        searched = Link.objects.create(
+            url="https://another.example.com/",
+            owner=django_test_user
+        )
+
+        api_client.force_authenticate(django_test_user)
+
+        response = api_client.get(
+            reverse("users:user-links", query={"q": "another"}),
+            format="json"
+        )
+
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.data["results"]) == 1
+        assert response.data["results"][0]["short_code"] == searched.short_code
+
     def test_fetch_user_stats(self, django_test_user, api_client):
         top_link = Link.objects.create(
             url="https://example.com/",

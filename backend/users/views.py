@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.db.models import Sum
 from django.utils.translation import gettext_lazy as _
+from django_filters import rest_framework as filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -19,6 +20,7 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 
 from links.serializers import LinkSerializer
+from links.filtersets import MultiLinkFilter
 from .models import VerificationCode, PasswordResetCode
 from .serializers import (
     CreateUserSerializer,
@@ -367,6 +369,12 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
                 description=_("A page number within the paginated result set"),
                 type=OpenApiTypes.INT,
                 location=OpenApiParameter.QUERY
+            ),
+            OpenApiParameter(
+                name="q",
+                description=_("Search string for filtering"),
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY
             )
         ],
     ),
@@ -377,6 +385,8 @@ class UserLinksView(generics.ListAPIView):
     """
     serializer_class = LinkSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = MultiLinkFilter
 
     def get_queryset(self):
         return self.request.user.links.all().order_by("-created_at")

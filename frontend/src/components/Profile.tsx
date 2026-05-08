@@ -29,6 +29,8 @@ function Profile() {
 
   const [links, setLinks] = useState<LinkInterface[]>([])
 
+  const [searchString, setSearchString] = useState<string>("")
+
   const [totalLinks, setTotalLinks] = useState<number>(0)
   const [totalClicks, setTotalClicks] = useState<number>(0)
   const [topLink, setTopLink] = useState<string>("")
@@ -62,7 +64,6 @@ function Profile() {
 
   useEffect(() => {
     fetchLinks()
-    fetchStatistics()
   }, [])
 
   useEffect(() => {
@@ -84,13 +85,15 @@ function Profile() {
 
   const fetchLinks = async () => {
     try {
-      const response = await api.get(`users/user/links/?page=${currentPage}`)
+      const response = await api.get(`users/user/links/?page=${currentPage}&q=${searchString}`)
 
       setLinks(response.data.results)
 
       setNextPage(response.data.next)
       setPreviousPage(response.data.previous)
       setTotalPages(response.data.total_pages)
+
+      await fetchStatistics()
     } catch (error) {
       setErrorMessage(t("profilePage.errorFetch"))
     }
@@ -209,6 +212,18 @@ function Profile() {
 
       <div className="links-container">
         <div className="fl-col fl-gap">
+          <form className="fl-row fl-gap" onSubmit={(e: React.SubmitEvent<HTMLFormElement>) => {e.preventDefault(); fetchLinks()}}>
+            <input
+              className="fl-grow"
+              name="searchString"
+              type="text"
+              placeholder="Search..."
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setSearchString(e.target.value) }}
+              value={searchString}
+            />
+            <button className="btn btn-primary" type="submit">{t("actions.search")}</button>
+          </form>
+
           <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsAddingLink(true)}>{t("linkAddPage.title")}</button>
 
           {links.length > 0 ? links.map((link, index) => (

@@ -156,6 +156,7 @@ input[type="url"] {
   color: var(--color-text);
   border: 1px solid var(--color-neutral);
   border-radius: 5px;
+  min-width: 0;
 }
 
 /*
@@ -218,6 +219,11 @@ UTILITY CLASSES
 .fl-col {
   display: flex;
   flex-direction: column;
+}
+
+.fl-row {
+  display: flex;
+  flex-direction: row;
 }
 
 .fl-gap {
