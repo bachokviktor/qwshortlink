@@ -40,4 +40,5 @@ urlpatterns = [
         name="user-password"
     ),
     path("user/links/", views.UserLinksView.as_view(), name="user-links"),
+    path("user/stat/", views.UserStatView.as_view(), name="user-stat"),
 ]

@@ -417,9 +417,10 @@ PROFILE
   display: grid;
   gap: 1rem;
   grid-template-columns: 400px minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
   grid-template-areas:
     "error error"
+    "profile stats"
     "profile links";
   padding: 1rem;
 }
@@ -433,12 +434,20 @@ PROFILE
   overflow-wrap: break-word;
 }
 
+.stat-container {
+  grid-area: stats;
+}
+
 .links-container {
   grid-area: links;
 }
 
-.linklist-link {
+.linklist-container {
   margin-right: auto;
+  min-width: 0;
+}
+
+.linklist-link {
   min-width: 0;
   overflow-wrap: break-word;
 }
@@ -449,6 +458,7 @@ PROFILE
     grid-template-areas:
       "error"
       "profile"
+      "stats"
       "links";
   }
 }

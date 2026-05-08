@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from django.db.models import Sum
 from django.utils.translation import gettext_lazy as _
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import generics
@@ -62,7 +63,7 @@ class UserRegisterView(generics.CreateAPIView):
         description=_("Authenticate a user with Google"),
         responses={
             200: inline_serializer(
-                name="Success",
+                name="GoogleTokenPair",
                 fields={
                     "access": serializers.CharField(read_only=True),
                     "refresh": serializers.CharField(read_only=True),
@@ -379,3 +380,43 @@ class UserLinksView(generics.ListAPIView):
 
     def get_queryset(self):
         return self.request.user.links.all().order_by("-created_at")
+
+
+@extend_schema_view(
+    get=extend_schema(
+        summary=_("Fetch user statistics"),
+        description=_("Fetch user statistics"),
+        responses={
+            200: inline_serializer(
+                name="UserStatistics",
+                fields={
+                    "total_links": serializers.IntegerField(read_only=True),
+                    "total_clicks": serializers.IntegerField(read_only=True),
+                    "top_link": serializers.CharField(read_only=True),
+                    "top_clicks": serializers.IntegerField(read_only=True),
+                }
+            )
+        },
+    ),
+)
+class UserStatView(APIView):
+    """
+    This view aggregates user statistics.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        total_links = request.user.links.count()
+        total_clicks = request.user.links.aggregate(Sum("clicks", default=0))
+        top_link = request.user.links.order_by("-clicks").first()
+        top_clicks = top_link.clicks
+
+        return Response(
+            data={
+                "total_links": total_links,
+                "total_clicks": total_clicks["clicks__sum"],
+                "top_link": top_link.short_code,
+                "top_clicks": top_clicks,
+            },
+            status=status.HTTP_200_OK
+        )

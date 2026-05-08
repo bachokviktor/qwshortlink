@@ -17,6 +17,7 @@ interface LinkInterface {
   id: number;
   url: string;
   short_code: string;
+  clicks: number;
 }
 
 function Profile() {
@@ -27,7 +28,11 @@ function Profile() {
   const auth = useContext(AuthContext)
 
   const [links, setLinks] = useState<LinkInterface[]>([])
+
   const [totalLinks, setTotalLinks] = useState<number>(0)
+  const [totalClicks, setTotalClicks] = useState<number>(0)
+  const [topLink, setTopLink] = useState<string>("")
+  const [topClicks, setTopClicks] = useState<number>(0)
 
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [nextPage, setNextPage] = useState<number | null>(null)
@@ -57,18 +62,31 @@ function Profile() {
 
   useEffect(() => {
     fetchLinks()
+    fetchStatistics()
   }, [])
 
   useEffect(() => {
     fetchLinks()
   }, [currentPage])
 
+  const fetchStatistics = async () => {
+    try {
+      const response = await api.get("users/user/stat/")
+
+      setTotalLinks(response.data.total_links)
+      setTotalClicks(response.data.total_clicks)
+      setTopLink(response.data.top_link)
+      setTopClicks(response.data.top_clicks)
+    } catch (error) {
+      setErrorMessage(t("profilePage.errorStat"))
+    }
+  }
+
   const fetchLinks = async () => {
     try {
       const response = await api.get(`users/user/links/?page=${currentPage}`)
 
       setLinks(response.data.results)
-      setTotalLinks(response.data.count)
 
       setNextPage(response.data.next)
       setPreviousPage(response.data.previous)
@@ -165,7 +183,6 @@ function Profile() {
           { (auth.user?.first_name || auth.user?.last_name) &&
             <p>{auth.user?.first_name} {auth.user?.last_name}</p> }
           <p>Email: {auth.user?.email}</p>
-          <p>{t("profilePage.totalLinks")}: {totalLinks}</p>
 
           <hr/>
 
@@ -180,16 +197,32 @@ function Profile() {
         </div>
       </div>
 
+      <div className="stat-container">
+        <div className="card fl-col fl-gap">
+          <h2>{t("profilePage.statHeading")}</h2>
+
+          <p>{t("profilePage.totalLinks")}: {totalLinks}</p>
+          <p>{t("profilePage.totalClicks")}: {totalClicks}</p>
+          <p>{t("profilePage.topLink", { code: topLink, clicks: topClicks })}</p>
+        </div>
+      </div>
+
       <div className="links-container">
         <div className="fl-col fl-gap">
           <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsAddingLink(true)}>{t("linkAddPage.title")}</button>
 
           {links.length > 0 ? links.map((link, index) => (
             <div className="card fl-gap fl-center-cross fl-wrap" key={index}>
-              <p className="linklist-link">{baseUrl}l/{link.short_code}: <a href={link.url}>{link.url}</a></p>
-              <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>{t("actions.copy")}</button>
-              <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>{t("actions.edit")}</button>
-              <button disabled={!auth.user?.verified} className="btn btn-danger" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>{t("actions.delete")}</button>
+              <div className="linklist-container fl-col fl-gap">
+                <p className="linklist-link">{baseUrl}l/{link.short_code}</p>
+                <a className="linklist-link" href={link.url}>{link.url}</a>
+                <p>{t("profilePage.linkClicks")}: {link.clicks}</p>
+              </div>
+              <div className="fl-gap fl-wrap">
+                <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>{t("actions.copy")}</button>
+                <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>{t("actions.edit")}</button>
+                <button disabled={!auth.user?.verified} className="btn btn-danger" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>{t("actions.delete")}</button>
+                </div>
             </div>
           )) : (
             <div className="card">

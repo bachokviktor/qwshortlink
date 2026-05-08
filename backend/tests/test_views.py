@@ -104,6 +104,31 @@ class TestUserViews:
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data["results"]) == 2
 
+    def test_fetch_user_stats(self, django_test_user, api_client):
+        top_link = Link.objects.create(
+            url="https://example.com/",
+            clicks=10,
+            owner=django_test_user
+        )
+        Link.objects.create(
+            url="https://another.example.com/",
+            clicks=5,
+            owner=django_test_user
+        )
+
+        api_client.force_authenticate(django_test_user)
+
+        response = api_client.get(
+            reverse("users:user-stat"),
+            format="json"
+        )
+
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["total_links"] == 2
+        assert response.data["total_clicks"] == 15
+        assert response.data["top_link"] == top_link.short_code
+        assert response.data["top_clicks"] == top_link.clicks
+
     def test_user_verification(self, django_test_user, api_client):
         code = VerificationCode.objects.create(email="testuser@example.com")
 

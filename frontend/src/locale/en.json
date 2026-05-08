@@ -146,9 +146,14 @@
 
   "profilePage": {
     "title": "Profile",
+    "statHeading": "Statistics",
     "totalLinks": "Total Links",
+    "totalClicks": "Total Clicks",
+    "topLink": "Top Link: {{ code }} ({{ clicks }} clicks)",
+    "linkClicks": "Clicks",
     "noLinks": "No links yet.",
     "errorFetch": "Failed to fetch links.",
+    "errorStat": "Failed to fetch user statistics.",
     "errorDelete": "Failed to delete link."
   }
 }
