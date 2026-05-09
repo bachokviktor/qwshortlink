@@ -73,6 +73,9 @@ BUTTONS
 */
 
 .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
@@ -115,6 +118,17 @@ BUTTONS
 
 .btn-danger:active {
   background-color: var(--color-danger-active);
+}
+
+.btn-icon {
+  padding: 0.5rem;
+}
+
+.btn-icon svg {
+  fill: var(--color-text-light);
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.25rem;
 }
 
 .btn-svg {

@@ -221,7 +221,9 @@ function Profile() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setSearchString(e.target.value) }}
               value={searchString}
             />
-            <button className="btn btn-primary" type="submit">{t("actions.search")}</button>
+            <button className="btn btn-primary btn-icon" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+            </button>
           </form>
 
           <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsAddingLink(true)}>{t("linkAddPage.title")}</button>
@@ -234,9 +236,17 @@ function Profile() {
                 <p>{t("profilePage.linkClicks")}: {link.clicks}</p>
               </div>
               <div className="fl-gap fl-wrap">
-                <button className="btn btn-primary" onClick={() => {copyShortCode(link.short_code)}}>{t("actions.copy")}</button>
-                <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>{t("actions.edit")}</button>
-                <button disabled={!auth.user?.verified} className="btn btn-danger" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>{t("actions.delete")}</button>
+                <button className="btn btn-primary btn-icon" onClick={() => {copyShortCode(link.short_code)}}>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"/></svg>
+                </button>
+
+                <button disabled={!auth.user?.verified} className="btn btn-primary btn-icon" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z"/></svg>
+                </button>
+
+                <button disabled={!auth.user?.verified} className="btn btn-danger btn-icon" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                </button>
                 </div>
             </div>
           )) : (
@@ -247,11 +257,15 @@ function Profile() {
 
           {(previousPage || nextPage) && (
             <div className="card fl-space-between fl-center-cross">
-              {previousPage && <button className="btn btn-primary" onClick={() => setCurrentPage(previousPage)}>{t("actions.previous")}</button>}
-              <div></div>
+              <button disabled={!previousPage} className="btn btn-primary btn-icon" onClick={() => {if (previousPage) setCurrentPage(previousPage)}}>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+              </button>
+
               <p>{currentPage}/{totalPages}</p>
-              <div></div>
-              {nextPage && <button className="btn btn-primary" onClick={() => setCurrentPage(nextPage)}>{t("actions.next")}</button>}
+
+              <button disabled={!nextPage} className="btn btn-primary btn-icon" onClick={() => {if (nextPage) setCurrentPage(nextPage)}}>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
+              </button>
             </div>
           )}
         </div>

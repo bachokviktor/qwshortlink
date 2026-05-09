@@ -419,13 +419,13 @@ class UserStatView(APIView):
         total_links = request.user.links.count()
         total_clicks = request.user.links.aggregate(Sum("clicks", default=0))
         top_link = request.user.links.order_by("-clicks").first()
-        top_clicks = top_link.clicks
+        top_clicks = top_link.clicks if top_link else 0
 
         return Response(
             data={
                 "total_links": total_links,
                 "total_clicks": total_clicks["clicks__sum"],
-                "top_link": top_link.short_code,
+                "top_link": top_link.short_code if top_link else "",
                 "top_clicks": top_clicks,
             },
             status=status.HTTP_200_OK
