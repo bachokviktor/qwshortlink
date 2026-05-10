@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.db.models import Sum
 from django.utils.translation import gettext_lazy as _
 from django_filters import rest_framework as filters
@@ -415,6 +417,7 @@ class UserStatView(APIView):
     """
     permission_classes = [IsAuthenticated]
 
+    @method_decorator(cache_page(180))
     def get(self, request):
         total_links = request.user.links.count()
         total_clicks = request.user.links.aggregate(Sum("clicks", default=0))
