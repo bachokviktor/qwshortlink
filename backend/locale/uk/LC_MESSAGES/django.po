@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QWShortLink\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-04 18:15+0300\n"
-"PO-Revision-Date: 2026-05-04 18:15+0300\n"
+"POT-Creation-Date: 2026-05-15 21:26+0300\n"
+"PO-Revision-Date: 2026-05-15 21:26+0300\n"
 "Last-Translator: Viktor Bachok\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -44,59 +44,68 @@ msgstr "Англійська"
 msgid "Ukrainian"
 msgstr "Українська"
 
-#: links/models.py:27
+#: links/models.py:28
 msgid "short code"
 msgstr "шорткод"
 
-#: links/models.py:33
+#: links/models.py:34
 msgid "created at"
 msgstr "дата створення"
 
-#: links/models.py:40
+#: links/models.py:41
 msgid "owner"
 msgstr "власник"
 
 #: links/models.py:44
+msgid "number of clicks"
+msgstr "кількість переходів"
+
+#: links/models.py:51
 msgid "link"
 msgstr "посилання"
 
-#: links/models.py:45
+#: links/models.py:52
 msgid "links"
 msgstr "посилання"
 
-#: links/views.py:19 links/views.py:20
+#: links/views.py:22 links/views.py:23
 msgid "List all links in the system"
 msgstr "Вивести всі посилання у системі"
 
-#: links/views.py:24 users/views.py:361
+#: links/views.py:27 users/views.py:371
 msgid "A page number within the paginated result set"
 msgstr "Номер сторінки для пагінації"
 
-#: links/views.py:30
+#: links/views.py:33
 msgid "Short code corresponding to a link"
 msgstr "Шорткод посилання"
 
-#: links/views.py:37 links/views.py:38
-msgid "Add a new link"
-msgstr "Додати нове посилання"
+#: links/views.py:40 links/views.py:41
+msgid "Redirect to a link by id"
+msgstr "Перенаправити на посилання за id"
 
-#: links/views.py:41 links/views.py:42
-msgid "Retrieve a link by id"
-msgstr "Отримати інформацію про посилання за id"
-
-#: links/views.py:46 links/views.py:58 links/views.py:70 links/views.py:82
+#: links/views.py:45 links/views.py:62 links/views.py:74 links/views.py:86
+#: links/views.py:98
 msgid "An integer id identifying the link"
 msgstr "Id, що ідентифікує посилання"
 
 #: links/views.py:53 links/views.py:54
+msgid "Add a new link"
+msgstr "Додати нове посилання"
+
+#: links/views.py:57 links/views.py:58
+msgid "Retrieve a link by id"
+msgstr "Отримати інформацію про посилання за id"
+
+#: links/views.py:69 links/views.py:70
 msgid "Update a link with specified id"
 msgstr "Оновити інформацію посилання за id"
 
-#: links/views.py:65 links/views.py:66
+#: links/views.py:81 links/views.py:82
 msgid "Partially update a link with specified id"
 msgstr "Частково оновити інформацію посилання за id"
 
-#: links/views.py:77 links/views.py:78
+#: links/views.py:93 links/views.py:94
 msgid "Delete a link with specified id"
 msgstr "Видалити посилання за id"
 
@@ -156,58 +165,66 @@ msgstr "Хибний пароль."
 msgid "New password must be different from the previous one."
 msgstr "Новий пароль повинен відрізнятись від попереднього."
 
-#: users/views.py:39 users/views.py:40
+#: users/views.py:45 users/views.py:46
 msgid "Create a new user"
 msgstr "Створити нового користувача"
 
-#: users/views.py:60 users/views.py:61
+#: users/views.py:66 users/views.py:67
 msgid "Authenticate a user with Google"
 msgstr "Автентифікація через Google"
 
-#: users/views.py:114
+#: users/views.py:124
 msgid "You should sign in with email."
 msgstr "Вам потрібно ввійти через email."
 
-#: users/views.py:137 users/views.py:138
+#: users/views.py:147 users/views.py:148
 msgid "Send a verification code to the user's email address"
 msgstr "Надіслати верифікаційний код на email користувача"
 
-#: users/views.py:157 users/views.py:158
+#: users/views.py:167 users/views.py:168
 msgid "Verify user email with a verification code"
 msgstr "Підтверджує email користувача за допомогою верифікаційного коду"
 
-#: users/views.py:195 users/views.py:196
+#: users/views.py:205 users/views.py:206
 msgid "Change user email"
 msgstr "Змінити email користувача"
 
-#: users/views.py:225 users/views.py:226
+#: users/views.py:235 users/views.py:236
 msgid "Send password reset code to the user"
 msgstr "Надіслати код для скидання паролю користувачеві"
 
-#: users/views.py:259 users/views.py:260
+#: users/views.py:269 users/views.py:270
 msgid "Reset user password"
 msgstr "Скинути пароль користувача"
 
-#: users/views.py:299 users/views.py:300
+#: users/views.py:309 users/views.py:310
 msgid "Change user password"
 msgstr "Змінити пароль користувача"
 
-#: users/views.py:327 users/views.py:328
+#: users/views.py:337 users/views.py:338
 msgid "Retrieve the current user"
 msgstr "Отримати інформацію про поточного користувача"
 
-#: users/views.py:331 users/views.py:332
+#: users/views.py:341 users/views.py:342
 msgid "Update the current user"
 msgstr "Оновити інформацію поточного користувача"
 
-#: users/views.py:335 users/views.py:336
+#: users/views.py:345 users/views.py:346
 msgid "Partially update the current user"
 msgstr "Частково оновити інформацію поточного користувача"
 
-#: users/views.py:339 users/views.py:340
+#: users/views.py:349 users/views.py:350
 msgid "Delete the current user"
 msgstr "Видалити поточного користувача"
 
-#: users/views.py:356 users/views.py:357
+#: users/views.py:366 users/views.py:367
 msgid "Fetch all the links of the current user"
 msgstr "Вивести всі посилання поточного користувача"
+
+#: users/views.py:377
+msgid "Search string for filtering"
+msgstr "Рядок для фільтрації"
+
+#: users/views.py:399 users/views.py:400
+msgid "Fetch user statistics"
+msgstr "Вивести статистику користувача"
