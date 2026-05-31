@@ -25,6 +25,7 @@ DOTENV_PATH = BASE_DIR / ".env"
 
 load_dotenv(dotenv_path=DOTENV_PATH)
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -48,9 +49,7 @@ CORS_ALLOWED_ORIGINS = [
     os.getenv("CORS_ORIGINS")
 ]
 
-CORS_EXPOSE_HEADERS = [
-    "retry-after",
-]
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
@@ -63,7 +62,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
     "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
     "django_filters",
     "corsheaders",
     "drf_spectacular",
@@ -82,6 +89,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -115,7 +123,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 #     }
 # }
 
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -141,7 +148,9 @@ CACHES = {
 # Celery
 
 CELERY_TIMEZONE = os.getenv("DJ_TIME_ZONE", "UTC")
+
 CELERY_BROKER_URL = os.getenv("REDIS_URL")
+
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 
@@ -165,8 +174,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "users.CustomUser"
 
-GOOGLE_OAUTH_CLIENT_ID = os.getenv("GOOGLE_OAUTH_CLIENT_ID")
-GOOGLE_OAUTH_CLIENT_SECRET = os.getenv("GOOGLE_OAUTH_CLIENT_SECRET")
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
 
 
 # Email configuration
@@ -185,11 +196,50 @@ else:
 DEFAULT_FROM_EMAIL = os.getenv("SMTP_DEFAULT_FROM_EMAIL")
 
 
+# Django Allauth
+
+ACCOUNT_SIGNUP_FIELDS = ["username*", "email*", "password1*", "password2*"]
+
+ACCOUNT_LOGIN_METHODS = {"username"}
+
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+ACCOUNT_CHANGE_EMAIL = False
+
+ACCOUNT_MAX_EMAIL_ADDRESSES = 1
+
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "QWShortLink "
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "VERIFIED_EMAIL": True,
+        "SCOPE": [
+            "openid",
+            "email",
+            "profile",
+        ],
+        "APPS": [
+            {
+                "name": "Google",
+                "client_id": os.getenv("GOOGLE_OAUTH_CLIENT_ID"),
+                "secret": os.getenv("GOOGLE_OAUTH_CLIENT_SECRET"),
+            },
+        ],
+    }
+}
+
+
 # REST Framework
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "core.pagination.CustomPageNumberPagination",
@@ -205,10 +255,35 @@ if not DEBUG:
         "rest_framework.renderers.JSONRenderer",
     ]
 
+
+# Dj Rest Auth
+
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "access",
+    "JWT_AUTH_REFRESH_COOKIE": "refresh",
+    "JWT_AUTH_HTTPONLY": True,
+    "JWT_AUTH_SECURE": True,
+    "JWT_AUTH_SAMESITE": "None",
+    "SESSION_LOGIN": False,
+    "OLD_PASSWORD_FIELD_ENABLED": True,
+    "LOGOUT_ON_PASSWORD_CHANGE": True,
+}
+
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+
+
+# SimpleJWT
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
 }
+
+
+# DRF Spectacular
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "QWShortLink API",
@@ -217,17 +292,13 @@ SPECTACULAR_SETTINGS = {
     "SERVE_INCLUDE_SCHEMA": False,
     "TAGS": [
         {
-            "name": "users",
-            "description": _("Users endpoints"),
+            "name": "auth",
+            "description": _("Authentication endpoints"),
         },
         {
             "name": "links",
             "description": _("Links endpoints"),
         },
-        {
-            "name": "token",
-            "description": _("JWT Authentication"),
-        }
     ]
 }
 

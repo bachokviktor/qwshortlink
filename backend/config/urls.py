@@ -18,25 +18,37 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularSwaggerView
+)
+
+from users.views import (
+    ConfirmEmailView,
+    ConfirmPasswordResetView,
+    GoogleLoginView,
+    UserLinksView,
+    UserStatView,
 )
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(
-        "api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"
+        "api/auth/password-reset/confirm/<str:uid>/<str:token>/",
+        ConfirmPasswordResetView.as_view(),
+        name="password_reset_confirm",
     ),
     path(
-        "api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"
+        "api/auth/registration/account-confirm-email/<str:key>/",
+        ConfirmEmailView.as_view(),
+        name="account_confirm_email",
     ),
-    path("api/users/", include("users.urls")),
+    path("api/auth/user/links/", UserLinksView.as_view(), name="user-links"),
+    path("api/auth/user/stat/", UserStatView.as_view(), name="user-stat"),
+    path("api/auth/", include("dj_rest_auth.urls")),
+    path("api/auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("api/auth/google/", GoogleLoginView.as_view(), name="google_login"),
     path("api/links/", include("links.urls")),
 ]
 

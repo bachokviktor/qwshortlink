@@ -14,7 +14,6 @@ from drf_spectacular.utils import (
 
 from . import serializers, models, filtersets
 from .permissions import IsOwner
-from users.permissions import IsVerifiend
 
 
 @extend_schema_view(
@@ -139,10 +138,10 @@ class LinkViewSet(ModelViewSet):
         if (self.action == "list") or (self.action == "redirect"):
             permission_classes = [permissions.AllowAny]
         elif self.action == "create":
-            permission_classes = [permissions.IsAuthenticated, IsVerifiend]
+            permission_classes = [permissions.IsAuthenticated]
         else:
             permission_classes = [
-                permissions.IsAuthenticated, IsVerifiend, IsOwner
+                permissions.IsAuthenticated, IsOwner
             ]
 
         return [permission() for permission in permission_classes]
