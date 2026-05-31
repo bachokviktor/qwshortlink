@@ -26,15 +26,11 @@ function PasswordChange({setIsChangingPassword}: PropsInterface) {
       return
     }
 
-    if (password === newPassword) {
-      setErrorMessage(t("validation.samePasswords"))
-      return
-    }
-
     try {
-      await api.put("users/user/password/", {
-        password: password,
-        new_password: newPassword
+      await api.post("auth/password/change/", {
+        old_password: password,
+        new_password1: newPassword,
+        new_password2: newPassword
       })
 
       setIsChangingPassword(false)

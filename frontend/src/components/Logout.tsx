@@ -1,15 +1,30 @@
 import { useContext, useEffect } from "react"
-import { Navigate } from "react-router"
+import { useNavigate } from "react-router"
 import AuthContext from "../AuthContext"
+import api from "../api"
 
 function Logout() {
-  const { logout } = useContext(AuthContext)
+  const auth = useContext(AuthContext)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
-    logout()
+    handleLogout()
   }, [])
 
-  return <Navigate to="/login" />
+  const handleLogout = async () => {
+    try {
+      await api.post("auth/logout/")
+
+      await auth.fetchUser()
+
+      navigate("/")
+    } catch (error) {
+      navigate("/")
+    }
+  }
+
+  return <p>Logout...</p>
 }
 
 export default Logout

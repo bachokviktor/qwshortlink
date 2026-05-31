@@ -1,18 +1,14 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router"
-import { GoogleLogin } from "@react-oauth/google"
 import { useTranslation } from "react-i18next"
 import AuthContext from "../AuthContext"
 import api from "../api"
-import {useNavOpen} from "./Layout"
 import "../i18n"
 
 function Register() {
   const {t} = useTranslation()
 
   const auth = useContext(AuthContext)
-  
-  const {isNavbarOpen} = useNavOpen()
 
   const navigate = useNavigate()
 
@@ -50,7 +46,9 @@ function Register() {
     }
 
     try {
-      await api.post("users/register/", {username: username, email: email, password: password1})
+      await api.post("auth/registration/", {
+        username, email, password1, password2
+      })
 
       navigate("/login")
     } catch (error: any) {
@@ -133,29 +131,7 @@ function Register() {
 
         <hr/>
 
-        {!isNavbarOpen &&
-          <div className="google-auth">
-            <GoogleLogin
-              onSuccess={async (credentialResponse) => {
-                if (credentialResponse.credential) {
-                  try {
-                    await auth.googleSignIn(credentialResponse.credential)
-                  } catch (error: any) {
-                    if (error?.response?.status === 403) {
-                      setErrorMessage(t("errors.emailAuth"))
-                    } else {
-                      setErrorMessage(t("errors.badResponse"))
-                    }
-                  }
-                }
-              }}
-              onError={() => {
-                setErrorMessage(t("errors.badResponse"))
-              }}
-              theme="filled_blue"
-            />
-          </div>
-        }
+        <p>Google Signin Button</p>
 
         <p>{t("registrationPage.haveAccount")} <Link to="/login">{t("auth.login")}</Link></p>
       </div>

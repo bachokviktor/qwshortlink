@@ -1,31 +1,11 @@
-import React, { useState, useContext } from "react"
-import AuthContext from "../AuthContext"
 import "../i18n"
 import { useTranslation } from "react-i18next"
-
-import EmailVerification from "./EmailVerification"
 
 function Home() {
   const {t} = useTranslation()
 
-  const auth = useContext(AuthContext)
-
-  const [isVerifyingEmail, setIsVerifyingEmail] = useState<boolean>(false)
-
-  if (isVerifyingEmail) {
-    return <EmailVerification setIsVerifyingEmail={setIsVerifyingEmail} />
-  }
-
   return (
     <div className="fl-col fl-gap-large vertical-padding-large horizontal-padding">
-      {auth.user && !auth.user.verified && (
-        <div className="card card-danger fl-col fl-gap">
-          <p>{t("verificationBanner.firstLine")} {auth.user.email}</p>
-
-          <p>{t("verificationBanner.secondLine")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsVerifyingEmail(true)}}>{t("verificationBanner.link")}</a></p>
-        </div>
-      )}
-
       <div className="fl-col fl-gap fl-center-cross">
         <img alt="Logo" src="/logo.svg" height="256px" width="256px" />
         <h1>QWShortLink</h1>

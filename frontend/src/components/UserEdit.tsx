@@ -38,7 +38,7 @@ function UserEdit({setIsEditingUser}: PropsInterface) {
     }
 
     try {
-      await api.put("users/user/", {
+      await api.put("auth/user/", {
         username: editUsername,
         first_name: editFirstName,
         last_name: editLastName

@@ -1,95 +1,44 @@
-import React, { useState, useEffect, useContext } from "react"
-import { useTranslation } from "react-i18next"
-import AuthContext from "../AuthContext"
+import { useState } from "react"
+import {useParams, useNavigate} from "react-router"
+import {useTranslation} from "react-i18next"
 import api from "../api"
 import "../i18n"
 
-interface PropsInterface {
-  setIsVerifyingEmail: (value: boolean) => void;
-}
-
-function EmailVerification({setIsVerifyingEmail}: PropsInterface) {
+function EmailVerification() {
   const {t} = useTranslation()
 
-  const auth = useContext(AuthContext)
+  const navigate = useNavigate()
 
-  const [verificationCode, setVerificationCode] = useState<string>("")
-
-  const [successMessage, setSuccessMessage] = useState<string>("")
+  const {key} = useParams()
 
   const [errorMessage, setErrorMessage] = useState<string>("")
 
-  useEffect(() => {
-    setErrorMessage("")
-    setSuccessMessage("")
-  }, [verificationCode])
-
-  const resendCode = async (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-
+  const handleVerification = async () => {
     try {
-      await api.get("users/user/request-verification/")
+      await api.post(
+        "auth/registration/verify-email/",
+        {key}
+      )
 
-      setSuccessMessage(t("verificationPage.successfulRequest"))
-    } catch (error: any) {
-      if (error?.response?.status === 429) {
-        setErrorMessage(t("errors.throttle", { value: error.response.headers["retry-after"] }))
-      } else {
-        setErrorMessage(t("errors.badResponse"))
-      }
-    }
-  }
-
-  const verifyEmail = async (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    try {
-      await api.post("users/user/verification/", {
-        code: verificationCode,
-      })
-
-      setIsVerifyingEmail(false)
-      auth.fetchUser()
-    } catch (error: any) {
-      if (error?.response?.status === 429) {
-        setErrorMessage(t("errors.throttle", { value: error.response.headers["retry-after"] }))
-      } else {
-        setErrorMessage(t("errors.badResponse"))
-      }
+      navigate("/")
+    } catch (error) {
+      setErrorMessage(t("errors.badResponse"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>{`${t("verificationPage.title")} - QWShortLink`}</title>
+      <title>Email Verification</title>
 
-      <div className="card fl-col fl-gap">
-        <h2>{t("verificationPage.title")}</h2>
+      <div className="card fl-col fl-gap">  
+        <h2>Verify your email?</h2>
 
-        <form onSubmit={verifyEmail}>
-          <div className="fl-col">
-            <label htmlFor="verificationCode">{t("verificationPage.verificationCode")}</label>
-            <input
-              name="verificationCode"
-              id="verificationCode"
-              type="text"
-              placeholder="code..."
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setVerificationCode(e.target.value) }}
-              value={verificationCode}
-            />
-          </div>
+        {errorMessage && <p className="danger">{errorMessage}</p>}
 
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-          {successMessage && <p>{successMessage}</p>}
-
-          <button className="btn btn-primary" type="submit">{t("actions.submit")}</button>
-          <button className="btn btn-neutral" onClick={() => {setIsVerifyingEmail(false)}}>{t("actions.cancel")}</button>
-        </form>
-
-        <hr/>
-
-        <p>{t("verificationPage.noCode")} <a href="#" onClick={resendCode}>{t("actions.resend")}</a></p>
+        <div className="fl-gap fl-wrap">
+          <button className="btn btn-primary fl-grow" onClick={handleVerification}>{t("actions.continue")}</button>
+          <button className="btn btn-neutral fl-grow" onClick={() => navigate("/")}>{t("actions.goBack")}</button>
+        </div>
       </div>
     </div>
   )

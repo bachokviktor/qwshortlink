@@ -7,11 +7,8 @@ import "../i18n"
 import LinkAdd from "./LinkAdd"
 import LinkEdit from "./LinkEdit"
 import LinkDelete from "./LinkDelete"
-import EmailVerification from "./EmailVerification"
 import UserEdit from "./UserEdit"
-import EmailChange from "./EmailChange"
 import PasswordChange from "./PasswordChange"
-import UserDelete from "./UserDelete"
 
 interface LinkInterface {
   id: number;
@@ -50,15 +47,9 @@ function Profile() {
   const [isDeletingLink, setIsDeletingLink] = useState<boolean>(false)
   const [deleteLinkId, setDeleteLinkId] = useState<number | null>(null)
 
-  const [isVerifyingEmail, setIsVerifyingEmail] = useState<boolean>(false)
-
   const [isEditingUser, setIsEditingUser] = useState<boolean>(false)
 
-  const [isChangingEmail, setIsChangingEmail] = useState<boolean>(false)
-
   const [isChangingPassword, setIsChangingPassword] = useState<boolean>(false)
-
-  const [isDeletingUser, setIsDeletingUser] = useState<boolean>(false)
 
   const [errorMessage, setErrorMessage] = useState<string | undefined>("")
 
@@ -72,7 +63,7 @@ function Profile() {
 
   const fetchStatistics = async () => {
     try {
-      const response = await api.get("users/user/stat/")
+      const response = await api.get("auth/user/stat/")
 
       setTotalLinks(response.data.total_links)
       setTotalClicks(response.data.total_clicks)
@@ -85,7 +76,7 @@ function Profile() {
 
   const fetchLinks = async () => {
     try {
-      const response = await api.get(`users/user/links/?page=${currentPage}&q=${searchString}`)
+      const response = await api.get(`auth/user/links/?page=${currentPage}&q=${searchString}`)
 
       setLinks(response.data.results)
 
@@ -142,37 +133,18 @@ function Profile() {
              deleteLink={deleteLink} />
   }
 
-  if (isVerifyingEmail) {
-    return <EmailVerification setIsVerifyingEmail={setIsVerifyingEmail} />
-  }
-
   if (isEditingUser) {
     return <UserEdit setIsEditingUser={setIsEditingUser} />
-  }
-
-  if (isChangingEmail) {
-    return <EmailChange setIsChangingEmail={setIsChangingEmail} />
   }
 
   if (isChangingPassword) {
     return <PasswordChange setIsChangingPassword={setIsChangingPassword} />
   }
 
-  if (isDeletingUser) {
-    return <UserDelete setIsDeletingUser={setIsDeletingUser} />
-  }
-
   return (
     <div className="profile-grid">
       <title>{`${t("profilePage.title")} - QWShortLink`}</title>
       <div className="error-container">
-        {auth.user && !auth.user.verified && (
-          <div className="card card-danger fl-col fl-gap">
-            <p>{t("verificationBanner.firstLine")} {auth.user.email}</p>
-
-            <p>{t("verificationBanner.secondLine")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsVerifyingEmail(true)}}>{t("verificationBanner.link")}</a></p>
-          </div>
-        )}
         {errorMessage && (
           <div className="card card-danger">
             <p>{errorMessage}</p>
@@ -190,13 +162,7 @@ function Profile() {
           <hr/>
 
           <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>{t("actions.edit")}</button>
-          { auth.user?.auth_method === "email" && (
-            <>
-              <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsChangingEmail(true)}>{t("emailChangePage.title")}</button>
-              <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>{t("passwordChangePage.title")}</button>
-            </>
-          )}
-          <button className="btn btn-danger" onClick={() => setIsDeletingUser(true)}>{t("actions.delete")}</button>
+          <button className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>{t("passwordChangePage.title")}</button>
         </div>
       </div>
 
@@ -226,7 +192,7 @@ function Profile() {
             </button>
           </form>
 
-          <button disabled={!auth.user?.verified} className="btn btn-primary" onClick={() => setIsAddingLink(true)}>{t("linkAddPage.title")}</button>
+          <button className="btn btn-primary" onClick={() => setIsAddingLink(true)}>{t("linkAddPage.title")}</button>
 
           {links.length > 0 ? links.map((link, index) => (
             <div className="card fl-gap fl-center-cross fl-wrap" key={index}>
@@ -240,11 +206,11 @@ function Profile() {
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"/></svg>
                 </button>
 
-                <button disabled={!auth.user?.verified} className="btn btn-primary btn-icon" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>
+                <button className="btn btn-primary btn-icon" onClick={() => {setEditLinkId(link.id); setEditLinkUrl(link.url); setIsEditingLink(true)}}>
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z"/></svg>
                 </button>
 
-                <button disabled={!auth.user?.verified} className="btn btn-danger btn-icon" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>
+                <button className="btn btn-danger btn-icon" onClick={() => {setDeleteLinkId(link.id); setIsDeletingLink(true)}}>
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
                 </button>
                 </div>

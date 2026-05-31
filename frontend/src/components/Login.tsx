@@ -1,23 +1,16 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router"
 import { useTranslation } from "react-i18next"
-import { GoogleLogin } from "@react-oauth/google"
 import AuthContext from "../AuthContext"
-import {useNavOpen} from "./Layout"
+import api from "../api"
 import "../i18n"
-
-import PasswordRequestReset from "./PasswordRequestReset"
 
 function Login() {
   const {t} = useTranslation()
 
   const auth = useContext(AuthContext)
 
-  const {isNavbarOpen} = useNavOpen()
-
   const navigate = useNavigate()
-
-  const [isRequestingReset, setIsRequestingReset] = useState<boolean>(false)
 
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
@@ -41,7 +34,9 @@ function Login() {
     }
 
     try {
-      await auth.login({username, password})
+      await api.post("auth/login/", {username, password})
+
+      await auth.fetchUser()
 
       navigate("/")
     } catch (error) {
@@ -51,10 +46,6 @@ function Login() {
 
   if (auth.user) {
     return <Navigate to="/" />
-  }
-
-  if (isRequestingReset) {
-    return <PasswordRequestReset setIsRequestingReset={setIsRequestingReset} />
   }
 
   return (
@@ -98,31 +89,9 @@ function Login() {
 
         <hr/>
 
-        {!isNavbarOpen &&
-          <div className="google-auth">
-            <GoogleLogin
-              onSuccess={async (credentialResponse) => {
-                if (credentialResponse.credential) {
-                  try {
-                    await auth.googleSignIn(credentialResponse.credential)
-                  } catch (error: any) {
-                    if (error?.response?.status === 403) {
-                      setErrorMessage(t("errors.emailAuth"))
-                    } else {
-                      setErrorMessage(t("errors.badResponse"))
-                    }
-                  }
-                }
-              }}
-              onError={() => {
-                setErrorMessage(t("errors.badResponse"))
-              }}
-              theme="filled_blue"
-            />
-          </div>
-        }
+        <p>Google Signin Button</p>
 
-        <p>{t("loginPage.forgotPassword")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsRequestingReset(true)}}>{t("actions.reset")}</a></p>
+        <p>{t("loginPage.forgotPassword")} {t("actions.reset")}</p>
 
         <p>{t("loginPage.noAccount")} <Link to="/register">{t("auth.register")}</Link></p>
       </div>
