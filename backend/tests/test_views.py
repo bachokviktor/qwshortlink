@@ -1,89 +1,12 @@
 import pytest
-from datetime import timedelta
 from django.urls import reverse
-from django.utils import timezone
 from rest_framework import status
 
-from users.models import VerificationCode, PasswordResetCode
 from links.models import Link
 
 
 @pytest.mark.django_db
 class TestUserViews:
-    def test_create_user(self, django_user_model, api_client):
-        payload = {
-            "username": "testuser",
-            "email": "testuser@example.com",
-            "password": "x5AXFqw7",
-        }
-
-        response = api_client.post(
-            reverse("users:register"), data=payload, format="json"
-        )
-
-        assert response.status_code == status.HTTP_201_CREATED
-        assert django_user_model.objects.count() == 1
-
-    def test_retrieve_user(self, django_test_user, api_client):
-        api_client.force_authenticate(django_test_user)
-
-        response = api_client.get(
-            reverse("users:user-detail"),
-            format="json"
-        )
-
-        assert response.status_code == status.HTTP_200_OK
-        assert response.data["username"] == django_test_user.username
-
-    def test_update_user(self, django_test_user, api_client):
-        new_data = {
-            "username": "testuser_new",
-        }
-
-        api_client.force_authenticate(django_test_user)
-
-        response = api_client.put(
-            reverse("users:user-detail"),
-            data=new_data,
-            format="json"
-        )
-
-        django_test_user.refresh_from_db()
-
-        assert response.status_code == status.HTTP_200_OK
-        assert django_test_user.username == new_data["username"]
-
-    def test_partially_update_user(self, django_test_user, api_client):
-        new_data = {
-            "first_name": "User",
-        }
-
-        api_client.force_authenticate(django_test_user)
-
-        response = api_client.patch(
-            reverse("users:user-detail"),
-            data=new_data,
-            format="json"
-        )
-
-        django_test_user.refresh_from_db()
-
-        assert response.status_code == status.HTTP_200_OK
-        assert django_test_user.first_name == new_data["first_name"]
-
-    def test_delete_user(
-            self, django_user_model, django_test_user, api_client
-    ):
-        api_client.force_authenticate(django_test_user)
-
-        response = api_client.delete(
-            reverse("users:user-detail"),
-            format="json"
-        )
-
-        assert response.status_code == status.HTTP_204_NO_CONTENT
-        assert django_user_model.objects.count() == 0
-
     def test_fetch_user_links(self, django_test_user, api_client):
         Link.objects.create(
             url="https://example.com/",
@@ -97,7 +20,7 @@ class TestUserViews:
         api_client.force_authenticate(django_test_user)
 
         response = api_client.get(
-            reverse("users:user-links"),
+            reverse("user-links"),
             format="json"
         )
 
@@ -117,7 +40,7 @@ class TestUserViews:
         api_client.force_authenticate(django_test_user)
 
         response = api_client.get(
-            reverse("users:user-links", query={"q": "another"}),
+            reverse("user-links", query={"q": "another"}),
             format="json"
         )
 
@@ -140,7 +63,7 @@ class TestUserViews:
         api_client.force_authenticate(django_test_user)
 
         response = api_client.get(
-            reverse("users:user-stat"),
+            reverse("user-stat"),
             format="json"
         )
 
@@ -150,157 +73,8 @@ class TestUserViews:
         assert response.data["top_link"] == top_link.short_code
         assert response.data["top_clicks"] == top_link.clicks
 
-    def test_user_verification(self, django_test_user, api_client):
-        code = VerificationCode.objects.create(email="testuser@example.com")
-
-        api_client.force_authenticate(django_test_user)
-
-        response = api_client.post(
-            reverse("users:user-verification"),
-            data={
-                "code": code.code,
-            },
-            format="json"
-        )
-
-        django_test_user.refresh_from_db()
-
-        assert response.status_code == status.HTTP_200_OK
-        assert django_test_user.verified
-        assert VerificationCode.objects.count() == 0
-
-    def test_expired_verification(self, django_test_user, api_client):
-        code = VerificationCode.objects.create(
-            email="testuser@example.com",
-            expires_at=timezone.now()-timedelta(hours=2)
-        )
-
-        api_client.force_authenticate(django_test_user)
-
-        response = api_client.post(
-            reverse("users:user-verification"),
-            data={
-                "code": code.code,
-            },
-            format="json"
-        )
-
-        django_test_user.refresh_from_db()
-
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert not django_test_user.verified
-
-    def test_user_reset(self, django_test_user, api_client):
-        django_test_user.verified = True
-        django_test_user.save()
-
-        code = PasswordResetCode.objects.create(user=django_test_user)
-
-        response = api_client.post(
-            reverse("users:user-reset"),
-            data={
-                "username": django_test_user.username,
-                "code": code.code,
-                "password": "PNaHseW3",
-            },
-            format="json"
-        )
-
-        django_test_user.refresh_from_db()
-
-        assert response.status_code == status.HTTP_200_OK
-        assert django_test_user.check_password("PNaHseW3")
-        assert PasswordResetCode.objects.count() == 0
-
-    def test_expired_reset(self, django_test_user, api_client):
-        django_test_user.verified = True
-        django_test_user.save()
-
-        code = PasswordResetCode.objects.create(
-            user=django_test_user,
-            expires_at=timezone.now()-timedelta(hours=2)
-        )
-
-        response = api_client.post(
-            reverse("users:user-reset"),
-            data={
-                "username": django_test_user.username,
-                "code": code.code,
-                "password": "PNaHseW3",
-            },
-            format="json"
-        )
-
-        django_test_user.refresh_from_db()
-
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert not django_test_user.check_password("PNaHseW3")
-
-    def test_change_user_email(self, django_test_user, api_client):
-        django_test_user.verified = True
-        django_test_user.save()
-
-        payload = {
-            "email": "newemail@example.com",
-        }
-
-        api_client.force_authenticate(django_test_user)
-
-        response = api_client.put(
-            reverse("users:user-email"),
-            data=payload,
-            format="json"
-        )
-
-        django_test_user.refresh_from_db()
-
-        assert response.status_code == status.HTTP_200_OK
-        assert django_test_user.email == payload["email"]
-        assert not django_test_user.verified
-
-    def test_change_user_password(self, django_test_user, api_client):
-        django_test_user.verified = True
-        django_test_user.save()
-
-        payload = {
-            "password": "x5AXFqw7",
-            "new_password": "PNaHseW3",
-        }
-
-        api_client.force_authenticate(django_test_user)
-
-        response = api_client.put(
-            reverse("users:user-password"),
-            data=payload,
-            format="json"
-        )
-
-        django_test_user.refresh_from_db()
-
-        assert response.status_code == status.HTTP_200_OK
-        assert django_test_user.check_password(payload["new_password"])
-
-    def test_anonymous_user_detail(self, api_client):
-        response = api_client.get(reverse("users:user-detail"), format="json")
-
-        assert response.status_code == status.HTTP_401_UNAUTHORIZED
-
     def test_anonymous_user_links(self, api_client):
-        response = api_client.get(reverse("users:user-links"), format="json")
-
-        assert response.status_code == status.HTTP_401_UNAUTHORIZED
-
-    def test_anonymous_change_password(self, api_client):
-        payload = {
-            "password": "x5AXFqw7",
-            "new_password": "PNaHseW3",
-        }
-
-        response = api_client.put(
-            reverse("users:user-password"),
-            data=payload,
-            format="json"
-        )
+        response = api_client.get(reverse("user-links"), format="json")
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 

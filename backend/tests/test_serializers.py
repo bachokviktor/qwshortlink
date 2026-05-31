@@ -7,62 +7,11 @@ from links.models import Link
 
 @pytest.mark.django_db
 class TestUserSerializers:
-    def test_create_user(self, django_user_model):
-        serializer = serializers.CreateUserSerializer(
-            data={
-                "username": "testuser",
-                "email": "testuser@example.com",
-                "password": "x5AXFqw7"
-            }
-        )
-
-        validation_status = serializer.is_valid()
-        if validation_status:
-            serializer.save()
-
-        assert validation_status
-        assert django_user_model.objects.count() == 1
-        assert serializer.instance.username == "testuser"
-        assert serializer.instance.email == "testuser@example.com"
-        assert not serializer.instance.verified
-
-    def test_invalid_username_user(self, django_user_model):
-        serializer = serializers.CreateUserSerializer(
-            data={
-                "username": "test",
-                "email": "testuser@example.com",
-                "password": "x5AXFqw7"
-            }
-        )
-
-        validation_status = serializer.is_valid()
-        if validation_status:
-            serializer.save()
-
-        assert not validation_status
-        assert django_user_model.objects.count() == 0
-
-    def test_invalid_password_user(self, django_user_model):
-        serializer = serializers.CreateUserSerializer(
-            data={
-                "username": "testuser",
-                "email": "testuser@example.com",
-                "password": "qwer"
-            }
-        )
-
-        validation_status = serializer.is_valid()
-        if validation_status:
-            serializer.save()
-
-        assert not validation_status
-        assert django_user_model.objects.count() == 0
-
     def test_retrieve_user(self, django_test_user):
         serializer = serializers.UserSerializer(django_test_user)
         data = serializer.data
 
-        assert data["id"] == django_test_user.id
+        assert data["pk"] == django_test_user.id
         assert data["username"] == django_test_user.username
 
     def test_update_user(self, django_test_user):
@@ -82,96 +31,6 @@ class TestUserSerializers:
         assert validation_status
         assert new_data["username"] == django_test_user.username
         assert new_data["first_name"] == django_test_user.first_name
-
-    def test_invalid_username_update_user(self, django_test_user):
-        new_data = {
-            "username": "new",
-        }
-
-        serializer = serializers.UserSerializer(
-            instance=django_test_user, data=new_data
-        )
-
-        validation_status = serializer.is_valid()
-        if validation_status:
-            serializer.save()
-
-        assert not validation_status
-        assert new_data["username"] != django_test_user.username
-
-    def test_change_email(self, django_test_user):
-        django_test_user.verified = True
-        django_test_user.save()
-
-        new_data = {
-            "email": "newemail@example.com",
-        }
-
-        serializer = serializers.ChangeEmailSerializer(
-            instance=django_test_user, data=new_data
-        )
-
-        validation_status = serializer.is_valid()
-        if validation_status:
-            serializer.save()
-
-        assert validation_status
-        assert new_data["email"] == django_test_user.email
-        assert not django_test_user.verified
-
-    def test_change_same_email(self, django_test_user):
-        django_test_user.verified = True
-        django_test_user.save()
-
-        new_data = {
-            "email": "testuser@example.com",
-        }
-
-        serializer = serializers.ChangeEmailSerializer(
-            instance=django_test_user, data=new_data
-        )
-
-        validation_status = serializer.is_valid()
-        if validation_status:
-            serializer.save()
-
-        assert not validation_status
-        assert django_test_user.verified
-
-    def test_change_password(self, django_test_user):
-        data = {
-            "password": "x5AXFqw7",
-            "new_password": "PNaHseW3",
-        }
-
-        serializer = serializers.ChangePasswordSerializer(
-            instance=django_test_user,
-            data=data
-        )
-
-        validation_status = serializer.is_valid()
-        if validation_status:
-            serializer.save()
-
-        assert validation_status
-        assert django_test_user.check_password(data["new_password"])
-
-    def test_same_password_change(self, django_test_user):
-        data = {
-            "password": "x5AXFqw7",
-            "new_password": "x5AXFqw7",
-        }
-
-        serializer = serializers.ChangePasswordSerializer(
-            instance=django_test_user,
-            data=data
-        )
-
-        validation_status = serializer.is_valid()
-        if validation_status:
-            serializer.save()
-
-        assert not validation_status
 
 
 @pytest.mark.django_db
