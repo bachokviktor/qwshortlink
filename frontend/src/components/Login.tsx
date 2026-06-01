@@ -5,6 +5,8 @@ import AuthContext from "../AuthContext"
 import api from "../api"
 import "../i18n"
 
+import ResendVerification from "./ResendVerification"
+
 function Login() {
   const {t} = useTranslation()
 
@@ -15,6 +17,8 @@ function Login() {
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string>("")
+
+  const [isResendingVerification, setIsResendingVerification] = useState<boolean>(false)
 
   useEffect(() => {
     setErrorMessage("")
@@ -46,6 +50,10 @@ function Login() {
 
   if (auth.user) {
     return <Navigate to="/" />
+  }
+
+  if (isResendingVerification) {
+    return <ResendVerification setIsResendingVerification={setIsResendingVerification} />
   }
 
   return (
@@ -90,6 +98,8 @@ function Login() {
         <hr/>
 
         <p>Google Signin Button</p>
+
+        <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsResendingVerification(true)}}>Resend email verification?</a>
 
         <p>{t("loginPage.forgotPassword")} {t("actions.reset")}</p>
 
