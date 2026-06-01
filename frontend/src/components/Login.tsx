@@ -6,6 +6,7 @@ import api from "../api"
 import "../i18n"
 
 import ResendVerification from "./ResendVerification"
+import RequestReset from "./RequestReset"
 
 function Login() {
   const {t} = useTranslation()
@@ -19,6 +20,7 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState<string>("")
 
   const [isResendingVerification, setIsResendingVerification] = useState<boolean>(false)
+  const [isRequestingReset, setIsRequestingReset] = useState<boolean>(false)
 
   useEffect(() => {
     setErrorMessage("")
@@ -54,6 +56,10 @@ function Login() {
 
   if (isResendingVerification) {
     return <ResendVerification setIsResendingVerification={setIsResendingVerification} />
+  }
+
+  if (isRequestingReset) {
+    return <RequestReset setIsRequestingReset={setIsRequestingReset} />
   }
 
   return (
@@ -101,7 +107,7 @@ function Login() {
 
         <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsResendingVerification(true)}}>Resend email verification?</a>
 
-        <p>{t("loginPage.forgotPassword")} {t("actions.reset")}</p>
+        <p>{t("loginPage.forgotPassword")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsRequestingReset(true)}}>{t("actions.reset")}</a></p>
 
         <p>{t("loginPage.noAccount")} <Link to="/register">{t("auth.register")}</Link></p>
       </div>

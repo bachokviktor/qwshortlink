@@ -8,6 +8,7 @@ import Login from "./components/Login"
 import Register from "./components/Register"
 import Logout from "./components/Logout"
 import EmailVerification from "./components/EmailVerification"
+import PasswordReset from "./components/PasswordReset"
 import Profile from "./components/Profile"
 import Redirect from "./components/Redirect"
 import NotFound from "./components/NotFound"
@@ -38,6 +39,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/auth/verification/:key" element={<EmailVerification />} />
+              <Route path="/auth/reset/:uid/:token" element={<PasswordReset />} />
 
               <Route element={<ProtectedRoute />}>
                 <Route path="/profile" element={<Profile />} />
