@@ -145,10 +145,6 @@ BUTTONS
   height: 1.5rem;
 }
 
-.google-auth span {
-  color: var(--color-text-light);
-}
-
 .section-svg {
   display: flex;
   flex-direction: row;
@@ -250,6 +246,11 @@ UTILITY CLASSES
 .fl-row {
   display: flex;
   flex-direction: row;
+}
+
+.fl-gap-small {
+  display: flex;
+  gap: 1rem;
 }
 
 .fl-gap {

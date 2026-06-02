@@ -7,6 +7,7 @@ import "../i18n"
 
 import ResendVerification from "./ResendVerification"
 import RequestReset from "./RequestReset"
+import GoogleAuthButton from "./GoogleAuthButton"
 
 function Login() {
   const {t} = useTranslation()
@@ -103,9 +104,9 @@ function Login() {
 
         <hr/>
 
-        <p>Google Signin Button</p>
+        <GoogleAuthButton />
 
-        <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsResendingVerification(true)}}>Resend email verification?</a>
+        <p>No verification letter? <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsResendingVerification(true)}}>Resend</a></p>
 
         <p>{t("loginPage.forgotPassword")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsRequestingReset(true)}}>{t("actions.reset")}</a></p>
 

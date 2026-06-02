@@ -9,6 +9,7 @@ import Register from "./components/Register"
 import Logout from "./components/Logout"
 import EmailVerification from "./components/EmailVerification"
 import PasswordReset from "./components/PasswordReset"
+import GoogleCallback from "./components/GoogleCallback"
 import Profile from "./components/Profile"
 import Redirect from "./components/Redirect"
 import NotFound from "./components/NotFound"
@@ -40,6 +41,7 @@ function App() {
               <Route path="/logout" element={<Logout />} />
               <Route path="/auth/verification/:key" element={<EmailVerification />} />
               <Route path="/auth/reset/:uid/:token" element={<PasswordReset />} />
+              <Route path="/auth/google/callback" element={<GoogleCallback />} />
 
               <Route element={<ProtectedRoute />}>
                 <Route path="/profile" element={<Profile />} />
