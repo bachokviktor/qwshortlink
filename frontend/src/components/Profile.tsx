@@ -8,6 +8,7 @@ import LinkAdd from "./LinkAdd"
 import LinkEdit from "./LinkEdit"
 import LinkDelete from "./LinkDelete"
 import UserEdit from "./UserEdit"
+import UserDelete from "./UserDelete"
 import PasswordChange from "./PasswordChange"
 
 interface LinkInterface {
@@ -48,6 +49,8 @@ function Profile() {
   const [deleteLinkId, setDeleteLinkId] = useState<number | null>(null)
 
   const [isEditingUser, setIsEditingUser] = useState<boolean>(false)
+
+  const [isDeletingUser, setIsDeletingUser] = useState<boolean>(false)
 
   const [isChangingPassword, setIsChangingPassword] = useState<boolean>(false)
 
@@ -137,6 +140,10 @@ function Profile() {
     return <UserEdit setIsEditingUser={setIsEditingUser} />
   }
 
+  if (isDeletingUser) {
+    return <UserDelete setIsDeletingUser={setIsDeletingUser} />
+  }
+
   if (isChangingPassword) {
     return <PasswordChange setIsChangingPassword={setIsChangingPassword} />
   }
@@ -163,6 +170,7 @@ function Profile() {
 
           <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>{t("actions.edit")}</button>
           <button className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>{t("passwordChangePage.title")}</button>
+          <button className="btn btn-danger" onClick={() => setIsDeletingUser(true)}>{t("actions.delete")}</button>
         </div>
       </div>
 

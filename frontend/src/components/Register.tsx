@@ -5,6 +5,8 @@ import AuthContext from "../AuthContext"
 import api from "../api"
 import "../i18n"
 
+import GoogleAuthButton from "./GoogleAuthButton"
+
 function Register() {
   const {t} = useTranslation()
 
@@ -131,7 +133,7 @@ function Register() {
 
         <hr/>
 
-        <p>Google Signin Button</p>
+        <GoogleAuthButton />
 
         <p>{t("registrationPage.haveAccount")} <Link to="/login">{t("auth.login")}</Link></p>
       </div>

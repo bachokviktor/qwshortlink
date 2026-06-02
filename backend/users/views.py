@@ -18,10 +18,53 @@ from drf_spectacular.types import OpenApiTypes
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
+from dj_rest_auth.views import UserDetailsView
+from dj_rest_auth.jwt_auth import unset_jwt_cookies
 
 from links.serializers import LinkSerializer
 from links.models import Link
 from links.filtersets import MultiLinkFilter
+
+
+class CustomUserDetailsView(UserDetailsView):
+    @extend_schema(
+        summary=_("Delete the current user with password confirmation."),
+        description=_("Delete the current user with password confirmation."),
+        request=inline_serializer(
+            name="UserDelete",
+            fields={
+                "password": serializers.CharField(
+                    required=True, write_only=True
+                ),
+            },
+        ),
+        responses={
+            204: None,
+        }
+    )
+    def delete(self, request):
+        user = self.get_object()
+        password = request.data.get("password")
+
+        if not password:
+            return Response(
+                {"error": '"password" field is required.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not user.check_password(password):
+            return Response(
+                {"error": "Failed to authenticate with provided credentials."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        response = Response(status=status.HTTP_204_NO_CONTENT)
+
+        unset_jwt_cookies(response)
+
+        user.delete()
+
+        return response
 
 
 @extend_schema_view(

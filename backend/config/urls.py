@@ -24,6 +24,7 @@ from drf_spectacular.views import (
 )
 
 from users.views import (
+    CustomUserDetailsView,
     ConfirmEmailView,
     ConfirmPasswordResetView,
     GoogleLoginView,
@@ -43,6 +44,11 @@ urlpatterns = [
         "api/auth/registration/account-confirm-email/<str:key>/",
         ConfirmEmailView.as_view(),
         name="account_confirm_email",
+    ),
+    path(
+        "api/auth/user/",
+        CustomUserDetailsView.as_view(),
+        name="rest_user_details",
     ),
     path("api/auth/user/links/", UserLinksView.as_view(), name="user-links"),
     path("api/auth/user/stat/", UserStatView.as_view(), name="user-stat"),
