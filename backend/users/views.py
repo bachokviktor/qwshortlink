@@ -14,6 +14,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import (
     extend_schema_view, extend_schema, OpenApiParameter, inline_serializer
 )
+from drf_spectacular.contrib.rest_auth import RestAuthDetailSerializer
 from drf_spectacular.types import OpenApiTypes
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -24,6 +25,8 @@ from dj_rest_auth.jwt_auth import unset_jwt_cookies
 from links.serializers import LinkSerializer
 from links.models import Link
 from links.filtersets import MultiLinkFilter
+
+from .serializers import ChangeEmailSerializer
 
 
 class CustomUserDetailsView(UserDetailsView):
@@ -117,6 +120,37 @@ class GoogleLoginView(SocialLoginView):
     client_class = OAuth2Client
     adapter_class = GoogleOAuth2Adapter
     callback_url = f"{settings.FRONTEND_URL}/auth/google/callback"
+
+
+@extend_schema_view(
+    post=extend_schema(
+        summary=_("Change user email"),
+        description=_("Change user email"),
+        responses={
+            201: RestAuthDetailSerializer,
+        },
+    ),
+)
+class ChangeEmailView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChangeEmailSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(
+            {"detail": _("Verification e-mail sent.")},
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["request"] = self.request
+        return context
 
 
 @extend_schema_view(

@@ -192,6 +192,10 @@ UTILITY CLASSES
   color: var(--color-danger);
 }
 
+.text-mute {
+  color: var(--color-disabled);
+}
+
 .text-break {
   min-width: 0;
   overflow-wrap: break-word;

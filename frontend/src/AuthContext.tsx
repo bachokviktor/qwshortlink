@@ -1,10 +1,16 @@
 import React, { createContext, useEffect, useState } from "react";
 import api from "./api"
 
+interface EmailAddressInterface {
+  email: string,
+  verified: boolean,
+  primary: boolean,
+}
+
 export interface UserInterface {
   pk: number;
   username: string;
-  email: string;
+  emailaddress_set: EmailAddressInterface[];
   first_name: string;
   last_name: string;
 }

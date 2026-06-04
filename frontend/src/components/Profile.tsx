@@ -10,6 +10,7 @@ import LinkDelete from "./LinkDelete"
 import UserEdit from "./UserEdit"
 import UserDelete from "./UserDelete"
 import PasswordChange from "./PasswordChange"
+import ChangeEmail from "./ChangeEmail"
 
 interface LinkInterface {
   id: number;
@@ -53,6 +54,8 @@ function Profile() {
   const [isDeletingUser, setIsDeletingUser] = useState<boolean>(false)
 
   const [isChangingPassword, setIsChangingPassword] = useState<boolean>(false)
+
+  const [isChangingEmail, setIsChangingEmail] = useState<boolean>(false)
 
   const [errorMessage, setErrorMessage] = useState<string | undefined>("")
 
@@ -148,6 +151,10 @@ function Profile() {
     return <PasswordChange setIsChangingPassword={setIsChangingPassword} />
   }
 
+  if (isChangingEmail) {
+    return <ChangeEmail setIsChangingEmail={setIsChangingEmail} />
+  }
+
   return (
     <div className="profile-grid">
       <title>{`${t("profilePage.title")} - QWShortLink`}</title>
@@ -164,12 +171,17 @@ function Profile() {
           <h2>{auth.user?.username}</h2>
           { (auth.user?.first_name || auth.user?.last_name) &&
             <p>{auth.user?.first_name} {auth.user?.last_name}</p> }
-          <p>Email: {auth.user?.email}</p>
+          <b>Email Addresses:</b>
+
+          { auth.user?.emailaddress_set.map((address, index) => (
+            <p className={address.verified ? "" : "text-mute"} key={index}>{address.email} {!address.verified && <span className="error-message">(unverified)</span>}</p>
+          ))}
 
           <hr/>
 
           <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>{t("actions.edit")}</button>
           <button className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>{t("passwordChangePage.title")}</button>
+          <button className="btn btn-primary" onClick={() => setIsChangingEmail(true)}>Change Email</button>
           <button className="btn btn-danger" onClick={() => setIsDeletingUser(true)}>{t("actions.delete")}</button>
         </div>
       </div>
