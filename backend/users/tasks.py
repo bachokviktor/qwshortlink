@@ -1,4 +1,8 @@
+from datetime import timedelta
 from django.core.mail import send_mail
+from django.contrib.auth import get_user_model
+from django.utils import timezone
+from allauth.account.models import EmailConfirmation
 from celery import shared_task
 
 
@@ -15,4 +19,10 @@ def clear_db():
     """
     This task deletes all the unverified user accounts from the database.
     """
-    pass
+    EmailConfirmation.objects.delete_expired_confirmations()
+
+    get_user_model().objects.filter(
+        emailaddress__verified=False,
+        emailaddress__primary=True,
+        date_joined__lt=timezone.now()-timedelta(days=3)
+    ).delete()
