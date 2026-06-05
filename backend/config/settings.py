@@ -198,6 +198,8 @@ DEFAULT_FROM_EMAIL = os.getenv("SMTP_DEFAULT_FROM_EMAIL")
 
 # Django Allauth
 
+ACCOUNT_ADAPTER = "users.adapter.CustomAccountAdapter"
+
 ACCOUNT_SIGNUP_FIELDS = ["username*", "email*", "password1*", "password2*"]
 
 ACCOUNT_LOGIN_METHODS = {"username"}
