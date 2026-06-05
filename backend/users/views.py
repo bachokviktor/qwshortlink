@@ -132,6 +132,7 @@ class GoogleLoginView(SocialLoginView):
     ),
 )
 class ChangeEmailView(generics.CreateAPIView):
+    throttle_scope = "dj_rest_auth"
     permission_classes = [IsAuthenticated]
     serializer_class = ChangeEmailSerializer
 
