@@ -7,13 +7,13 @@
 URL Shortener built with Django REST Framework and React
 
 > [!CAUTION]
-> We distribute our project under the MIT License, which makes everyone able to freely modify the code and host their own instance of QWShortLink. However, we cannot provide any guarantees about the safety of such self-hosted instances.
+> Be cautious about which website you use.
 >
 > The only URL of the original QWShortLink is https://qwsl.click
 
 ## Features
 
-- JWT Authentication
+- JWT Authentication with HttpOnly cookie
 - Social Authentication (Google)
 - REST API backend
 - Swagger docs
@@ -25,7 +25,7 @@ URL Shortener built with Django REST Framework and React
 
 ## Tech Stack
 
-**Backend:** Django, Django REST Framework, simplejwt, drf-spectacular, django-filter, google-auth
+**Backend:** Django, Django REST Framework, dj-rest-auth, simplejwt, drf-spectacular, django-filter
 
 **Frontend:** React, React Router, Axios
 
