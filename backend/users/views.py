@@ -29,35 +29,45 @@ from links.filtersets import MultiLinkFilter
 from .serializers import ChangeEmailSerializer
 
 
-class CustomUserDetailsView(UserDetailsView):
-    @extend_schema(
-        summary=_("Delete the current user with password confirmation."),
-        description=_("Delete the current user with password confirmation."),
-        request=inline_serializer(
-            name="UserDelete",
-            fields={
-                "password": serializers.CharField(
-                    required=True, write_only=True
-                ),
-            },
-        ),
+@extend_schema_view(
+    get=extend_schema(
+        summary=_("Get the current user details"),
+        description=_("Get the current user details"),
+    ),
+    put=extend_schema(
+        summary=_("Update the current user details"),
+        description=_("Update the current user details"),
+    ),
+    patch=extend_schema(
+        summary=_("Partially update the current user details"),
+        description=_("Partially update the current user details"),
+    ),
+    delete=extend_schema(
+        summary=_("Delete the current user with password confirmation"),
+        description=_("Delete the current user with password confirmation"),
         responses={
             204: None,
         }
     )
+)
+class CustomUserDetailsView(UserDetailsView):
     def delete(self, request):
         user = self.get_object()
         password = request.data.get("password")
 
         if not password:
             return Response(
-                {"error": '"password" field is required.'},
+                {"password": _("This field is required.")},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         if not user.check_password(password):
             return Response(
-                {"error": "Failed to authenticate with provided credentials."},
+                {
+                    "error": _(
+                        "Failed to authenticate with provided credentials."
+                    )
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -73,14 +83,22 @@ class CustomUserDetailsView(UserDetailsView):
 @extend_schema_view(
     get=extend_schema(
         summary=_(
-            "Redirects a user to the frontend to confirm email verification."
+            "Redirect a user to the frontend to confirm email verification"
         ),
         description=_(
-            "Redirects a user to the frontend to confirm email verification."
+            "Redirect a user to the frontend to confirm email verification"
         ),
         responses={
             302: None,
         },
+        parameters=[
+            OpenApiParameter(
+                name="key",
+                description=_("Email verification key"),
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.PATH
+            ),
+        ],
     ),
 )
 class ConfirmEmailView(APIView):
@@ -96,14 +114,28 @@ class ConfirmEmailView(APIView):
 @extend_schema_view(
     get=extend_schema(
         summary=_(
-            "Redirects a user to the frontend to confirm password reset."
+            "Redirect a user to the frontend to confirm password reset"
         ),
         description=_(
-            "Redirects a user to the frontend to confirm password reset."
+            "Redirect a user to the frontend to confirm password reset"
         ),
         responses={
             302: None,
         },
+        parameters=[
+            OpenApiParameter(
+                name="token",
+                description=_("Password reset token"),
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.PATH
+            ),
+            OpenApiParameter(
+                name="uid",
+                description=_("User ID"),
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.PATH
+            )
+        ],
     ),
 )
 class ConfirmPasswordResetView(APIView):
@@ -116,6 +148,12 @@ class ConfirmPasswordResetView(APIView):
         )
 
 
+@extend_schema_view(
+    post=extend_schema(
+        summary=_("Authenticate a user with Google social auth"),
+        description=_("Authenticate a user with Google social auth"),
+    ),
+)
 class GoogleLoginView(SocialLoginView):
     client_class = OAuth2Client
     adapter_class = GoogleOAuth2Adapter
@@ -124,8 +162,8 @@ class GoogleLoginView(SocialLoginView):
 
 @extend_schema_view(
     post=extend_schema(
-        summary=_("Change user email"),
-        description=_("Change user email"),
+        summary=_("Change the current user email"),
+        description=_("Change the current user email"),
         responses={
             201: RestAuthDetailSerializer,
         },
@@ -192,8 +230,8 @@ class UserLinksView(generics.ListAPIView):
 
 @extend_schema_view(
     get=extend_schema(
-        summary=_("Fetch user statistics"),
-        description=_("Fetch user statistics"),
+        summary=_("Fetch the current user statistics"),
+        description=_("Fetch the current user statistics"),
         responses={
             200: inline_serializer(
                 name="UserStatistics",
