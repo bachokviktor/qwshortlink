@@ -35,7 +35,7 @@ class UserSerializer(UserDetailsSerializer):
             "last_name",
         ]
 
-        read_only_fields = ["pk", "emails"]
+        read_only_fields = ["pk"]
 
     def validate_username(self, username):
         unique_check = get_user_model().objects.filter(username=username)
@@ -45,7 +45,7 @@ class UserSerializer(UserDetailsSerializer):
 
         if unique_check.exists():
             raise serializers.ValidationError(
-                "This username is already taken."
+                _("This username is already taken.")
             )
 
         username = get_adapter().clean_username(username, shallow=True)

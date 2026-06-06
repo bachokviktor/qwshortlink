@@ -155,6 +155,7 @@ class ConfirmPasswordResetView(APIView):
     ),
 )
 class GoogleLoginView(SocialLoginView):
+    throttle_scope = "dj_rest_auth"
     client_class = OAuth2Client
     adapter_class = GoogleOAuth2Adapter
     callback_url = f"{settings.FRONTEND_URL}/auth/google/callback"

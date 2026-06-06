@@ -313,6 +313,8 @@ SPECTACULAR_SETTINGS = {
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
+DEFAULT_CHARSET = "utf-8"
+
 LANGUAGE_CODE = "en"
 
 TIME_ZONE = os.getenv("DJ_TIME_ZONE", "UTC")
