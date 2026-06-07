@@ -133,6 +133,7 @@ function Register() {
           <button className="btn btn-primary" type="submit">{t("auth.register")}</button>
         </form>
 
+        <p>{t("formalDocs.registerNotice1")}<br /><Link to="/terms-of-service">{t("formalDocs.registerNotice2")}</Link> {t("formalDocs.registerNotice3")} <Link to="/privacy-policy">{t("formalDocs.registerNotice4")}</Link></p>
         <hr/>
 
         <GoogleAuthButton />

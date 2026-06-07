@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react"
-import {Outlet, NavLink} from "react-router"
+import {Outlet, NavLink, Link} from "react-router"
 import {useTranslation} from "react-i18next"
 import AuthContext from "../AuthContext"
 import "../i18n"
@@ -120,6 +120,7 @@ function Layout() {
       <footer>
         <p>Copyright (c) 2026 Viktor Bachok</p>
         <p>Licensed under the <a href="https://github.com/bachokviktor/qwshortlink/blob/main/LICENSE">MIT License</a></p>
+        <p><Link to="/privacy-policy">{t("formalDocs.privacy")}</Link> | <Link to="/terms-of-service">{t("formalDocs.tos")}</Link></p>
       </footer>
     </>
   )

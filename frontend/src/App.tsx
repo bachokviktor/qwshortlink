@@ -13,6 +13,8 @@ import GoogleCallback from "./components/GoogleCallback"
 import Profile from "./components/Profile"
 import Redirect from "./components/Redirect"
 import NotFound from "./components/NotFound"
+import PrivacyPolicy from "./components/PrivacyPolicy"
+import TermsOfService from "./components/TermsOfService"
 
 import {useTranslation} from "react-i18next"
 import "./i18n"
@@ -42,6 +44,9 @@ function App() {
               <Route path="/auth/verification/:key" element={<EmailVerification />} />
               <Route path="/auth/reset/:uid/:token" element={<PasswordReset />} />
               <Route path="/auth/google/callback" element={<GoogleCallback />} />
+
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
 
               <Route element={<ProtectedRoute />}>
                 <Route path="/profile" element={<Profile />} />

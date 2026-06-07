@@ -76,8 +76,17 @@
     "sectionOpenSourceBody": "QWShortLink is completely free to use, with no hidden costs or limitations. It is an open-source project, distributed under the MIT License.",
     "sectionOpenSourceGitHub": "The source code is available on our GitHub:",
     "sectionDisclaimerHeading": "Disclaimer",
-    "sectionDisclaimerBody": "We distribute our project under the MIT License, which makes everyone able to freely modify the code and host their own instance of QWShortLink. However, we cannot provide any guarantees about the safety of such self-hosted instances.",
+    "sectionDisclaimerBody": "Be cautious about which website you use.",
     "sectionDisclaimerUrl": "The only URL of the original QWShortLink is"
+  },
+
+  "formalDocs": {
+    "tos": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "registerNotice1": "By continuing, you agree to our",
+    "registerNotice2": "Terms of Service",
+    "registerNotice3": "and",
+    "registerNotice4": "Privacy Policy"
   },
 
   "verificationPage": {
