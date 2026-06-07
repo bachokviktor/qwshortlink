@@ -5,6 +5,7 @@ import AuthContext from "../AuthContext"
 import api from "../api"
 import "../i18n"
 
+import AlertPopUp from "./AlertPopUp"
 import GoogleAuthButton from "./GoogleAuthButton"
 
 function Register() {
@@ -18,6 +19,7 @@ function Register() {
   const [email, setEmail] = useState<string>("")
   const [password1, setPassword1] = useState<string>("")
   const [password2, setPassword2] = useState<string>("")
+  const [isAlertShown, setIsAlertShown] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>("")
 
   useEffect(() => {
@@ -52,7 +54,7 @@ function Register() {
         username, email, password1, password2
       })
 
-      navigate("/login")
+      setIsAlertShown(true)
     } catch (error: any) {
       if (error?.response?.status === 429) {
         setErrorMessage(t("errors.throttle", { value: error.response.headers["retry-after"] }))
@@ -137,6 +139,13 @@ function Register() {
 
         <p>{t("registrationPage.haveAccount")} <Link to="/login">{t("auth.login")}</Link></p>
       </div>
+
+      {isAlertShown && <AlertPopUp
+                         title="Verify Your Email"
+                         message="To be able to use our service you have to verify your email address. Check your email inbox for a verification link."
+                         setIsAlertShown={setIsAlertShown}
+                         additionalHandler={() => {navigate("/login")}}
+      />}
     </div>
   )
 }

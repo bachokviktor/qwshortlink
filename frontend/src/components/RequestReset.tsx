@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 
+import AlertPopUp from "./AlertPopUp"
 import api from "../api"
 
 interface PropsInterface {
@@ -8,6 +9,9 @@ interface PropsInterface {
 
 function RequestReset({setIsRequestingReset}: PropsInterface) {
   const [email, setEmail] = useState<string>("")
+
+  const [isAlertShown, setIsAlertShown] = useState<boolean>(false)
+
   const [errorMessage, setErrorMessage] = useState<string>("")
 
   useEffect(() => {
@@ -20,7 +24,7 @@ function RequestReset({setIsRequestingReset}: PropsInterface) {
     try {
       await api.post("auth/password/reset/", {email})
 
-      setIsRequestingReset(false)
+      setIsAlertShown(true)
     } catch (error) {
       setErrorMessage("Something went wrong.")
     }
@@ -51,6 +55,13 @@ function RequestReset({setIsRequestingReset}: PropsInterface) {
           <button className="btn btn-neutral" onClick={() => {setIsRequestingReset(false)}}>Cancel</button>
         </form>
       </div>
+
+      {isAlertShown && <AlertPopUp
+                         title="Password Reset"
+                         message="Check your email inbox for a password reset link."
+                         setIsAlertShown={setIsAlertShown}
+                         additionalHandler={() => {setIsRequestingReset(false)}}
+      />}
     </div>
   )
 }

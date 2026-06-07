@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 
+import AlertPopUp from "./AlertPopUp"
 import api from "../api"
 
 interface PropsInterface {
@@ -8,6 +9,7 @@ interface PropsInterface {
 
 function ResendVerification({setIsResendingVerification}: PropsInterface) {
   const [email, setEmail] = useState<string>("")
+  const [isAlertShown, setIsAlertShown] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>("")
 
   useEffect(() => {
@@ -20,7 +22,7 @@ function ResendVerification({setIsResendingVerification}: PropsInterface) {
     try {
       await api.post("auth/registration/resend-email/", {email})
 
-      setIsResendingVerification(false)
+      setIsAlertShown(true)
     } catch (error) {
       setErrorMessage("Something went wrong.")
     }
@@ -51,6 +53,13 @@ function ResendVerification({setIsResendingVerification}: PropsInterface) {
           <button className="btn btn-neutral" onClick={() => {setIsResendingVerification(false)}}>Cancel</button>
         </form>
       </div>
+
+      {isAlertShown && <AlertPopUp
+                         title="Verify Your Email"
+                         message="Check your email inbox for a verification link."
+                         setIsAlertShown={setIsAlertShown}
+                         additionalHandler={() => {setIsResendingVerification(false)}}
+      />}
     </div>
   )
 }

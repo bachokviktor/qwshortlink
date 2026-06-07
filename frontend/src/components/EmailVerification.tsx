@@ -20,7 +20,7 @@ function EmailVerification() {
         {key}
       )
 
-      navigate("/")
+      navigate("/login")
     } catch (error) {
       setErrorMessage(t("errors.badResponse"))
     }
