@@ -1,14 +1,18 @@
 import React, { useEffect, useState, useContext } from "react"
+import {useTranslation} from "react-i18next"
 
 import AuthContext from "../AuthContext"
 import AlertPopUp from "./AlertPopUp"
 import api from "../api"
+import "../i18n"
 
 interface PropsInterface {
   setIsChangingEmail: (value: boolean) => void;
 }
 
 function ChangeEmail({setIsChangingEmail}: PropsInterface) {
+  const {t} = useTranslation()
+
   const auth = useContext(AuthContext)
 
   const [email, setEmail] = useState<string>("")
@@ -27,14 +31,14 @@ function ChangeEmail({setIsChangingEmail}: PropsInterface) {
 
       setIsAlertShown(true)
     } catch (error) {
-      setErrorMessage("Something went wrong.")
+      setErrorMessage(t("errors.badResponse"))
     }
   }
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
       <div className="card fl-col fl-gap">
-        <h2>Change Email</h2>
+        <h2>{t("emailChangePage.title")}</h2>
 
         <form onSubmit={handleChangeEmail}>
           <div className="fl-col">
@@ -52,21 +56,21 @@ function ChangeEmail({setIsChangingEmail}: PropsInterface) {
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
       
-          <button className="btn btn-primary" type="submit">Continue</button>
-          <button className="btn btn-neutral" onClick={() => {setIsChangingEmail(false)}}>Cancel</button>
+          <button className="btn btn-primary" type="submit">{t("actions.continue")}</button>
+          <button className="btn btn-neutral" onClick={() => {setIsChangingEmail(false)}}>{t("actions.cancel")}</button>
         </form>
       </div>
 
       {isAlertShown && <AlertPopUp
-                         title="Verify Your Email"
-                         message="After verification your new email will replace the current one. Check your email inbox for a verification link."
+                         title={t("emailChangePage.popupTitle")}
+                         message={t("emailChangePage.popupMessage")}
                          setIsAlertShown={setIsAlertShown}
                          additionalHandler={async () => {
                            try {
                              await auth.fetchUser()
                              setIsChangingEmail(false)
                            } catch (error) {
-                             setErrorMessage("Something went wrong.")
+                             setErrorMessage(t("errors.badResponse"))
                            }
                          }}
       />}

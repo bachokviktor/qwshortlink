@@ -1,4 +1,6 @@
 import type React from "react";
+import {useTranslation} from "react-i18next"
+import "../i18n"
 
 interface PropsInterface {
   title: string;
@@ -8,6 +10,8 @@ interface PropsInterface {
 }
 
 function AlertPopUp({title, message, setIsAlertShown, additionalHandler}: PropsInterface) {
+  const {t} = useTranslation()
+
   const handleAlert = () => {
     setIsAlertShown(false)
     additionalHandler()
@@ -26,7 +30,7 @@ function AlertPopUp({title, message, setIsAlertShown, additionalHandler}: PropsI
 
         <p>{ message }</p>
 
-        <button className="btn btn-primary" onClick={handleAlert}>Ok</button>
+        <button className="btn btn-primary" onClick={handleAlert}>{t("actions.continue")}</button>
       </div>
     </div>
   )

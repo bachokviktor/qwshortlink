@@ -141,8 +141,8 @@ function Register() {
       </div>
 
       {isAlertShown && <AlertPopUp
-                         title="Verify Your Email"
-                         message="To be able to use our service you have to verify your email address. Check your email inbox for a verification link."
+                         title={t("registrationPage.popupTitle")}
+                         message={t("registrationPage.popupMessage")}
                          setIsAlertShown={setIsAlertShown}
                          additionalHandler={() => {navigate("/login")}}
       />}

@@ -106,7 +106,7 @@ function Login() {
 
         <GoogleAuthButton />
 
-        <p>No verification letter? <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsResendingVerification(true)}}>Resend</a></p>
+        <p>{t("loginPage.noVerification")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsResendingVerification(true)}}>{t("actions.resend")}</a></p>
 
         <p>{t("loginPage.forgotPassword")} <a href="#" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {e.preventDefault(); setIsRequestingReset(true)}}>{t("actions.reset")}</a></p>
 

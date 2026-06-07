@@ -51,14 +51,14 @@ function PasswordReset() {
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>Password Reset</title>
+      <title>{t("passwordResetPage.title")}</title>
 
       <div className="card fl-col fl-gap">  
-        <h2>Reset your password?</h2>
+        <h2>{t("passwordResetPage.title")}</h2>
 
         <form onSubmit={handleReset}>
           <div className="fl-col">
-            <label htmlFor="newPassword1">New Password</label>
+            <label htmlFor="newPassword1">{t("auth.newPassword")}</label>
             <input
               name="newPassword1"
               id="newPassword1"
@@ -71,12 +71,12 @@ function PasswordReset() {
           </div>
 
           <div className="fl-col">
-            <label htmlFor="newPassword2">Confirm New Password</label>
+            <label htmlFor="newPassword2">{t("auth.confirmPassword")}</label>
             <input
               name="newPassword2"
               id="newPassword2"
               type="password"
-              placeholder="Confirm new password..."
+              placeholder="Confirm password..."
               required
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setNewPassword2(e.target.value) }}
               value={newPassword2}

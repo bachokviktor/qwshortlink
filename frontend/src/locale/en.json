@@ -21,7 +21,8 @@
   "errors": {
     "badResponse": "Something went wrong.",
     "throttle": "Too many attempts. Try againt in {{ value }} seconds.",
-    "emailAuth": "You should login with email."
+    "emailAuth": "You should login with email.",
+    "unverified": "unverified"
   },
 
   "validation": {
@@ -46,13 +47,8 @@
     "oldPassword": "Old password",
     "newPassword": "New password",
     "lastName": "Last Name",
-    "firstName": "First Name"
-  },
-
-  "verificationBanner": {
-    "firstLine": "We sent a verification code to",
-    "secondLine": "Before you can continue using your account, you need to",
-    "link": "verify your email"
+    "firstName": "First Name",
+    "googleAuth": "Continue with Google"
   },
 
   "nav": {
@@ -85,10 +81,7 @@
   },
 
   "verificationPage": {
-    "title": "Email Verification",
-    "verificationCode": "Verification Code",
-    "noCode": "Did not receive the code?",
-    "successfulRequest": "Successfully sent the code."
+    "title": "Verify your email?"
   },
 
   "redirectPage": {
@@ -97,19 +90,31 @@
   },
 
   "loginPage": {
+    "noVerification": "No email verification letter?",
     "forgotPassword": "Forgot Password?",
     "noAccount": "Don't have an account?"
   },
 
   "passwordResetPage": {
-    "title": "Password Reset",
-    "firstStageText": "We will send a password reset code to your email.",
-    "secondStageText": "Password reset code was sent successfully.",
-    "resetCode": "Password Reset Code"
+    "title": "Reset your password?"
+  },
+
+  "requestPasswordResetPage": {
+    "title": "Request Password Reset",
+    "popupTitle": "Password Reset",
+    "popupMessage": "Check your email inbox for a password reset link."
+  },
+
+  "resendEmailVerificationPage": {
+    "title": "Resend Email Verification",
+    "popupTitle": "Verify Your Email",
+    "popupMessage": "Check your email inbox for a verification link."
   },
 
   "registrationPage": {
-    "haveAccount": "Already have an account?"
+    "haveAccount": "Already have an account?",
+    "popupTitle": "Verify Your Email",
+    "popupMessage": "To be able to use our service you have to verify your email address. Check your email inbox for a verification link."
   },
 
   "linkAddPage": {
@@ -131,7 +136,9 @@
 
   "emailChangePage": {
     "title": "Change Email",
-    "error": "Failed to change email."
+    "error": "Failed to change email.",
+    "popupTitle": "Verify Your Email",
+    "popupMessage": "After verification your new email will replace the current one. Check your email inbox for a verification link."
   },
 
   "passwordChangePage": {

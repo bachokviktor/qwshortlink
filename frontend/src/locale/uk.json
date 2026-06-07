@@ -21,7 +21,8 @@
   "errors": {
     "badResponse": "Щось пішло не так.",
     "throttle": "Забагато спроб. Спробуйте знову через {{ value }} секунд.",
-    "emailAuth": "Ввійдіть через email."
+    "emailAuth": "Ввійдіть через email.",
+    "unverified": "непідтверджено"
   },
 
   "validation": {
@@ -46,13 +47,8 @@
     "oldPassword": "Старий пароль",
     "newPassword": "Новий пароль",
     "lastName": "Ім'я",
-    "firstName": "Прізвище"
-  },
-
-  "verificationBanner": {
-    "firstLine": "Ми надіслали верифікаційний код на",
-    "secondLine": "Щоб продовжити користуватись своїм акаунтом, Вам потрібно",
-    "link": "підтвердити Ваш Email"
+    "firstName": "Прізвище",
+    "googleAuth": "Продовжити з Google"
   },
 
   "nav": {
@@ -85,10 +81,7 @@
   },
 
   "verificationPage": {
-    "title": "Email Верифікація",
-    "verificationCode": "Код підтвердження",
-    "noCode": "Не отримали код?",
-    "successfulRequest": "Код надісланий успішно."
+    "title": "Підтвердити Ваш email?"
   },
 
   "redirectPage": {
@@ -97,19 +90,31 @@
   },
 
   "loginPage": {
+    "noVerification": "Не отримали листа для підтвердження email?",
     "forgotPassword": "Забули пароль?",
     "noAccount": "Немає акаунту?"
   },
 
   "passwordResetPage": {
-    "title": "Скинути пароль",
-    "firstStageText": "Ми надішлемо код для скидання паролю на ваш email.",
-    "secondStageText": "Код був успішно надісланий.",
-    "resetCode": "Код для скидання паролю"
+    "title": "Скинути Ваш пароль?"
+  },
+
+  "requestPasswordResetPage": {
+    "title": "Запит на скидання паролю",
+    "popupTitle": "Скидання паролю",
+    "popupMessage": "Посилання для скидання паролю було надіслано на вказану адресу."
+  },
+
+  "resendEmailVerificationPage": {
+    "title": "Надіслати листа для підтвердження email повторно",
+    "popupTitle": "Підтвердити Ваш Email",
+    "popupMessage": "Верифікаційне посилання було надіслано на вказану адресу."
   },
 
   "registrationPage": {
-    "haveAccount": "Вже є акаунт?"
+    "haveAccount": "Вже є акаунт?",
+    "popupTitle": "Підтвердити Ваш Email",
+    "popupMessage": "Щоб могти користуватись нашим сервісом Вам потрібно підтвердити свій email. Верифікаційне посилання було надіслано на вказану адресу."
   },
 
   "linkAddPage": {
@@ -131,7 +136,9 @@
 
   "emailChangePage": {
     "title": "Змінити Email",
-    "error": "Не вдалося змінити Email."
+    "error": "Не вдалося змінити Email.",
+    "popupTitle": "Підтвердіть Ваш Email",
+    "popupMessage": "Після верифікації Ваш поточний email буде змінено на новий. Верифікаційне посилання було надіслано на вказану адресу."
   },
 
   "passwordChangePage": {

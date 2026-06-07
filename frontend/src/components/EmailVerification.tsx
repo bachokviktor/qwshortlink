@@ -28,10 +28,10 @@ function EmailVerification() {
 
   return (
     <div className="fl-center-main fl-center-cross vertical-padding">
-      <title>Email Verification</title>
+      <title>{t("verificationPage.title")}</title>
 
       <div className="card fl-col fl-gap">  
-        <h2>Verify your email?</h2>
+        <h2>{t("verificationPage.title")}</h2>
 
         {errorMessage && <p className="danger">{errorMessage}</p>}
 

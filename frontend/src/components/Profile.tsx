@@ -174,14 +174,14 @@ function Profile() {
           <b>Email Addresses:</b>
 
           { auth.user?.emailaddress_set.map((address, index) => (
-            <p className={address.verified ? "" : "text-mute"} key={index}>{address.email} {!address.verified && <span className="error-message">(unverified)</span>}</p>
+            <p className={address.verified ? "" : "text-mute"} key={index}>{address.email} {!address.verified && <span className="error-message">({t("errors.unverified")})</span>}</p>
           ))}
 
           <hr/>
 
           <button className="btn btn-primary" onClick={() => setIsEditingUser(true)}>{t("actions.edit")}</button>
           <button className="btn btn-primary" onClick={() => setIsChangingPassword(true)}>{t("passwordChangePage.title")}</button>
-          <button className="btn btn-primary" onClick={() => setIsChangingEmail(true)}>Change Email</button>
+          <button className="btn btn-primary" onClick={() => setIsChangingEmail(true)}>{t("emailChangePage.title")}</button>
           <button className="btn btn-danger" onClick={() => setIsDeletingUser(true)}>{t("actions.delete")}</button>
         </div>
       </div>
