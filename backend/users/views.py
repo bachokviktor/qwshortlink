@@ -1,5 +1,6 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 from django.shortcuts import redirect
 from django.conf import settings
 from django.db.models import Sum
@@ -253,6 +254,7 @@ class UserStatView(APIView):
     permission_classes = [IsAuthenticated]
 
     @method_decorator(cache_page(180))
+    @method_decorator(vary_on_cookie)
     def get(self, request):
         total_links = request.user.links.count()
         total_clicks = request.user.links.aggregate(Sum("clicks", default=0))

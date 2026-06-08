@@ -295,7 +295,7 @@ SIMPLE_JWT = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "QWShortLink API",
     "DESCRIPTION": _("This is the backend API of QWShortLink"),
-    "VERSION": "2.0.0",
+    "VERSION": "2.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
     "TAGS": [
         {

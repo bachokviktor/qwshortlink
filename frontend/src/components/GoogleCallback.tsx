@@ -22,9 +22,9 @@ function GoogleCallback() {
 
       await auth.fetchUser()
 
-      navigate("/")
+      navigate("/", {replace: true})
     } catch (error) {
-      navigate("/")
+      navigate("/", {replace: true})
     }
   }
 
