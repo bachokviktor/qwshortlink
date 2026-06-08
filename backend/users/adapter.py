@@ -18,5 +18,5 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             subject=msg.subject,
             message=msg.body,
             sender=msg.from_email,
-            recipient=msg.to
+            recipient=msg.to[0] if msg.to else ""
         )
