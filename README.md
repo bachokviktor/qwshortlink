@@ -6,6 +6,8 @@
 
 URL Shortener built with Django REST Framework and React
 
+Shortened link of this repository: https://qwsl.click/l/sgGbnu
+
 > [!CAUTION]
 > Be cautious about which website you use.
 >
@@ -77,6 +79,12 @@ Run unit tests in Docker
 ``` bash
 docker exec -t qwshortlink-backend pytest -v
 ```
+
+## Screenshots
+
+![Dashboard](./screenshots/dashboard.png)
+
+![Redirect Page](./screenshots/redirect.png)
 
 ## License
 
